@@ -1,0 +1,430 @@
+{
+  "name": "note",
+  "rules": {
+    "document": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "paragraph"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_blank_line"
+          }
+        ]
+      }
+    },
+    "paragraph": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "word"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "bold"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "italic"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "strikethrough"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "underline"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "verbatim"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "inline_math"
+            }
+          ]
+        }
+      }
+    },
+    "bold": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "bold_open"
+            },
+            "named": false,
+            "value": "open"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "word"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "italic"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "underline"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "strikethrough"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "verbatim"
+                }
+              ]
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "bold_close"
+            },
+            "named": false,
+            "value": "close"
+          }
+        ]
+      }
+    },
+    "italic": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "italic_open"
+            },
+            "named": false,
+            "value": "open"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "word"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "bold"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "underline"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "strikethrough"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "verbatim"
+                }
+              ]
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "italic_close"
+            },
+            "named": false,
+            "value": "close"
+          }
+        ]
+      }
+    },
+    "underline": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "underline_open"
+            },
+            "named": false,
+            "value": "open"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "word"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "bold"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "italic"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "strikethrough"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "verbatim"
+                }
+              ]
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "underline_close"
+            },
+            "named": false,
+            "value": "close"
+          }
+        ]
+      }
+    },
+    "strikethrough": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "strikethrough_open"
+            },
+            "named": false,
+            "value": "open"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "word"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "bold"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "italic"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "underline"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "verbatim"
+                }
+              ]
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "strikethrough_close"
+            },
+            "named": false,
+            "value": "close"
+          }
+        ]
+      }
+    },
+    "verbatim": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "verbatim_open"
+            },
+            "named": false,
+            "value": "open"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "word"
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "verbatim_close"
+            },
+            "named": false,
+            "value": "close"
+          }
+        ]
+      }
+    },
+    "inline_math": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "inline_math_open"
+            },
+            "named": false,
+            "value": "open"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "word"
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "inline_math_close"
+            },
+            "named": false,
+            "value": "close"
+          }
+        ]
+      }
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "bold_open"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "italic_open"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "strikethrough_open"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "underline_open"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "verbatim_open"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "inline_math_open"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "bold_close"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "italic_close"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "strikethrough_close"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "underline_close"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "verbatim_close"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "inline_math_close"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_space"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_blank_line"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "tag_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "word"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_"
+    }
+  ],
+  "inline": [],
+  "supertypes": []
+}
+
