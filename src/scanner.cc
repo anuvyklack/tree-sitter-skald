@@ -1,7 +1,4 @@
-#include <algorithm>
-#include <cstdint>
 #include <vector>
-#include <bitset>
 #include <cstring>
 #include <cwctype>
 #include <iostream>
@@ -10,13 +7,13 @@
 #include <unordered_map>
 #include "tree_sitter/parser.h"
 
-#define DEBUG 1
+// #define DEBUG 1
 
 /**
  * Print the upcoming token after parsing finished.
  * Note: May change parser behaviour.
  */
-#define DEBUG_CURRENT_CHAR 1
+// #define DEBUG_CURRENT_CHAR 1
 
 using namespace std;
 
@@ -74,15 +71,24 @@ vector<string> tokens_names = {
 };
 #endif // DEBUG
 
+/**
+ * The scanner analyzes the current character --- the last character the
+ * "advanced" function passed.
+ *
+ * a [b] c
+ * │  │  └─ lexer->lookahead
+ * │  └─ current
+ * └─ previous
+ */
 struct Scanner
 {
     TSLexer* lexer;
 
     int32_t
-    m_previous = 0, //< Previous char
-    m_current = 0;  //< Current char
+    previous = 0, //< Previous char
+    current = 0;  //< Current char
 
-    uint16_t m_parsed_chars = 0; //< Number of parsed chars
+    uint16_t parsed_chars = 0; //< Number of parsed chars
 
     // The last matched token type (used to detect things like todo items which
     // require an unordered list prefix beforehand).
@@ -104,18 +110,25 @@ struct Scanner
 
         skip_spaces();
 
-        if (is_newline(lexer->lookahead))
-            if (parse_newline()) return true;
-
-        if (parse_open_markup()) return true;
-        if (parse_close_markup()) return true;
-
         if (is_eof()) {
 #ifdef DEBUG
             clog << "  End of the file!" << endl << "}" << endl << endl;
 #endif
             return false;
         }
+
+        if (is_newline(lexer->lookahead)) {
+            skip(); // skip newline char
+            if (parse_newline()) return true;
+        }
+        else
+            advance();
+
+        if (is_newline(current))
+            if (parse_newline()) return true;
+
+        if (parse_open_markup()) return true;
+        if (parse_close_markup()) return true;
 
         // if (get_column() == 0)
         //      res = parse_newline();
@@ -133,14 +146,14 @@ struct Scanner
     // Advances the lexer forward. The char that was advanced will be returned
     // in the final result.
     void advance() {
-        m_previous = m_current;
-        m_current = lexer->lookahead;
+        previous = current;
+        current = lexer->lookahead;
         lexer->advance(lexer, false);
-        ++m_parsed_chars;
+        ++parsed_chars;
 
 #ifdef DEBUG_CURRENT_CHAR
         clog << "  -> ";
-        switch (m_current) {
+        switch (current) {
         case 10:
             clog << "\\n";
             break;
@@ -148,17 +161,18 @@ struct Scanner
             clog << "\\0";
             break;
         default:
-            clog << (char)m_current;
+            clog << (char)current;
         }
         clog << endl;
 #endif
     }
 
-    // Skips the next character without including it in the final result.
+    /// Skips the next character without including it in the final result.
     void skip() {
-        m_previous = m_current;
-        m_current = lexer->lookahead;
+        previous = current;
+        current = lexer->lookahead;
         lexer->advance(lexer, true);
+        parsed_chars = 0;
     }
 
     inline void skip_spaces() {
@@ -173,7 +187,6 @@ struct Scanner
      * @return Whether to finish parsing.
      */
     bool parse_newline() {
-        skip(); // skip newline char
         skip_spaces();
 
         // Check if current line is empty line.
@@ -184,17 +197,20 @@ struct Scanner
             return true;
         }
 
-        size_t parsed_chars = 0;
+        // size_t parsed_chars = 0;
 
-        // switch (lexer->lookahead) {
-        // case '*':
-        //     auto expected = '*';
-        //     do {
-        //         if (lexer->lookahead != expected) break;
-        //         advance()
-        //     } while ();
-        // }
+        switch (current) {
+        case '*':
+            auto expected = '*';
+            while (lexer->lookahead == expected) {
+            
+            }
 
+            // do {
+            //     if (lexer->lookahead != expected) break;
+            //     advance()
+            // } while ();
+        }
 
         // // We are dealing with a ranged verbatim tag: @something
         // if (lexer->lookahead == '@') {
@@ -214,13 +230,12 @@ struct Scanner
 
     bool parse_open_markup() {
         /// Markup token
-        auto mt = markup_tokens.find(lexer->lookahead);
+        auto mt = markup_tokens.find(current);
+
         if (mt != markup_tokens.end()
             && is_markup_allowed(mt->first)
-            && (!m_current || iswblank(m_current) || is_markup_token(m_current)))
+            && (is_space_or_newline(previous) || is_markup_token(previous)))
         {
-            advance();
-
             if (is_space_or_newline(lexer->lookahead))
                 return false;
 
@@ -243,17 +258,15 @@ struct Scanner
     };
 
     bool parse_close_markup() {
-        if (markup_stack.empty() || lexer->lookahead != markup_stack.back()
-            || iswspace(m_current))
+        if (markup_stack.empty() || current != markup_stack.back()
+            || iswspace(previous))
             return false;
 
-        char tkn = lexer->lookahead;
-        advance();
         if (is_space_or_newline(lexer->lookahead)
             || (markup_stack.size() > 1 && lexer->lookahead == markup_stack.end()[-2]))
         {
             lexer->result_symbol = m_last_token =
-                static_cast<TokenType>(markup_tokens.at(tkn) + MARKUP);
+                static_cast<TokenType>(markup_tokens.at(current) + MARKUP);
             markup_stack.pop_back();
             debug_markup_stack();
             debug_result();
@@ -266,7 +279,7 @@ struct Scanner
         while (lexer->lookahead && !iswspace(lexer->lookahead)) {
             if (!markup_stack.empty()
                 && lexer->lookahead == markup_stack.back()
-                && !iswspace(m_current))
+                && !iswspace(current))
             {
                 lexer->mark_end(lexer);
                 advance();
@@ -352,7 +365,7 @@ struct Scanner
     inline void debug_result() {
 #ifdef DEBUG
         clog << "  found: " << tokens_names[m_last_token] << endl
-             << "  parsed chars: " << m_parsed_chars << endl
+             // << "  parsed chars: " << m_parsed_chars << endl
              << "}" << endl;
 #endif
     }
@@ -387,14 +400,14 @@ extern "C"
     {
         Scanner* scanner = static_cast<Scanner*>(payload);
 
-        auto to_copy = sizeof(scanner->m_current);
+        auto to_copy = sizeof(scanner->current);
         char stack_length = scanner->markup_stack.size();
 
         if (to_copy + stack_length >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
 
         int n = 0;
 
-        memcpy(buffer + n, &scanner->m_current, to_copy);
+        memcpy(buffer + n, &scanner->current, to_copy);
         n += to_copy;
 
         if (stack_length)
@@ -411,17 +424,17 @@ extern "C"
                                                        unsigned length)
     {
         Scanner* scanner = static_cast<Scanner*>(payload);
-        scanner->m_parsed_chars = 0;
+        scanner->parsed_chars = 0;
 
         if (!length) {
-            scanner->m_current = 0;
+            scanner->current = 0;
             return;
         };
 
         int n = 0;
 
-        auto to_copy = sizeof(scanner->m_current);
-        memcpy(&scanner->m_current, buffer + n, to_copy);
+        auto to_copy = sizeof(scanner->current);
+        memcpy(&scanner->current, buffer + n, to_copy);
         n += to_copy;
 
         for (int8_t i = 0; i < length - n; ++i)
