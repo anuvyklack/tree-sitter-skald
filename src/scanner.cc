@@ -1,3 +1,33 @@
+/**
+ * organ *.ogn
+ * clavecin
+ * organica
+ * org mode
+ * norg2
+ * orc
+ * muninn *.mnn *.min
+ * lamp *.lmp
+ * remark
+ * context
+ * memo
+ *
+ * orgdown -> odin
+ * orgnote -> ono
+ * U+2625 - Ankh
+ *
+ * corgi
+ * orgnote
+ *
+ * cyborg
+ * morgen
+ * treeorg
+ * mistral
+ * piramida
+ *
+ * forge - кузница
+ *
+ * Skald
+ */
 #include <vector>
 #include <cstring>
 #include <cwctype>
@@ -7,17 +37,17 @@
 #include <unordered_map>
 #include "tree_sitter/parser.h"
 
-// #define DEBUG 1
+#define DEBUG 1
 
 /**
  * Print the upcoming token after parsing finished.
  * Note: May change parser behaviour.
  */
-// #define DEBUG_CURRENT_CHAR 1
+#define DEBUG_CURRENT_CHAR 1
 
 using namespace std;
 
-enum TokenType : char {
+enum TokenType : unsigned char {
     BOLD,
     ITALIC,
     STRIKETHROUGH,
@@ -32,17 +62,46 @@ enum TokenType : char {
     VERBATIM_CLOSE,
     INLINE_MATH_CLOSE,
 
-    SPACE,
-    BLANK_LINE,
+    HEADING_1,
+    HEADING_2,
+    HEADING_3,
+    HEADING_4,
+    HEADING_5,
+    HEADING_6,
+
+    DEFINITION_BEGIN,
+    DEFINITION_SEP,
+    DEFINITION_END,
+
+    LIST_1,
+    LIST_2,
+    LIST_3,
+    LIST_4,
+    LIST_5,
+    LIST_6,
+    LIST_7,
+    LIST_8,
+    LIST_9,
+    LIST_10,
+
+    CHECKBOX_OPEN,
+    CHECKBOX_CLOSE,
+
+    CHECKBOX_UNDONE,
+    CHECKBOX_DONE,
+    CHECKBOX_PENDING,
+    CHECKBOX_URGENT,
 
     TAG_END,
+
+    BLANK_LINE,
+    SOFT_BREAK,
+    HARD_BREAK,
 
     WORD,
 
     NONE,
 };
-
-constexpr int8_t MARKUP = 6; //< Total number of markup tokens.
 
 #ifdef DEBUG
 vector<string> tokens_names = {
@@ -60,16 +119,60 @@ vector<string> tokens_names = {
     "verbatim_close",
     "inline_math_close",
 
-    "space",
-    "blank_line",
+    "heading_1",
+    "heading_2",
+    "heading_3",
+    "heading_4",
+    "heading_5",
+    "heading_6",
+
+    "definition_begin",
+    "definition_sep",
+    "definition_end",
+
+    "list_1",
+    "list_2",
+    "list_3",
+    "list_4",
+    "list_5",
+    "list_6",
+    "list_7",
+    "list_8",
+    "list_9",
+    "list_10",
+
+    "checkbox_open",
+    "checkbox_close",
+
+    "checkbox_undone",
+    "checkbox_done",
+    "checkbox_pending",
+    "checkbox_urgent",
 
     "tag_end",
+
+    "blank_line",
+    "soft_break",
+    "hard_break",
 
     "word",
 
     "none",
 };
 #endif // DEBUG
+
+const unordered_map<char, TokenType> markup_tokens = {
+    {'*', BOLD},
+    {'/', ITALIC},
+    {'~', STRIKETHROUGH},
+    {'_', UNDERLINE},
+    {'`', VERBATIM},
+    {'$', INLINE_MATH},
+};
+
+constexpr uint8_t MARKUP = 6;      //< Total number of markup tokens.
+constexpr uint8_t MAX_HEADING = 6; //< Maximum heading level.
+constexpr uint8_t MAX_LIST = 10;   //< Maximum list level.
 
 /**
  * The scanner analyzes the current character --- the last character the
@@ -84,61 +187,53 @@ struct Scanner
 {
     TSLexer* lexer;
 
+    const bool* valid_tokens;
+
     int32_t
     previous = 0, //< Previous char
     current = 0;  //< Current char
 
     uint16_t parsed_chars = 0; //< Number of parsed chars
 
-    // The last matched token type (used to detect things like todo items which
-    // require an unordered list prefix beforehand).
-    TokenType m_last_token = NONE;
-
-    const unordered_map<char, TokenType> markup_tokens = {
-        {'*', BOLD},
-        {'/', ITALIC},
-        {'-', STRIKETHROUGH},
-        {'_', UNDERLINE},
-        {'`', VERBATIM},
-        {'$', INLINE_MATH},
-    };
-
     deque<char> markup_stack;
 
-    bool scan (const bool* valid_symbols) {
-        debug_valid_symbols(valid_symbols);
-
-        skip_spaces();
-
-        if (is_eof()) {
+    bool scan () {
 #ifdef DEBUG
-            clog << "  End of the file!" << endl << "}" << endl << endl;
+        clog << "{" << endl;
 #endif
-            return false;
-        }
+        debug_valid_tokens();
 
-        if (is_newline(lexer->lookahead)) {
-            skip(); // skip newline char
+        if (get_column() == 0)
+            if (parse_newline()) return true;
+
+        if (parsed_chars == 0)
+            skip_spaces();
+
+        if (parsed_chars == 0 && is_newline(lexer->lookahead)) {
+            skip_newline(); // skip newline char
             if (parse_newline()) return true;
         }
-        else
+
+        if (parsed_chars == 0)
             advance();
 
-        if (is_newline(current))
-            if (parse_newline()) return true;
-
+        if (parse_check_box()) return true;
+        if (parse_definition()) return true;
         if (parse_open_markup()) return true;
         if (parse_close_markup()) return true;
-
-        // if (get_column() == 0)
-        //      res = parse_newline();
-        // if (res) return true;
 
         if (parse_text()) return true;
 
 #ifdef DEBUG
         clog << "  false" << endl << "}" << endl;
 #endif
+
+        if (is_eof()) {
+#ifdef DEBUG
+            clog << "End of the file!" << endl << endl;
+#endif
+            return false;
+        }
 
         return false;
     };
@@ -152,8 +247,11 @@ struct Scanner
         ++parsed_chars;
 
 #ifdef DEBUG_CURRENT_CHAR
-        clog << "  -> ";
+        clog << "  -> " << current << ' ';
         switch (current) {
+        case 13:
+            clog << "\\r";
+            break;
         case 10:
             clog << "\\n";
             break;
@@ -161,7 +259,7 @@ struct Scanner
             clog << "\\0";
             break;
         default:
-            clog << (char)current;
+            clog << static_cast<char>(current);
         }
         clog << endl;
 #endif
@@ -176,14 +274,19 @@ struct Scanner
     }
 
     inline void skip_spaces() {
+        if (valid_tokens[CHECKBOX_UNDONE]) return;
         while (is_space(lexer->lookahead)) skip();
-#ifdef DEBUG
-        clog << "  skip spaces" << endl;
-#endif
+    }
+
+    /// Skip newline char
+    inline void skip_newline() {
+        if (lexer->lookahead == 13) skip(); // \r
+        if (lexer->lookahead == 10) skip(); // \n
     }
 
     /**
      * @brief Rules that decide based on the first token on the next line.
+     * @param valid_tokens Valid symbols.
      * @return Whether to finish parsing.
      */
     bool parse_newline() {
@@ -192,24 +295,76 @@ struct Scanner
         // Check if current line is empty line.
         if (is_newline(lexer->lookahead)) {
             advance();
-            lexer->result_symbol = m_last_token = BLANK_LINE;
+            lexer->result_symbol = BLANK_LINE;
             debug_result();
             return true;
         }
 
-        // size_t parsed_chars = 0;
+        advance();
+
+        uint8_t n = 0; //< Number of parsed chars
 
         switch (current) {
-        case '*':
-            auto expected = '*';
+        case '*': { // HEADING
+            constexpr auto expected = '*';
+            if (lexer->lookahead == expected || is_space(lexer->lookahead)) {
+                while (lexer->lookahead == expected) {
+                    advance();
+                    ++n;
+                }
+                skip_spaces();
+                if (is_newline(lexer->lookahead))
+                    return false;
+                lexer->result_symbol =
+                    static_cast<TokenType>(HEADING_1 + (n < MAX_HEADING ? n : MAX_HEADING - 1));
+                debug_result();
+                return true;
+            }
+            else if (parse_open_markup()) return true;
+            break;
+        }
+        case ':': { // DEFINITION
+            if (valid_tokens[DEFINITION_BEGIN] && is_space_or_newline(lexer->lookahead)) {
+                lexer->result_symbol = DEFINITION_BEGIN;
+                debug_result();
+                return true;
+            }
+            break;
+        }
+        case '-': { // LIST, SOFT_BREAK
+            constexpr auto expected = '-';
             while (lexer->lookahead == expected) {
-            
+                advance();
+                ++n;
             }
 
-            // do {
-            //     if (lexer->lookahead != expected) break;
-            //     advance()
-            // } while ();
+            if (1 + n == 3 && (!lexer->lookahead || is_newline(lexer->lookahead))) {
+                lexer->result_symbol = SOFT_BREAK;
+                debug_result();
+                return true;
+            }
+            else if (is_space(lexer->lookahead)) {
+                lexer->result_symbol =
+                    static_cast<TokenType>(LIST_1 + (n < MAX_LIST ? n : MAX_LIST - 1));
+                debug_result();
+                return true;
+            }
+
+            break;
+        }
+        case '=': { // HARD_BREAK
+            constexpr auto expected = '=';
+            while (lexer->lookahead == expected) {
+                advance();
+                ++n;
+            }
+            if (1 + n == 3 && (!lexer->lookahead || is_newline(lexer->lookahead))) {
+                lexer->result_symbol = HARD_BREAK;
+                debug_result();
+                return true;
+            }
+            break;
+        }
         }
 
         // // We are dealing with a ranged verbatim tag: @something
@@ -218,7 +373,7 @@ struct Scanner
         //
         //     // Check whether the tag is `@end`.
         //     if (token("end") && (!lexer->lookahead)|| iswspace(lexer->lookahead)) {
-        //         lexer->result_symbol = m_last_token = TAG_END;
+        //         lexer->result_symbol = TAG_END;
         //         // m_active_markup.reset();
         //         return true;
         //     }
@@ -228,7 +383,29 @@ struct Scanner
         return false;
     }
 
+    bool parse_definition() {
+        if (parsed_chars != 1) return false;
+
+        if (valid_tokens[DEFINITION_SEP]
+            && current == ':' && is_space_or_newline(lexer->lookahead))
+        {
+            lexer->result_symbol = DEFINITION_SEP;
+            debug_result();
+            return true;
+        }
+        else if (valid_tokens[DEFINITION_END]
+            && current == ':' && is_newline(lexer->lookahead))
+        {
+            lexer->result_symbol = DEFINITION_END;
+            debug_result();
+            return true;
+        }
+        return false;
+    }
+
     bool parse_open_markup() {
+        if (parsed_chars != 1) return false;
+
         /// Markup token
         auto mt = markup_tokens.find(current);
 
@@ -249,7 +426,7 @@ struct Scanner
             markup_stack.push_back(mt->first);
             debug_markup_stack();
 
-            lexer->result_symbol = m_last_token = mt->second;
+            lexer->result_symbol = mt->second;
             debug_result();
             return true;
         }
@@ -258,14 +435,15 @@ struct Scanner
     };
 
     bool parse_close_markup() {
-        if (markup_stack.empty() || current != markup_stack.back()
-            || iswspace(previous))
+        if (markup_stack.empty() || parsed_chars != 1
+            || current != markup_stack.back() || iswspace(previous))
             return false;
 
         if (is_space_or_newline(lexer->lookahead)
+            || is_punkt(lexer->lookahead)
             || (markup_stack.size() > 1 && lexer->lookahead == markup_stack.end()[-2]))
         {
-            lexer->result_symbol = m_last_token =
+            lexer->result_symbol =
                 static_cast<TokenType>(markup_tokens.at(current) + MARKUP);
             markup_stack.pop_back();
             debug_markup_stack();
@@ -275,7 +453,56 @@ struct Scanner
         return false;
     }
 
+    bool parse_check_box() {
+        if (parsed_chars != 1) return false;
+
+        if (valid_tokens[CHECKBOX_OPEN]
+            && current == '[' && is_checkbox_content(lexer->lookahead))
+        {
+            lexer->mark_end(lexer);
+
+            advance();
+            if (lexer->lookahead != ']') return false;
+
+            advance();
+            if (!is_space(lexer->lookahead)) return false;
+
+            lexer->result_symbol = CHECKBOX_OPEN;
+            debug_result();
+            return true;
+        }
+        else if (valid_tokens[CHECKBOX_DONE] && lexer->lookahead == ']') {
+            switch (current) {
+            case ' ':
+                lexer->result_symbol = CHECKBOX_UNDONE;
+                break;
+            case 'x':
+                lexer->result_symbol = CHECKBOX_DONE;
+                break;
+            case '-':
+                lexer->result_symbol = CHECKBOX_PENDING;
+                break;
+            case '!':
+                lexer->result_symbol = CHECKBOX_URGENT;
+                break;
+            }
+            debug_result();
+            return true;
+        }
+        else if (valid_tokens[CHECKBOX_CLOSE]
+            && current == ']' && is_space_or_newline(lexer->lookahead))
+        {
+            lexer->result_symbol = CHECKBOX_CLOSE;
+            debug_result();
+            return true;
+        }
+
+        return false;
+    }
+
     bool parse_text() {
+        if (!current) return false;
+
         while (lexer->lookahead && !iswspace(lexer->lookahead)) {
             if (!markup_stack.empty()
                 && lexer->lookahead == markup_stack.back()
@@ -284,12 +511,14 @@ struct Scanner
                 lexer->mark_end(lexer);
                 advance();
                 if (is_space_or_newline(lexer->lookahead)
-                    || is_markup_token(lexer->lookahead)) break;
+                    || is_punkt(lexer->lookahead)
+                    || (markup_stack.size() > 1 && lexer->lookahead == markup_stack.end()[-2]))
+                    break;
             }
             advance();
             lexer->mark_end(lexer);
         }
-        lexer->result_symbol = m_last_token = WORD;
+        lexer->result_symbol = WORD;
         debug_result();
         return true;
     }
@@ -299,7 +528,16 @@ struct Scanner
 
     inline bool is_space(const int32_t c) { return c && iswblank(c); }
 
-    inline bool is_newline(const int32_t c) { return c && iswspace(c) && !iswblank(c); }
+    // inline bool is_newline(const int32_t c) { return c && iswspace(c) && !iswblank(c); }
+    inline bool is_newline(const int32_t c) {
+        switch (c) {
+        case 10: // \n
+        case 13: // \r
+            return true;
+        default:
+            return false;
+        }
+    }
 
     inline bool is_space_or_newline(const int32_t c) { return !c || iswspace(c); }
 
@@ -323,6 +561,29 @@ struct Scanner
 
     inline bool is_markup_token(int32_t c) { return markup_tokens.find(c) != markup_tokens.end(); }
 
+    inline bool is_checkbox_content(int32_t c) {
+        switch (c) {
+        case ' ': // undone
+        case 'x': // done
+        case '-': // pending
+        case '!': // urgent
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    bool is_punkt(int32_t c) {
+        switch (c) {
+        case '.': case ',': case ':': case ';':
+        case '!': case '?':
+        case '"': case '\'':
+            return true;
+        default:
+            return false;
+        }
+    }
+
     bool token(const string str) {
         for (int32_t c : str) {
             if (c == lexer->lookahead)
@@ -337,24 +598,23 @@ struct Scanner
      * The parser appears to call `scan` with all symbols declared as valid directly
      * after it encountered an error, so this function is used to detect them.
      */
-    bool is_all_tokens(const bool* valid_symbols) {
+    bool is_all_tokens_valid() {
         for (int i = 0; i <= NONE; ++i)
-            if (!valid_symbols[i]) return false;
+            if (!valid_tokens[i]) return false;
         return true;
     }
 
-    inline void debug_valid_symbols(const bool *valid_symbols) {
+    inline void debug_valid_tokens() {
 #ifdef DEBUG
-        clog << "{" << endl
-             << "  Valid symbols: ";
+        clog << "  Valid symbols: ";
 
-        if (is_all_tokens(valid_symbols)) {
+        if (is_all_tokens_valid()) {
             cout << "all" << endl;
             return;
         }
 
         for (int i = 0; i <= NONE; ++i) {
-            if (valid_symbols[i])
+            if (valid_tokens[i])
                 clog << tokens_names[i] << ' ';
         }
 
@@ -364,7 +624,7 @@ struct Scanner
 
     inline void debug_result() {
 #ifdef DEBUG
-        clog << "  found: " << tokens_names[m_last_token] << endl
+        clog << "  found: " << tokens_names[lexer->result_symbol] << endl
              // << "  parsed chars: " << m_parsed_chars << endl
              << "}" << endl;
 #endif
@@ -382,21 +642,22 @@ struct Scanner
 
 extern "C"
 {
-    void* tree_sitter_note_external_scanner_create() { return new Scanner(); }
+    void* tree_sitter_skald_external_scanner_create() { return new Scanner(); }
 
-    void tree_sitter_note_external_scanner_destroy(void* payload) {
+    void tree_sitter_skald_external_scanner_destroy(void* payload) {
         delete static_cast<Scanner*>(payload);
     }
 
-    bool tree_sitter_note_external_scanner_scan(void* payload, TSLexer* lexer,
-                                                const bool* valid_symbols)
+    bool tree_sitter_skald_external_scanner_scan(void* payload, TSLexer* lexer,
+                                                 const bool* valid_tokens)
     {
         Scanner* scanner = static_cast<Scanner*>(payload);
         scanner->lexer = lexer;
-        return scanner->scan(valid_symbols);
+        scanner->valid_tokens = const_cast<bool*>(valid_tokens);
+        return scanner->scan();
     }
 
-    unsigned tree_sitter_note_external_scanner_serialize(void* payload, char* buffer)
+    unsigned tree_sitter_skald_external_scanner_serialize(void* payload, char* buffer)
     {
         Scanner* scanner = static_cast<Scanner*>(payload);
 
@@ -407,8 +668,8 @@ extern "C"
 
         int n = 0;
 
-        memcpy(buffer + n, &scanner->current, to_copy);
-        n += to_copy;
+        // memcpy(buffer + n, &scanner->current, to_copy);
+        // n += to_copy;
 
         if (stack_length)
             for (char m : scanner->markup_stack) {
@@ -420,22 +681,23 @@ extern "C"
         return n;
     }
 
-    void tree_sitter_note_external_scanner_deserialize(void* payload, const char* buffer,
-                                                       unsigned length)
+    void tree_sitter_skald_external_scanner_deserialize(void* payload, const char* buffer,
+                                                        unsigned length)
     {
         Scanner* scanner = static_cast<Scanner*>(payload);
+        scanner->current = 0;
         scanner->parsed_chars = 0;
 
         if (!length) {
-            scanner->current = 0;
+            // scanner->current = 0;
             return;
         };
 
         int n = 0;
 
-        auto to_copy = sizeof(scanner->current);
-        memcpy(&scanner->current, buffer + n, to_copy);
-        n += to_copy;
+        // auto to_copy = sizeof(scanner->current);
+        // memcpy(&scanner->current, buffer + n, to_copy);
+        // n += to_copy;
 
         for (int8_t i = 0; i < length - n; ++i)
             scanner->markup_stack.push_back(buffer[n + i]);

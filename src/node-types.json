@@ -5,7 +5,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "italic",
@@ -22,13 +22,38 @@
         {
           "type": "verbatim",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "checkbox",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "description",
+          "named": true
         },
         {
-          "type": "word",
+          "type": "term",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "description",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "document",
@@ -39,7 +64,38 @@
       "required": false,
       "types": [
         {
+          "type": "definition",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "heading",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "title",
+          "named": true
+        },
+        {
+          "type": "token",
           "named": true
         }
       ]
@@ -48,17 +104,7 @@
   {
     "type": "inline_math",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "italic",
@@ -66,7 +112,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bold",
@@ -83,9 +129,466 @@
         {
           "type": "verbatim",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level1",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
         },
         {
-          "type": "word",
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "level2",
+          "named": true
+        },
+        {
+          "type": "level3",
+          "named": true
+        },
+        {
+          "type": "level4",
+          "named": true
+        },
+        {
+          "type": "level5",
+          "named": true
+        },
+        {
+          "type": "level6",
+          "named": true
+        },
+        {
+          "type": "level7",
+          "named": true
+        },
+        {
+          "type": "level8",
+          "named": true
+        },
+        {
+          "type": "level9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level10",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level2",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "level3",
+          "named": true
+        },
+        {
+          "type": "level4",
+          "named": true
+        },
+        {
+          "type": "level5",
+          "named": true
+        },
+        {
+          "type": "level6",
+          "named": true
+        },
+        {
+          "type": "level7",
+          "named": true
+        },
+        {
+          "type": "level8",
+          "named": true
+        },
+        {
+          "type": "level9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level3",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "level4",
+          "named": true
+        },
+        {
+          "type": "level5",
+          "named": true
+        },
+        {
+          "type": "level6",
+          "named": true
+        },
+        {
+          "type": "level7",
+          "named": true
+        },
+        {
+          "type": "level8",
+          "named": true
+        },
+        {
+          "type": "level9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level4",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "level5",
+          "named": true
+        },
+        {
+          "type": "level6",
+          "named": true
+        },
+        {
+          "type": "level7",
+          "named": true
+        },
+        {
+          "type": "level8",
+          "named": true
+        },
+        {
+          "type": "level9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level5",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "level6",
+          "named": true
+        },
+        {
+          "type": "level7",
+          "named": true
+        },
+        {
+          "type": "level8",
+          "named": true
+        },
+        {
+          "type": "level9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level6",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "level7",
+          "named": true
+        },
+        {
+          "type": "level8",
+          "named": true
+        },
+        {
+          "type": "level9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level7",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "level8",
+          "named": true
+        },
+        {
+          "type": "level9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level8",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "level9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "level9",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "level1",
+          "named": true
+        },
+        {
+          "type": "level10",
+          "named": true
+        },
+        {
+          "type": "level2",
+          "named": true
+        },
+        {
+          "type": "level3",
+          "named": true
+        },
+        {
+          "type": "level4",
+          "named": true
+        },
+        {
+          "type": "level5",
+          "named": true
+        },
+        {
+          "type": "level6",
+          "named": true
+        },
+        {
+          "type": "level7",
+          "named": true
+        },
+        {
+          "type": "level8",
+          "named": true
+        },
+        {
+          "type": "level9",
           "named": true
         }
       ]
@@ -93,11 +596,11 @@
   },
   {
     "type": "paragraph",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bold",
@@ -122,9 +625,218 @@
         {
           "type": "verbatim",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "definition",
+          "named": true
         },
         {
-          "type": "word",
+          "type": "heading",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section1",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "definition",
+          "named": true
+        },
+        {
+          "type": "heading",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section2",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "definition",
+          "named": true
+        },
+        {
+          "type": "heading",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section3",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "definition",
+          "named": true
+        },
+        {
+          "type": "heading",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section4",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "definition",
+          "named": true
+        },
+        {
+          "type": "heading",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section5",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "definition",
+          "named": true
+        },
+        {
+          "type": "heading",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section6",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "definition",
+          "named": true
+        },
+        {
+          "type": "heading",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "paragraph",
           "named": true
         }
       ]
@@ -136,7 +848,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bold",
@@ -153,9 +865,45 @@
         {
           "type": "verbatim",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "term",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "title",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bold",
+          "named": true
         },
         {
-          "type": "word",
+          "type": "inline_math",
+          "named": true
+        },
+        {
+          "type": "italic",
+          "named": true
+        },
+        {
+          "type": "strikethrough",
+          "named": true
+        },
+        {
+          "type": "underline",
+          "named": true
+        },
+        {
+          "type": "verbatim",
           "named": true
         }
       ]
@@ -167,7 +915,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bold",
@@ -184,10 +932,6 @@
         {
           "type": "verbatim",
           "named": true
-        },
-        {
-          "type": "word",
-          "named": true
         }
       ]
     }
@@ -195,20 +939,14 @@
   {
     "type": "verbatim",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "close",
+    "named": false
+  },
+  {
+    "type": "done",
     "named": false
   },
   {
@@ -216,7 +954,23 @@
     "named": false
   },
   {
-    "type": "word",
+    "type": "pending",
+    "named": false
+  },
+  {
+    "type": "token",
     "named": true
+  },
+  {
+    "type": "token",
+    "named": false
+  },
+  {
+    "type": "undone",
+    "named": false
+  },
+  {
+    "type": "urgent",
+    "named": false
   }
 ]
