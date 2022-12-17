@@ -32,6 +32,38 @@
     "fields": {}
   },
   {
+    "type": "code",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "code_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "code",
+          "named": true
+        },
+        {
+          "type": "code_tag",
+          "named": true
+        },
+        {
+          "type": "end_tag",
+          "named": true
+        },
+        {
+          "type": "language",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "definition",
     "named": true,
     "fields": {},
@@ -64,7 +96,15 @@
       "required": false,
       "types": [
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
           "type": "definition",
+          "named": true
+        },
+        {
+          "type": "hashtag",
           "named": true
         },
         {
@@ -76,7 +116,30 @@
           "named": true
         },
         {
+          "type": "ranged_tag",
+          "named": true
+        },
+        {
           "type": "section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "hashtag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "tag",
+          "named": true
+        },
+        {
+          "type": "tag_parameter",
           "named": true
         }
       ]
@@ -165,6 +228,14 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -174,6 +245,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -200,11 +275,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -227,6 +314,14 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -236,6 +331,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -262,6 +361,14 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -271,6 +378,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -297,6 +408,14 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -306,6 +425,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -332,6 +455,14 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -341,6 +472,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -367,6 +502,14 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -376,6 +519,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -402,6 +549,14 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -411,6 +566,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -437,6 +596,14 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -446,6 +613,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -472,6 +643,14 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -481,6 +660,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -530,6 +713,49 @@
     }
   },
   {
+    "type": "ranged_tag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "definition",
+          "named": true
+        },
+        {
+          "type": "end_tag",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "tag",
+          "named": true
+        },
+        {
+          "type": "tag_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "section",
     "named": true,
     "fields": {},
@@ -538,7 +764,15 @@
       "required": true,
       "types": [
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
           "type": "definition",
+          "named": true
+        },
+        {
+          "type": "hashtag",
           "named": true
         },
         {
@@ -551,6 +785,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -569,7 +807,15 @@
       "required": true,
       "types": [
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
           "type": "definition",
+          "named": true
+        },
+        {
+          "type": "hashtag",
           "named": true
         },
         {
@@ -582,6 +828,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -600,7 +850,15 @@
       "required": true,
       "types": [
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
           "type": "definition",
+          "named": true
+        },
+        {
+          "type": "hashtag",
           "named": true
         },
         {
@@ -613,6 +871,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -631,7 +893,15 @@
       "required": true,
       "types": [
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
           "type": "definition",
+          "named": true
+        },
+        {
+          "type": "hashtag",
           "named": true
         },
         {
@@ -644,6 +914,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -662,7 +936,15 @@
       "required": true,
       "types": [
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
           "type": "definition",
+          "named": true
+        },
+        {
+          "type": "hashtag",
           "named": true
         },
         {
@@ -675,6 +957,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -693,7 +979,15 @@
       "required": true,
       "types": [
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
           "type": "definition",
+          "named": true
+        },
+        {
+          "type": "hashtag",
           "named": true
         },
         {
@@ -706,6 +1000,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -724,7 +1022,15 @@
       "required": true,
       "types": [
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
           "type": "definition",
+          "named": true
+        },
+        {
+          "type": "hashtag",
           "named": true
         },
         {
@@ -737,6 +1043,10 @@
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         }
       ]
@@ -849,11 +1159,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "ordered_list_2",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -880,7 +1202,19 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -903,11 +1237,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "ordered_list_3",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -934,11 +1280,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "ordered_list_4",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -965,11 +1323,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "ordered_list_5",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -996,11 +1366,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "ordered_list_6",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -1027,11 +1409,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "ordered_list_7",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -1058,11 +1452,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "ordered_list_8",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -1089,11 +1495,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "ordered_list_9",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -1120,11 +1538,23 @@
           "named": true
         },
         {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "hashtag",
+          "named": true
+        },
+        {
           "type": "ordered_list_10",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "ranged_tag",
           "named": true
         },
         {
@@ -1148,11 +1578,23 @@
     "named": false
   },
   {
+    "type": "code_tag",
+    "named": true
+  },
+  {
     "type": "done",
     "named": false
   },
   {
+    "type": "end_tag",
+    "named": true
+  },
+  {
     "type": "label",
+    "named": true
+  },
+  {
+    "type": "language",
     "named": true
   },
   {
@@ -1164,12 +1606,20 @@
     "named": false
   },
   {
-    "type": "token",
+    "type": "tag",
+    "named": true
+  },
+  {
+    "type": "tag_parameter",
     "named": true
   },
   {
     "type": "token",
     "named": false
+  },
+  {
+    "type": "token",
+    "named": true
   },
   {
     "type": "undone",

@@ -1,7 +1,8 @@
 const MAX_HEADING = 6
 const MAX_LIST_LEVEL = 10
 
-module.exports = grammar({
+// module.exports = grammar({
+const skald_grammar = {
   name: 'skald',
 
   externals: $ => [
@@ -51,13 +52,18 @@ module.exports = grammar({
     $.checkbox_pending, // [-]
     $.checkbox_urgent,  // [!]
 
-    $.tag_end,
+    $.code_block_begin,
+    $.ranged_tag_begin,
+    $.ranged_tag_end,
+    $.hashtag_begin,
+    $.tag_parameter,
 
     $._blank_line,
     $._soft_break,
     $._hard_break,
 
     $._word,
+    $._raw_word,
 
     $._, // none
   ],
@@ -82,6 +88,9 @@ module.exports = grammar({
         alias($.section, $.section),
         $.list,
         $.definition,
+        $.code_block,
+        $.ranged_tag,
+        $.hashtag,
         $.paragraph,
         $._blank_line,
         $._hard_break
@@ -90,61 +99,6 @@ module.exports = grammar({
 
     section: $ => choice(
       $.section1, $.section2, $.section3, $.section4, $.section5, $.section6
-    ),
-
-    section1: $ => gen_section($, 1),
-    section2: $ => gen_section($, 2),
-    section3: $ => gen_section($, 3),
-    section4: $ => gen_section($, 4),
-    section5: $ => gen_section($, 5),
-    section6: $ => gen_section($, 6),
-
-    heading1: $ => gen_heading($, 1),
-    heading2: $ => gen_heading($, 2),
-    heading3: $ => gen_heading($, 3),
-    heading4: $ => gen_heading($, 4),
-    heading5: $ => gen_heading($, 5),
-    heading6: $ => gen_heading($, 6),
-
-    list: $ => seq(
-      choice(
-        repeat1($.unordered_list_1),
-        repeat1($.ordered_list_1)
-      ),
-      $._soft_break
-    ),
-
-    unordered_list_1: $ => gen_list($, 1),
-    unordered_list_2: $ => gen_list($, 2),
-    unordered_list_3: $ => gen_list($, 3),
-    unordered_list_4: $ => gen_list($, 4),
-    unordered_list_5: $ => gen_list($, 5),
-    unordered_list_6: $ => gen_list($, 6),
-    unordered_list_7: $ => gen_list($, 7),
-    unordered_list_8: $ => gen_list($, 8),
-    unordered_list_9: $ => gen_list($, 9),
-    unordered_list_10:$ => gen_list($,10),
-
-    ordered_list_1: $ => gen_list($, 1, true),
-    ordered_list_2: $ => gen_list($, 2, true),
-    ordered_list_3: $ => gen_list($, 3, true),
-    ordered_list_4: $ => gen_list($, 4, true),
-    ordered_list_5: $ => gen_list($, 5, true),
-    ordered_list_6: $ => gen_list($, 6, true),
-    ordered_list_7: $ => gen_list($, 7, true),
-    ordered_list_8: $ => gen_list($, 8, true),
-    ordered_list_9: $ => gen_list($, 9, true),
-    ordered_list_10:$ => gen_list($,10, true),
-
-    checkbox: $ => seq(
-      alias($.checkbox_open, "open"),
-      choice(
-        alias($.checkbox_undone,  "undone"),
-        alias($.checkbox_done,    "done"),
-        alias($.checkbox_pending, "pending"),
-        alias($.checkbox_urgent,  "urgent")
-      ),
-      alias($.checkbox_close, "close")
     ),
 
     definition: $ => seq(
@@ -165,105 +119,200 @@ module.exports = grammar({
       alias($.definition_end, "token")
     ),
 
-    paragraph: $ => prec.right(
+    list: $ => seq(
+      choice(
+        repeat1($.unordered_list_1),
+        repeat1($.ordered_list_1)
+      ),
+      $._soft_break
+    ),
+
+    code_block: $ => seq(
+      alias($.code_block_begin, $.code_tag),
+      optional(
+        alias($.tag_parameter, $.language)
+      ),
+      alias(
+        repeat($._raw_word),
+        $.code
+      ),
+      alias($.ranged_tag_end, $.end_tag)
+    ),
+
+    ranged_tag: $ => seq(
+      alias($.ranged_tag_begin, $.tag),
+      repeat($.tag_parameter),
+      repeat(
+        choice(
+          $.list,
+          $.definition,
+          $.code_block,
+          $.hashtag,
+          $.paragraph,
+          $._blank_line,
+        )
+      ),
+      alias($.ranged_tag_end, $.end_tag)
+    ),
+
+    hashtag: $=> seq(
+      alias($.hashtag_begin, $.tag),
+      repeat($.tag_parameter)
+    ),
+
+    // _word: _ => choice(/\p{L}+/, /\p{N}+/),
+  }
+}
+
+const sections = {
+  section1: $ => gen_section($, 1),
+  section2: $ => gen_section($, 2),
+  section3: $ => gen_section($, 3),
+  section4: $ => gen_section($, 4),
+  section5: $ => gen_section($, 5),
+  section6: $ => gen_section($, 6),
+
+  heading1: $ => gen_heading($, 1),
+  heading2: $ => gen_heading($, 2),
+  heading3: $ => gen_heading($, 3),
+  heading4: $ => gen_heading($, 4),
+  heading5: $ => gen_heading($, 5),
+  heading6: $ => gen_heading($, 6),
+}
+
+const lists = {
+  unordered_list_1: $ => gen_list($, 1),
+  unordered_list_2: $ => gen_list($, 2),
+  unordered_list_3: $ => gen_list($, 3),
+  unordered_list_4: $ => gen_list($, 4),
+  unordered_list_5: $ => gen_list($, 5),
+  unordered_list_6: $ => gen_list($, 6),
+  unordered_list_7: $ => gen_list($, 7),
+  unordered_list_8: $ => gen_list($, 8),
+  unordered_list_9: $ => gen_list($, 9),
+  unordered_list_10:$ => gen_list($,10),
+
+  ordered_list_1: $ => gen_list($, 1, true),
+  ordered_list_2: $ => gen_list($, 2, true),
+  ordered_list_3: $ => gen_list($, 3, true),
+  ordered_list_4: $ => gen_list($, 4, true),
+  ordered_list_5: $ => gen_list($, 5, true),
+  ordered_list_6: $ => gen_list($, 6, true),
+  ordered_list_7: $ => gen_list($, 7, true),
+  ordered_list_8: $ => gen_list($, 8, true),
+  ordered_list_9: $ => gen_list($, 9, true),
+  ordered_list_10:$ => gen_list($,10, true),
+}
+
+const markup = {
+  checkbox: $ => seq(
+    alias($.checkbox_open, "open"),
+    choice(
+      alias($.checkbox_undone,  "undone"),
+      alias($.checkbox_done,    "done"),
+      alias($.checkbox_pending, "pending"),
+      alias($.checkbox_urgent,  "urgent")
+    ),
+    alias($.checkbox_close, "close")
+  ),
+
+  paragraph: $ => prec.right(
+    repeat1(
+      choice(
+        $._word,
+        $.bold,
+        $.italic,
+        $.strikethrough,
+        $.underline,
+        $.verbatim,
+        $.inline_math,
+      )
+    ),
+  ),
+
+  bold: $ => prec.right(
+    seq(
+      alias($.bold_open, "open"),
+      repeat1(
+        choice(
+          $._word,
+          $.italic,
+          $.underline,
+          $.strikethrough,
+          $.verbatim,
+        ),
+      ),
+      alias($.bold_close, "close")
+    ),
+  ),
+
+  italic: $ => prec.right(
+    seq(
+      alias($.italic_open, "open"),
+      repeat1(
+        choice(
+          $._word,
+          $.bold,
+          $.underline,
+          $.strikethrough,
+          $.verbatim,
+        ),
+      ),
+      alias($.italic_close, "close")
+    ),
+  ),
+
+  underline: $ => prec.right(
+    seq(
+      alias($.underline_open, "open"),
       repeat1(
         choice(
           $._word,
           $.bold,
           $.italic,
           $.strikethrough,
+          $.verbatim,
+        ),
+      ),
+      alias($.underline_close, "close")
+    ),
+  ),
+
+  strikethrough: $ => prec.right(
+    seq(
+      alias($.strikethrough_open, "open"),
+      repeat1(
+        choice(
+          $._word,
+          $.bold,
+          $.italic,
           $.underline,
           $.verbatim,
-          $.inline_math,
-        )
-      ),
-    ),
-
-    bold: $ => prec.right(
-      seq(
-        alias($.bold_open, "open"),
-        repeat1(
-          choice(
-            $._word,
-            $.italic,
-            $.underline,
-            $.strikethrough,
-            $.verbatim,
-          ),
         ),
-        alias($.bold_close, "close")
       ),
+      alias($.strikethrough_close, "close")
     ),
+  ),
 
-    italic: $ => prec.right(
-      seq(
-        alias($.italic_open, "open"),
-        repeat1(
-          choice(
-            $._word,
-            $.bold,
-            $.underline,
-            $.strikethrough,
-            $.verbatim,
-          ),
-        ),
-        alias($.italic_close, "close")
-      ),
+  verbatim: $ => prec.right(
+    seq(
+      alias($.verbatim_open, "open"),
+      repeat1($._word),
+      alias($.verbatim_close, "close")
     ),
+  ),
 
-    underline: $ => prec.right(
-      seq(
-        alias($.underline_open, "open"),
-        repeat1(
-          choice(
-            $._word,
-            $.bold,
-            $.italic,
-            $.strikethrough,
-            $.verbatim,
-          ),
-        ),
-        alias($.underline_close, "close")
-      ),
+  inline_math: $ => prec.right(
+    seq(
+      alias($.inline_math_open, "open"),
+      repeat1($._word),
+      alias($.inline_math_close, "close")
     ),
-
-    strikethrough: $ => prec.right(
-      seq(
-        alias($.strikethrough_open, "open"),
-        repeat1(
-          choice(
-            $._word,
-            $.bold,
-            $.italic,
-            $.underline,
-            $.verbatim,
-          ),
-        ),
-        alias($.strikethrough_close, "close")
-      ),
-    ),
-
-    verbatim: $ => prec.right(
-      seq(
-        alias($.verbatim_open, "open"),
-        repeat1($._word),
-        alias($.verbatim_close, "close")
-      ),
-    ),
-
-    inline_math: $ => prec.right(
-      seq(
-        alias($.inline_math_open, "open"),
-        repeat1($._word),
-        alias($.inline_math_close, "close")
-      ),
-    ),
-
-    // _word: _ => choice(/\p{L}+/, /\p{N}+/),
-  }
-});
+  ),
+}
 
 function gen_section($, level) {
+
   let lower_level_sections = []
   for (let i = 0; i + 1 + level <= MAX_HEADING; ++i) {
       lower_level_sections[i] = $["section" + (i + 1 + level)]
@@ -277,6 +326,9 @@ function gen_section($, level) {
           alias(choice(...lower_level_sections), $.section),
           $.list,
           $.definition,
+          $.code_block,
+          $.ranged_tag,
+          $.hashtag,
           $.paragraph,
           $._blank_line,
         )
@@ -315,6 +367,9 @@ function gen_list($, level, ordered = false) {
       optional($.checkbox),
       repeat1(
         choice(
+          $.code_block,
+          $.ranged_tag,
+          $.hashtag,
           $.paragraph,
           $._blank_line,
         )
@@ -323,5 +378,9 @@ function gen_list($, level, ordered = false) {
     )
   );
 }
+
+Object.assign(skald_grammar.rules, sections, lists, markup)
+
+module.exports = grammar(skald_grammar)
 
 // vim: ts=2 sts=2 sw=2

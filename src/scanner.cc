@@ -26,8 +26,11 @@
  *
  * forge - кузница
  *
- * Skald
+ * Obelisk
+ * Crystal
+ * Skald --- The poetry of organization!
  */
+#include <functional>
 #include <vector>
 #include <cstring>
 #include <cwctype>
@@ -94,13 +97,18 @@ enum TokenType : unsigned char {
     CHECKBOX_PENDING,
     CHECKBOX_URGENT,
 
+    CODE_BEGIN,
+    TAG_BEGIN,
     TAG_END,
+    HASHTAG,
+    TAG_PARAMETER,
 
     BLANK_LINE,
     SOFT_BREAK,
     HARD_BREAK,
 
     WORD,
+    RAW_WORD,
 
     NONE,
 };
@@ -153,13 +161,18 @@ vector<string> tokens_names = {
     "checkbox_pending",
     "checkbox_urgent",
 
+    "code_begin",
+    "tag_begin",
     "tag_end",
+    "hashtag",
+    "tag_parameter",
 
     "blank_line",
     "soft_break",
     "hard_break",
 
     "word",
+    "raw_word",
 
     "none",
 };
@@ -201,14 +214,17 @@ struct Scanner
 
     deque<char> markup_stack;
 
+    bool tag_parameter_is_valid = true;
+
     bool scan () {
 #ifdef DEBUG
         clog << "{" << endl;
 #endif
         debug_valid_tokens();
 
-        if (get_column() == 0)
+        if (get_column() == 0) {
             if (parse_newline()) return true;
+        }
 
         if (parsed_chars == 0) {
             if (parse_ordered_list()) return true;
@@ -223,12 +239,15 @@ struct Scanner
         if (parsed_chars == 0)
             advance();
 
+        if (parse_tag_parameter()) return true;
+        if (parse_code_block()) return true;
+
         if (parse_check_box()) return true;
         if (parse_definition()) return true;
         if (parse_open_markup()) return true;
         if (parse_close_markup()) return true;
 
-        if (parse_text()) return true;
+        if (parse_word()) return true;
 
 #ifdef DEBUG
         clog << "  false" << endl << "}" << endl;
@@ -298,6 +317,10 @@ struct Scanner
     bool parse_newline() {
         skip_spaces();
 
+        // TAG_PARAMETER token, valid only on the same line as a range tag definition.
+        // That's why if we are on the new line, then TAG_PARAMETER stops to be valid.
+        tag_parameter_is_valid = false;
+
         // Check if current line is empty line.
         if (is_newline(lexer->lookahead)) {
             advance();
@@ -309,7 +332,6 @@ struct Scanner
         advance();
 
         uint8_t n = 0; //< Number of parsed chars
-
         switch (current) {
         case '*': { // HEADING
             constexpr auto expected = '*';
@@ -378,21 +400,57 @@ struct Scanner
             }
             break;
         }
+        case '@': {
+            if (valid_tokens[TAG_END]) {
+                if (token("end")
+                    && (!lexer->lookahead || is_newline(lexer->lookahead)))
+                {
+                    lexer->result_symbol = TAG_END;
+                    debug_result();
+                    return true;
+                }
+                else
+                    return parse_raw_word();
+            }
+            else if (token("code") && iswspace(lexer->lookahead))
+                lexer->result_symbol = CODE_BEGIN;
+            else {
+                while (!iswspace(lexer->lookahead))
+                    advance();
+                lexer->result_symbol = TAG_BEGIN;
+            }
+            debug_result();
+            return true;
+        }
+        case '#': {
+            while (!iswspace(lexer->lookahead))
+                advance();
+            lexer->result_symbol = HASHTAG;
+            debug_result();
+            return true;
+        }
         }
 
-        // // We are dealing with a ranged verbatim tag: @something
-        // if (lexer->lookahead == '@') {
-        //     advance();
-        //
-        //     // Check whether the tag is `@end`.
-        //     if (token("end") && (!lexer->lookahead)|| iswspace(lexer->lookahead)) {
-        //         lexer->result_symbol = TAG_END;
-        //         // m_active_markup.reset();
-        //         return true;
-        //     }
-        //
-        // }
+        if (parse_code_block()) return true;
 
+        return false;
+    }
+
+    bool parse_tag_parameter() {
+        if (valid_tokens[TAG_PARAMETER] && tag_parameter_is_valid) {
+            // while (lexer->lookahead && !iswspace(lexer->lookahead))
+            while (!iswspace(lexer->lookahead))
+                advance();
+            lexer->result_symbol = TAG_PARAMETER;
+            debug_result();
+            return true;
+        }
+        return false;
+    }
+
+    bool parse_code_block() {
+        if (valid_tokens[RAW_WORD] && valid_tokens[TAG_END])
+            return parse_raw_word();
         return false;
     }
 
@@ -526,7 +584,7 @@ struct Scanner
         return false;
     }
 
-    bool parse_text() {
+    bool parse_word() {
         if (!current) return false;
 
         while (lexer->lookahead && !iswspace(lexer->lookahead)) {
@@ -545,6 +603,14 @@ struct Scanner
             lexer->mark_end(lexer);
         }
         lexer->result_symbol = WORD;
+        debug_result();
+        return true;
+    }
+
+    bool parse_raw_word() {
+        while (lexer->lookahead && !iswspace(lexer->lookahead))
+            advance();
+        lexer->result_symbol = RAW_WORD;
         debug_result();
         return true;
     }
@@ -709,6 +775,7 @@ extern "C"
         Scanner* scanner = static_cast<Scanner*>(payload);
         scanner->current = 0;
         scanner->parsed_chars = 0;
+        scanner->tag_parameter_is_valid = true;
 
         if (!length) return;
 
