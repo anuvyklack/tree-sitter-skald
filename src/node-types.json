@@ -134,416 +134,6 @@
     }
   },
   {
-    "type": "level1",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "level10",
-          "named": true
-        },
-        {
-          "type": "level2",
-          "named": true
-        },
-        {
-          "type": "level3",
-          "named": true
-        },
-        {
-          "type": "level4",
-          "named": true
-        },
-        {
-          "type": "level5",
-          "named": true
-        },
-        {
-          "type": "level6",
-          "named": true
-        },
-        {
-          "type": "level7",
-          "named": true
-        },
-        {
-          "type": "level8",
-          "named": true
-        },
-        {
-          "type": "level9",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "level10",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "level2",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "level10",
-          "named": true
-        },
-        {
-          "type": "level3",
-          "named": true
-        },
-        {
-          "type": "level4",
-          "named": true
-        },
-        {
-          "type": "level5",
-          "named": true
-        },
-        {
-          "type": "level6",
-          "named": true
-        },
-        {
-          "type": "level7",
-          "named": true
-        },
-        {
-          "type": "level8",
-          "named": true
-        },
-        {
-          "type": "level9",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "level3",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "level10",
-          "named": true
-        },
-        {
-          "type": "level4",
-          "named": true
-        },
-        {
-          "type": "level5",
-          "named": true
-        },
-        {
-          "type": "level6",
-          "named": true
-        },
-        {
-          "type": "level7",
-          "named": true
-        },
-        {
-          "type": "level8",
-          "named": true
-        },
-        {
-          "type": "level9",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "level4",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "level10",
-          "named": true
-        },
-        {
-          "type": "level5",
-          "named": true
-        },
-        {
-          "type": "level6",
-          "named": true
-        },
-        {
-          "type": "level7",
-          "named": true
-        },
-        {
-          "type": "level8",
-          "named": true
-        },
-        {
-          "type": "level9",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "level5",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "level10",
-          "named": true
-        },
-        {
-          "type": "level6",
-          "named": true
-        },
-        {
-          "type": "level7",
-          "named": true
-        },
-        {
-          "type": "level8",
-          "named": true
-        },
-        {
-          "type": "level9",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "level6",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "level10",
-          "named": true
-        },
-        {
-          "type": "level7",
-          "named": true
-        },
-        {
-          "type": "level8",
-          "named": true
-        },
-        {
-          "type": "level9",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "level7",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "level10",
-          "named": true
-        },
-        {
-          "type": "level8",
-          "named": true
-        },
-        {
-          "type": "level9",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "level8",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "level10",
-          "named": true
-        },
-        {
-          "type": "level9",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "level9",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "checkbox",
-          "named": true
-        },
-        {
-          "type": "level10",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -552,43 +142,353 @@
       "required": true,
       "types": [
         {
-          "type": "level1",
+          "type": "ordered_list_1",
           "named": true
         },
         {
-          "type": "level10",
+          "type": "unordered_list_1",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_1",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
           "named": true
         },
         {
-          "type": "level2",
+          "type": "label",
           "named": true
         },
         {
-          "type": "level3",
+          "type": "ordered_list_2",
           "named": true
         },
         {
-          "type": "level4",
+          "type": "paragraph",
           "named": true
         },
         {
-          "type": "level5",
+          "type": "token",
           "named": true
         },
         {
-          "type": "level6",
+          "type": "unordered_list_2",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_10",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
           "named": true
         },
         {
-          "type": "level7",
+          "type": "label",
           "named": true
         },
         {
-          "type": "level8",
+          "type": "paragraph",
           "named": true
         },
         {
-          "type": "level9",
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_2",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "ordered_list_3",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_3",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_3",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "ordered_list_4",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_4",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_4",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "ordered_list_5",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_5",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_5",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "ordered_list_6",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_6",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_6",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "ordered_list_7",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_7",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_7",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "ordered_list_8",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_8",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_8",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "ordered_list_9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_9",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ordered_list_9",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "ordered_list_10",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_10",
           "named": true
         }
       ]
@@ -596,7 +496,7 @@
   },
   {
     "type": "paragraph",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -937,6 +837,308 @@
     }
   },
   {
+    "type": "unordered_list_1",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "ordered_list_2",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_2",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unordered_list_10",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unordered_list_2",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "ordered_list_3",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_3",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unordered_list_3",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "ordered_list_4",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_4",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unordered_list_4",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "ordered_list_5",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_5",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unordered_list_5",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "ordered_list_6",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_6",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unordered_list_6",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "ordered_list_7",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_7",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unordered_list_7",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "ordered_list_8",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_8",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unordered_list_8",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "ordered_list_9",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_9",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unordered_list_9",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "checkbox",
+          "named": true
+        },
+        {
+          "type": "ordered_list_10",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "token",
+          "named": true
+        },
+        {
+          "type": "unordered_list_10",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "verbatim",
     "named": true,
     "fields": {}
@@ -948,6 +1150,10 @@
   {
     "type": "done",
     "named": false
+  },
+  {
+    "type": "label",
+    "named": true
   },
   {
     "type": "open",

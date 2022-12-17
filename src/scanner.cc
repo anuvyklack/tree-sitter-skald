@@ -84,6 +84,8 @@ enum TokenType : unsigned char {
     LIST_9,
     LIST_10,
 
+    ORDERED_LIST_LABEL,
+
     CHECKBOX_OPEN,
     CHECKBOX_CLOSE,
 
@@ -130,16 +132,18 @@ vector<string> tokens_names = {
     "definition_sep",
     "definition_end",
 
-    "list_1",
-    "list_2",
-    "list_3",
-    "list_4",
-    "list_5",
-    "list_6",
-    "list_7",
-    "list_8",
-    "list_9",
-    "list_10",
+    "list_1_prefix",
+    "list_2_prefix",
+    "list_3_prefix",
+    "list_4_prefix",
+    "list_5_prefix",
+    "list_6_prefix",
+    "list_7_prefix",
+    "list_8_prefix",
+    "list_9_prefix",
+    "list_10_prefix",
+
+    "ordered_list_label",
 
     "checkbox_open",
     "checkbox_close",
@@ -206,8 +210,10 @@ struct Scanner
         if (get_column() == 0)
             if (parse_newline()) return true;
 
-        if (parsed_chars == 0)
+        if (parsed_chars == 0) {
+            if (parse_ordered_list()) return true;
             skip_spaces();
+        }
 
         if (parsed_chars == 0 && is_newline(lexer->lookahead)) {
             skip_newline(); // skip newline char
@@ -343,7 +349,14 @@ struct Scanner
                 debug_result();
                 return true;
             }
-            else if (is_space(lexer->lookahead)) {
+
+            if (iswdigit(lexer->lookahead)) {
+                lexer->mark_end(lexer);
+                while (iswdigit(lexer->lookahead))
+                    advance();
+            }
+
+            if (is_space(lexer->lookahead)) {
                 lexer->result_symbol =
                     static_cast<TokenType>(LIST_1 + (n < MAX_LIST ? n : MAX_LIST - 1));
                 debug_result();
@@ -397,6 +410,19 @@ struct Scanner
             && current == ':' && is_newline(lexer->lookahead))
         {
             lexer->result_symbol = DEFINITION_END;
+            debug_result();
+            return true;
+        }
+        return false;
+    }
+
+    bool parse_ordered_list() {
+        if (valid_tokens[ORDERED_LIST_LABEL]
+            && !is_space_or_newline(lexer->lookahead))
+        {
+            while (iswdigit(lexer->lookahead))
+                advance();
+            lexer->result_symbol = ORDERED_LIST_LABEL;
             debug_result();
             return true;
         }
@@ -661,15 +687,11 @@ extern "C"
     {
         Scanner* scanner = static_cast<Scanner*>(payload);
 
-        auto to_copy = sizeof(scanner->current);
         char stack_length = scanner->markup_stack.size();
 
-        if (to_copy + stack_length >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
+        if (static_cast<int>(stack_length) >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) return 0;
 
         int n = 0;
-
-        // memcpy(buffer + n, &scanner->current, to_copy);
-        // n += to_copy;
 
         if (stack_length)
             for (char m : scanner->markup_stack) {
@@ -688,17 +710,9 @@ extern "C"
         scanner->current = 0;
         scanner->parsed_chars = 0;
 
-        if (!length) {
-            // scanner->current = 0;
-            return;
-        };
+        if (!length) return;
 
         int n = 0;
-
-        // auto to_copy = sizeof(scanner->current);
-        // memcpy(&scanner->current, buffer + n, to_copy);
-        // n += to_copy;
-
         for (int8_t i = 0; i < length - n; ++i)
             scanner->markup_stack.push_back(buffer[n + i]);
     }

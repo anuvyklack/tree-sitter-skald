@@ -652,52 +652,23 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT1",
+              "content": {
                 "type": "SYMBOL",
-                "name": "level1"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "level2"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "level3"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "level4"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "level5"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "level6"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "level7"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "level8"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "level9"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "level10"
+                "name": "unordered_list_1"
               }
-            ]
-          }
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "ordered_list_1"
+              }
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -705,9 +676,9 @@
         }
       ]
     },
-    "level1": {
+    "unordered_list_1": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -733,7 +704,7 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -744,52 +715,43 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level2"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level3"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level4"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level5"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level6"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level7"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level8"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level9"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level10"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_2"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_2"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
     },
-    "level2": {
+    "unordered_list_2": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -815,7 +777,7 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -826,48 +788,43 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level3"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level4"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level5"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level6"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level7"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level8"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level9"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level10"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_3"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_3"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
     },
-    "level3": {
+    "unordered_list_3": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -893,7 +850,7 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -904,44 +861,43 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level4"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level5"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level6"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level7"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level8"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level9"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level10"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_4"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_4"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
     },
-    "level4": {
+    "unordered_list_4": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -967,7 +923,7 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -978,40 +934,43 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level5"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level6"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level7"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level8"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level9"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level10"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_5"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_5"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
     },
-    "level5": {
+    "unordered_list_5": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1037,7 +996,7 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -1048,36 +1007,43 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level6"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level7"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level8"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level9"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level10"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_6"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_6"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
     },
-    "level6": {
+    "unordered_list_6": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1103,7 +1069,7 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -1114,32 +1080,43 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level7"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level8"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level9"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level10"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_7"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_7"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
     },
-    "level7": {
+    "unordered_list_7": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1165,7 +1142,7 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -1176,28 +1153,43 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level8"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level9"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level10"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_8"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_8"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
     },
-    "level8": {
+    "unordered_list_8": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1223,7 +1215,7 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -1234,24 +1226,43 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level9"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level10"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_9"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_9"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
     },
-    "level9": {
+    "unordered_list_9": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1277,7 +1288,7 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -1288,20 +1299,43 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "level10"
                 }
               ]
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_10"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_10"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
     },
-    "level10": {
+    "unordered_list_10": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1327,7 +1361,800 @@
             ]
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ordered_list_1": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_1_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_2"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_2"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ordered_list_2": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_2_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_3"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_3"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ordered_list_3": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_3_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_4"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_4"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ordered_list_4": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_4_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_5"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_5"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ordered_list_5": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_5_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_6"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_6"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ordered_list_6": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_6_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_7"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_7"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ordered_list_7": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_7_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_8"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_8"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ordered_list_8": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_8_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_9"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_9"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ordered_list_9": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_9_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_blank_line"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "unordered_list_10"
+                    }
+                  },
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ordered_list_10"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ordered_list_10": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "list_10_prefix"
+            },
+            "named": true,
+            "value": "token"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ordered_list_label"
+            },
+            "named": true,
+            "value": "label"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "checkbox"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT1",
             "content": {
               "type": "CHOICE",
               "members": [
@@ -1936,6 +2763,10 @@
     {
       "type": "SYMBOL",
       "name": "list_10_prefix"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "ordered_list_label"
     },
     {
       "type": "SYMBOL",
