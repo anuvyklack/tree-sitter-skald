@@ -324,9 +324,7 @@ struct Scanner
         // Check if current line is empty line.
         if (is_newline(lexer->lookahead)) {
             advance();
-            lexer->result_symbol = BLANK_LINE;
-            debug_result();
-            return true;
+            return found(BLANK_LINE);
         }
 
         advance();
@@ -343,19 +341,16 @@ struct Scanner
                 skip_spaces();
                 if (is_newline(lexer->lookahead))
                     return false;
-                lexer->result_symbol =
-                    static_cast<TokenType>(HEADING_1 + (n < MAX_HEADING ? n : MAX_HEADING - 1));
-                debug_result();
-                return true;
+
+                return found(static_cast<TokenType>(
+                             HEADING_1 + (n < MAX_HEADING ? n : MAX_HEADING - 1)));
             }
             else if (parse_open_markup()) return true;
             break;
         }
         case ':': { // DEFINITION
             if (valid_tokens[DEFINITION_BEGIN] && is_space_or_newline(lexer->lookahead)) {
-                lexer->result_symbol = DEFINITION_BEGIN;
-                debug_result();
-                return true;
+                return found(DEFINITION_BEGIN);
             }
             break;
         }
@@ -367,9 +362,7 @@ struct Scanner
             }
 
             if (1 + n == 3 && (!lexer->lookahead || is_newline(lexer->lookahead))) {
-                lexer->result_symbol = SOFT_BREAK;
-                debug_result();
-                return true;
+                return found(SOFT_BREAK);
             }
 
             if (iswdigit(lexer->lookahead)) {
@@ -378,12 +371,9 @@ struct Scanner
                     advance();
             }
 
-            if (is_space(lexer->lookahead)) {
-                lexer->result_symbol =
-                    static_cast<TokenType>(LIST_1 + (n < MAX_LIST ? n : MAX_LIST - 1));
-                debug_result();
-                return true;
-            }
+            if (is_space(lexer->lookahead))
+                return found(static_cast<TokenType>(
+                             LIST_1 + (n < MAX_LIST ? n : MAX_LIST - 1)));
 
             break;
         }
@@ -393,31 +383,23 @@ struct Scanner
                 advance();
                 ++n;
             }
-            if (1 + n == 3 && (!lexer->lookahead || is_newline(lexer->lookahead))) {
-                lexer->result_symbol = HARD_BREAK;
-                debug_result();
-                return true;
-            }
+            if (1 + n == 3 && (!lexer->lookahead || is_newline(lexer->lookahead)))
+                return found(HARD_BREAK);
             break;
         }
         case '@': {
             if (valid_tokens[TAG_END]) {
-                if (token("end")
-                    && (!lexer->lookahead || is_newline(lexer->lookahead)))
-                {
-                    lexer->result_symbol = TAG_END;
-                    debug_result();
-                    return true;
-                }
+                if (token("end") && (!lexer->lookahead || is_newline(lexer->lookahead)))
+                    return found(TAG_END);
                 else
                     return parse_raw_word();
             }
             else if (token("code") && iswspace(lexer->lookahead))
-                lexer->result_symbol = CODE_BEGIN;
+                return found(CODE_BEGIN);
             else {
                 while (!iswspace(lexer->lookahead))
                     advance();
-                lexer->result_symbol = TAG_BEGIN;
+                return found(TAG_BEGIN);
             }
             debug_result();
             return true;
@@ -425,9 +407,7 @@ struct Scanner
         case '#': {
             while (!iswspace(lexer->lookahead))
                 advance();
-            lexer->result_symbol = HASHTAG;
-            debug_result();
-            return true;
+            return found(HASHTAG);
         }
         }
 
@@ -441,9 +421,7 @@ struct Scanner
             // while (lexer->lookahead && !iswspace(lexer->lookahead))
             while (!iswspace(lexer->lookahead))
                 advance();
-            lexer->result_symbol = TAG_PARAMETER;
-            debug_result();
-            return true;
+            return found(TAG_PARAMETER);
         }
         return false;
     }
@@ -460,17 +438,14 @@ struct Scanner
         if (valid_tokens[DEFINITION_SEP]
             && current == ':' && is_space_or_newline(lexer->lookahead))
         {
-            lexer->result_symbol = DEFINITION_SEP;
-            debug_result();
-            return true;
+            return found(DEFINITION_SEP);
         }
         else if (valid_tokens[DEFINITION_END]
             && current == ':' && is_newline(lexer->lookahead))
         {
-            lexer->result_symbol = DEFINITION_END;
-            debug_result();
-            return true;
+            return found(DEFINITION_END);
         }
+
         return false;
     }
 
@@ -480,9 +455,7 @@ struct Scanner
         {
             while (iswdigit(lexer->lookahead))
                 advance();
-            lexer->result_symbol = ORDERED_LIST_LABEL;
-            debug_result();
-            return true;
+            return found(ORDERED_LIST_LABEL);
         }
         return false;
     }
@@ -510,9 +483,7 @@ struct Scanner
             markup_stack.push_back(mt->first);
             debug_markup_stack();
 
-            lexer->result_symbol = mt->second;
-            debug_result();
-            return true;
+            return found(mt->second);
         }
 
         return false;
@@ -527,8 +498,7 @@ struct Scanner
             || is_punkt(lexer->lookahead)
             || (markup_stack.size() > 1 && lexer->lookahead == markup_stack.end()[-2]))
         {
-            lexer->result_symbol =
-                static_cast<TokenType>(markup_tokens.at(current) + MARKUP);
+            found(static_cast<TokenType>(markup_tokens.at(current) + MARKUP));
             markup_stack.pop_back();
             debug_markup_stack();
             debug_result();
@@ -551,24 +521,18 @@ struct Scanner
             advance();
             if (!is_space(lexer->lookahead)) return false;
 
-            lexer->result_symbol = CHECKBOX_OPEN;
-            debug_result();
-            return true;
+            return found(CHECKBOX_OPEN);
         }
         else if (valid_tokens[CHECKBOX_DONE] && lexer->lookahead == ']') {
             switch (current) {
             case ' ':
-                lexer->result_symbol = CHECKBOX_UNDONE;
-                break;
+                return found(CHECKBOX_UNDONE);
             case 'x':
-                lexer->result_symbol = CHECKBOX_DONE;
-                break;
+                return found(CHECKBOX_DONE);
             case '-':
-                lexer->result_symbol = CHECKBOX_PENDING;
-                break;
+                return found(CHECKBOX_PENDING);
             case '!':
-                lexer->result_symbol = CHECKBOX_URGENT;
-                break;
+                return found(CHECKBOX_URGENT);
             }
             debug_result();
             return true;
@@ -576,9 +540,7 @@ struct Scanner
         else if (valid_tokens[CHECKBOX_CLOSE]
             && current == ']' && is_space_or_newline(lexer->lookahead))
         {
-            lexer->result_symbol = CHECKBOX_CLOSE;
-            debug_result();
-            return true;
+            return found(CHECKBOX_CLOSE);
         }
 
         return false;
@@ -602,16 +564,22 @@ struct Scanner
             advance();
             lexer->mark_end(lexer);
         }
-        lexer->result_symbol = WORD;
-        debug_result();
-        return true;
+        return found(WORD);
     }
 
     bool parse_raw_word() {
         while (lexer->lookahead && !iswspace(lexer->lookahead))
             advance();
-        lexer->result_symbol = RAW_WORD;
-        debug_result();
+        return found(RAW_WORD);
+    }
+
+    inline bool found(TokenType tkn) {
+        lexer->result_symbol = tkn;
+#ifdef DEBUG
+        clog << "  found: " << tokens_names[lexer->result_symbol] << endl
+             // << "  parsed chars: " << m_parsed_chars << endl
+             << "}" << endl;
+#endif
         return true;
     }
 
@@ -711,14 +679,6 @@ struct Scanner
         }
 
         clog << endl;
-#endif
-    }
-
-    inline void debug_result() {
-#ifdef DEBUG
-        clog << "  found: " << tokens_names[lexer->result_symbol] << endl
-             // << "  parsed chars: " << m_parsed_chars << endl
-             << "}" << endl;
 #endif
     }
 
