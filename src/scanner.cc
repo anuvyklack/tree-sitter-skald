@@ -191,15 +191,6 @@ constexpr uint8_t MARKUP = 6;      //< Total number of markup tokens.
 constexpr uint8_t MAX_HEADING = 6; //< Maximum heading level.
 constexpr uint8_t MAX_LIST = 10;   //< Maximum list level.
 
-/**
- * The scanner analyzes the current character --- the last character the
- * "advanced" function passed.
- *
- * a [b] c
- * │  │  └─ lexer->lookahead
- * │  └─ current
- * └─ previous
- */
 struct Scanner
 {
     TSLexer* lexer;
@@ -216,15 +207,24 @@ struct Scanner
 
     bool tag_parameter_is_valid = true;
 
+    /**
+     * The scanner analyzes the current character --- the last character the
+     * "advanced" function passed, not the next (i.e lexer->lookahead) char.
+     *
+     *     abc
+     *     ││└─ lexer->lookahead
+     *     │└─ current
+     *     └─ previous
+     *
+     */
     bool scan () {
 #ifdef DEBUG
         clog << "{" << endl;
-#endif
         debug_valid_tokens();
+#endif
 
-        if (get_column() == 0) {
+        if (get_column() == 0)
             if (parse_newline()) return true;
-        }
 
         if (parsed_chars == 0) {
             if (parse_ordered_list()) return true;
@@ -232,7 +232,7 @@ struct Scanner
         }
 
         if (parsed_chars == 0 && is_newline(lexer->lookahead)) {
-            skip_newline(); // skip newline char
+            skip_newline();
             if (parse_newline()) return true;
         }
 
@@ -251,20 +251,15 @@ struct Scanner
 
 #ifdef DEBUG
         clog << "  false" << endl << "}" << endl;
-#endif
-
-        if (is_eof()) {
-#ifdef DEBUG
+        if (is_eof())
             clog << "End of the file!" << endl << endl;
 #endif
-            return false;
-        }
 
         return false;
     };
 
-    // Advances the lexer forward. The char that was advanced will be returned
-    // in the final result.
+    /// Advances the lexer forward. The char that was advanced
+    /// will be returned in the final result.
     void advance() {
         previous = current;
         current = lexer->lookahead;
@@ -299,8 +294,12 @@ struct Scanner
     }
 
     inline void skip_spaces() {
-        if (valid_tokens[CHECKBOX_UNDONE]) return;
-        while (is_space(lexer->lookahead)) skip();
+        // CHECKBOX_UNDONE token is a space, and we don't want to skip it.
+        if (valid_tokens[CHECKBOX_UNDONE])
+            return;
+
+        while (is_space(lexer->lookahead))
+            skip();
     }
 
     /// Skip newline char
@@ -309,12 +308,10 @@ struct Scanner
         if (lexer->lookahead == 10) skip(); // \n
     }
 
-    /**
-     * @brief Rules that decide based on the first token on the next line.
-     * @param valid_tokens Valid symbols.
-     * @return Whether to finish parsing.
-     */
+    /// Rules that decide based on the first token on the next line.
     bool parse_newline() {
+        // If we're here, then we're in column 0 on a new line.
+
         skip_spaces();
 
         // TAG_PARAMETER token, valid only on the same line as a range tag definition.
@@ -338,13 +335,17 @@ struct Scanner
                     advance();
                     ++n;
                 }
+
                 skip_spaces();
+
                 if (is_newline(lexer->lookahead))
                     return false;
 
                 return found(static_cast<TokenType>(
                              HEADING_1 + (n < MAX_HEADING ? n : MAX_HEADING - 1)));
             }
+            // We are on the first non-blank character of the line, and it is '*'.
+            // Need to check bold markup.
             else if (parse_open_markup()) return true;
             break;
         }
@@ -387,7 +388,7 @@ struct Scanner
                 return found(HARD_BREAK);
             break;
         }
-        case '@': {
+        case '@': { // Code block or ranged tag
             if (valid_tokens[TAG_END]) {
                 if (token("end") && (!lexer->lookahead || is_newline(lexer->lookahead)))
                     return found(TAG_END);
@@ -401,10 +402,8 @@ struct Scanner
                     advance();
                 return found(TAG_BEGIN);
             }
-            debug_result();
-            return true;
         }
-        case '#': {
+        case '#': { // HASHTAG
             while (!iswspace(lexer->lookahead))
                 advance();
             return found(HASHTAG);
@@ -416,7 +415,19 @@ struct Scanner
         return false;
     }
 
-    bool parse_tag_parameter() {
+    /**
+     * Parse tag parameter. It is `param1` and `param2` in examples below:
+     * ```
+     *   #tag param1 param2
+     * ```
+     * or
+     * ```
+     *   @tag param1 param2
+     *   ...
+     *   @end
+     * ```
+     */
+    inline bool parse_tag_parameter() {
         if (valid_tokens[TAG_PARAMETER] && tag_parameter_is_valid) {
             // while (lexer->lookahead && !iswspace(lexer->lookahead))
             while (!iswspace(lexer->lookahead))
@@ -426,7 +437,15 @@ struct Scanner
         return false;
     }
 
-    bool parse_code_block() {
+    /**
+     * Parse the conntent of the code block:
+     * ```
+     *   @code bash
+     *     content
+     *   @end
+     * ```
+     */
+    inline bool parse_code_block() {
         if (valid_tokens[RAW_WORD] && valid_tokens[TAG_END])
             return parse_raw_word();
         return false;
@@ -449,10 +468,19 @@ struct Scanner
         return false;
     }
 
-    bool parse_ordered_list() {
+    /// Parse the label part of the ordered list token.
+    inline bool parse_ordered_list() {
         if (valid_tokens[ORDERED_LIST_LABEL]
             && !is_space_or_newline(lexer->lookahead))
         {
+            /*
+             *    ┌─ level
+             *    │  ┌─ label
+             *    │  │
+             *    ---12 text
+             *      🠕
+             *      we are here
+             */
             while (iswdigit(lexer->lookahead))
                 advance();
             return found(ORDERED_LIST_LABEL);
@@ -501,7 +529,6 @@ struct Scanner
             found(static_cast<TokenType>(markup_tokens.at(current) + MARKUP));
             markup_stack.pop_back();
             debug_markup_stack();
-            debug_result();
             return true;
         }
         return false;
@@ -534,8 +561,6 @@ struct Scanner
             case '!':
                 return found(CHECKBOX_URGENT);
             }
-            debug_result();
-            return true;
         }
         else if (valid_tokens[CHECKBOX_CLOSE]
             && current == ']' && is_space_or_newline(lexer->lookahead))
@@ -567,7 +592,8 @@ struct Scanner
         return found(WORD);
     }
 
-    bool parse_raw_word() {
+    /// RAW_WORD is a sequence of any characters until space or new line char.
+    inline bool parse_raw_word() {
         while (lexer->lookahead && !iswspace(lexer->lookahead))
             advance();
         return found(RAW_WORD);
@@ -588,7 +614,6 @@ struct Scanner
 
     inline bool is_space(const int32_t c) { return c && iswblank(c); }
 
-    // inline bool is_newline(const int32_t c) { return c && iswspace(c) && !iswblank(c); }
     inline bool is_newline(const int32_t c) {
         switch (c) {
         case 10: // \n
@@ -694,12 +719,15 @@ struct Scanner
 
 extern "C"
 {
+    /// Create new Scanner object
     void* tree_sitter_skald_external_scanner_create() { return new Scanner(); }
 
+    /// Destroy Scanner object
     void tree_sitter_skald_external_scanner_destroy(void* payload) {
         delete static_cast<Scanner*>(payload);
     }
 
+    /// Main logic entry point
     bool tree_sitter_skald_external_scanner_scan(void* payload, TSLexer* lexer,
                                                  const bool* valid_tokens)
     {
@@ -709,6 +737,7 @@ extern "C"
         return scanner->scan();
     }
 
+    /// Copy the current Scanner state to another location for later reuse.
     unsigned tree_sitter_skald_external_scanner_serialize(void* payload, char* buffer)
     {
         Scanner* scanner = static_cast<Scanner*>(payload);
@@ -729,6 +758,7 @@ extern "C"
         return n;
     }
 
+    /// Load another Scanner state into Scanner object,
     void tree_sitter_skald_external_scanner_deserialize(void* payload, const char* buffer,
                                                         unsigned length)
     {
