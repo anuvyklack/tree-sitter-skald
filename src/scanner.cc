@@ -40,13 +40,13 @@
 #include <unordered_map>
 #include "tree_sitter/parser.h"
 
-#define DEBUG 1
+// #define DEBUG 1
 
 /**
  * Print the upcoming token after parsing finished.
  * Note: May change parser behaviour.
  */
-#define DEBUG_CURRENT_CHAR 1
+// #define DEBUG_CURRENT_CHAR 1
 
 using namespace std;
 
@@ -222,6 +222,8 @@ struct Scanner
      *
      */
     bool scan () {
+        if (is_eof()) return false;
+
 #ifdef DEBUG
         clog << "{" << endl;
         debug_valid_tokens();
@@ -232,7 +234,9 @@ struct Scanner
 
         if (parsed_chars == 0) {
             if (parse_ordered_list()) return true;
+
             skip_spaces();
+            if (is_eof()) return false;
         }
 
         if (parsed_chars == 0 && is_newline(lexer->lookahead)) {
@@ -258,8 +262,6 @@ struct Scanner
 
 #ifdef DEBUG
         clog << "  false" << endl << "}" << endl;
-        if (is_eof())
-            clog << "End of the file!" << endl << endl;
 #endif
 
         return false;
@@ -320,6 +322,7 @@ struct Scanner
         // If we're here, then we're in column 0 on a new line.
 
         skip_spaces();
+        if (is_eof()) return false;
 
         // TAG_PARAMETER token, valid only on the same line as a range tag definition.
         // That's why if we are on the new line, then TAG_PARAMETER stops to be valid.
@@ -344,6 +347,7 @@ struct Scanner
                 }
 
                 skip_spaces();
+                if (is_eof()) return false;
 
                 if (is_newline(lexer->lookahead))
                     return false;
