@@ -62,7 +62,6 @@ const skald_grammar = {
     $._hard_break,
 
     $.escape_char,
-    $.escaped_raw_sequence,
 
     $._word,
     $._raw_word,
@@ -145,7 +144,7 @@ const skald_grammar = {
     ),
 
     code_block: $ => seq(
-      alias($.code_block_begin, $.code_tag),
+      alias($.code_block_begin, $.tag),
       optional(
         alias($.tag_parameter, $.language)
       ),
@@ -178,9 +177,9 @@ const skald_grammar = {
       repeat($.tag_parameter)
     ),
 
-    escaped_sequence: $ => seq(
+    escaped_sequence: $=> seq(
       $.escape_char,
-      alias($.escaped_raw_sequence, $.sequence)
+      alias($._raw_word, "_word")
     ),
 
     // _word: _ => choice(/\p{L}+/, /\p{N}+/),

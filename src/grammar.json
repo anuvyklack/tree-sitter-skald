@@ -227,7 +227,7 @@
             "name": "code_block_begin"
           },
           "named": true,
-          "value": "code_tag"
+          "value": "tag"
         },
         {
           "type": "CHOICE",
@@ -367,10 +367,10 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "escaped_raw_sequence"
+            "name": "_raw_word"
           },
-          "named": true,
-          "value": "sequence"
+          "named": false,
+          "value": "_word"
         }
       ]
     },
@@ -3416,10 +3416,6 @@
     {
       "type": "SYMBOL",
       "name": "escape_char"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "escaped_raw_sequence"
     },
     {
       "type": "SYMBOL",

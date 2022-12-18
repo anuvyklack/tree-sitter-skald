@@ -107,8 +107,7 @@ enum TokenType : unsigned char {
     SOFT_BREAK,
     HARD_BREAK,
 
-    ESCAPE_CHAR,
-    ESCAPED_SEQUENCE,
+    ESCAPE,
 
     WORD,
     RAW_WORD,
@@ -174,8 +173,7 @@ vector<string> tokens_names = {
     "soft_break",
     "hard_break",
 
-    "escape_char",
-    "escaped_sequence",
+    "escape",
 
     "word",
     "raw_word",
@@ -248,7 +246,8 @@ struct Scanner
         if (parse_tag_parameter()) return true;
         if (parse_code_block()) return true;
 
-        if (parse_escaped_sequence()) return true;
+        if (parse_escape_char()) return true;
+        if (parse_raw_word()) return true;
 
         if (parse_check_box()) return true;
         if (parse_definition()) return true;
@@ -397,11 +396,10 @@ struct Scanner
             break;
         }
         case '@': { // Code block or ranged tag
-            if (valid_tokens[TAG_END]) {
-                if (token("end") && (!lexer->lookahead || is_newline(lexer->lookahead)))
-                    return found(TAG_END);
-                else
-                    return parse_raw_word();
+            if (valid_tokens[TAG_END] && token("end")
+                && (!lexer->lookahead || is_newline(lexer->lookahead)))
+            {
+                return found(TAG_END);
             }
             else if (token("code") && iswspace(lexer->lookahead))
                 return found(CODE_BEGIN);
@@ -497,14 +495,9 @@ struct Scanner
         return false;
     }
 
-    bool parse_escaped_sequence() {
+    bool parse_escape_char() {
         if (current == '\\')
-            return found(ESCAPE_CHAR);
-        else if (valid_tokens[ESCAPED_SEQUENCE]) {
-            while (lexer->lookahead && !iswspace(lexer->lookahead))
-                advance();
-            return found(ESCAPED_SEQUENCE);
-        }
+            return found(ESCAPE);
         return false;
     }
 

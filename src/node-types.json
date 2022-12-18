@@ -49,15 +49,15 @@
           "named": true
         },
         {
-          "type": "code_tag",
-          "named": true
-        },
-        {
           "type": "end_tag",
           "named": true
         },
         {
           "type": "language",
+          "named": true
+        },
+        {
+          "type": "tag",
           "named": true
         }
       ]
@@ -135,15 +135,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "escape_char",
-          "named": true
-        },
-        {
-          "type": "sequence",
           "named": true
         }
       ]
@@ -1709,12 +1705,12 @@
     "fields": {}
   },
   {
-    "type": "close",
+    "type": "_word",
     "named": false
   },
   {
-    "type": "code_tag",
-    "named": true
+    "type": "close",
+    "named": false
   },
   {
     "type": "done",
@@ -1745,10 +1741,6 @@
     "named": false
   },
   {
-    "type": "sequence",
-    "named": true
-  },
-  {
     "type": "tag",
     "named": true
   },
@@ -1758,11 +1750,11 @@
   },
   {
     "type": "token",
-    "named": true
+    "named": false
   },
   {
     "type": "token",
-    "named": false
+    "named": true
   },
   {
     "type": "undone",
