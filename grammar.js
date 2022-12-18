@@ -1,7 +1,6 @@
 const MAX_HEADING = 6
 const MAX_LIST_LEVEL = 10
 
-// module.exports = grammar({
 const skald_grammar = {
   name: 'skald',
 
@@ -62,6 +61,9 @@ const skald_grammar = {
     $._soft_break,
     $._hard_break,
 
+    $.escape_char,
+    $.escaped_raw_sequence,
+
     $._word,
     $._raw_word,
 
@@ -93,8 +95,23 @@ const skald_grammar = {
         $.hashtag,
         $.paragraph,
         $._blank_line,
-        $._hard_break
+        $._hard_break,
+        $.escaped_sequence
       )
+    ),
+
+    paragraph: $ => prec.right(
+      repeat1(
+        choice(
+          $._word,
+          $.bold,
+          $.italic,
+          $.strikethrough,
+          $.underline,
+          $.verbatim,
+          $.inline_math,
+        )
+      ),
     ),
 
     section: $ => choice(
@@ -150,6 +167,7 @@ const skald_grammar = {
           $.hashtag,
           $.paragraph,
           $._blank_line,
+          $.escaped_sequence,
         )
       ),
       alias($.ranged_tag_end, $.end_tag)
@@ -158,6 +176,11 @@ const skald_grammar = {
     hashtag: $=> seq(
       alias($.hashtag_begin, $.tag),
       repeat($.tag_parameter)
+    ),
+
+    escaped_sequence: $ => seq(
+      $.escape_char,
+      alias($.escaped_raw_sequence, $.sequence)
     ),
 
     // _word: _ => choice(/\p{L}+/, /\p{N}+/),
@@ -181,6 +204,17 @@ const sections = {
 }
 
 const lists = {
+  checkbox: $ => seq(
+    alias($.checkbox_open, "open"),
+    choice(
+      alias($.checkbox_undone,  "undone"),
+      alias($.checkbox_done,    "done"),
+      alias($.checkbox_pending, "pending"),
+      alias($.checkbox_urgent,  "urgent")
+    ),
+    alias($.checkbox_close, "close")
+  ),
+
   unordered_list_1: $ => gen_list($, 1),
   unordered_list_2: $ => gen_list($, 2),
   unordered_list_3: $ => gen_list($, 3),
@@ -205,31 +239,6 @@ const lists = {
 }
 
 const markup = {
-  checkbox: $ => seq(
-    alias($.checkbox_open, "open"),
-    choice(
-      alias($.checkbox_undone,  "undone"),
-      alias($.checkbox_done,    "done"),
-      alias($.checkbox_pending, "pending"),
-      alias($.checkbox_urgent,  "urgent")
-    ),
-    alias($.checkbox_close, "close")
-  ),
-
-  paragraph: $ => prec.right(
-    repeat1(
-      choice(
-        $._word,
-        $.bold,
-        $.italic,
-        $.strikethrough,
-        $.underline,
-        $.verbatim,
-        $.inline_math,
-      )
-    ),
-  ),
-
   bold: $ => prec.right(
     seq(
       alias($.bold_open, "open"),
@@ -331,6 +340,7 @@ function gen_section($, level) {
           $.hashtag,
           $.paragraph,
           $._blank_line,
+          $.escaped_sequence
         )
       ),
       optional($._soft_break)
@@ -372,6 +382,7 @@ function gen_list($, level, ordered = false) {
           $.hashtag,
           $.paragraph,
           $._blank_line,
+          $.escaped_sequence
         )
       ),
       ...next_level_list

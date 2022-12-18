@@ -107,6 +107,9 @@ enum TokenType : unsigned char {
     SOFT_BREAK,
     HARD_BREAK,
 
+    ESCAPE_CHAR,
+    ESCAPED_SEQUENCE,
+
     WORD,
     RAW_WORD,
 
@@ -170,6 +173,9 @@ vector<string> tokens_names = {
     "blank_line",
     "soft_break",
     "hard_break",
+
+    "escape_char",
+    "escaped_sequence",
 
     "word",
     "raw_word",
@@ -241,6 +247,8 @@ struct Scanner
 
         if (parse_tag_parameter()) return true;
         if (parse_code_block()) return true;
+
+        if (parse_escaped_sequence()) return true;
 
         if (parse_check_box()) return true;
         if (parse_definition()) return true;
@@ -471,6 +479,7 @@ struct Scanner
     /// Parse the label part of the ordered list token.
     inline bool parse_ordered_list() {
         if (valid_tokens[ORDERED_LIST_LABEL]
+            && iswdigit(lexer->lookahead)
             && !is_space_or_newline(lexer->lookahead))
         {
             /*
@@ -484,6 +493,17 @@ struct Scanner
             while (iswdigit(lexer->lookahead))
                 advance();
             return found(ORDERED_LIST_LABEL);
+        }
+        return false;
+    }
+
+    bool parse_escaped_sequence() {
+        if (current == '\\')
+            return found(ESCAPE_CHAR);
+        else if (valid_tokens[ESCAPED_SEQUENCE]) {
+            while (lexer->lookahead && !iswspace(lexer->lookahead))
+                advance();
+            return found(ESCAPED_SEQUENCE);
         }
         return false;
     }
@@ -594,6 +614,9 @@ struct Scanner
 
     /// RAW_WORD is a sequence of any characters until space or new line char.
     inline bool parse_raw_word() {
+        if (!valid_tokens[RAW_WORD])
+            return false;
+
         while (lexer->lookahead && !iswspace(lexer->lookahead))
             advance();
         return found(RAW_WORD);
