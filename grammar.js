@@ -95,7 +95,6 @@ const skald_grammar = {
         $.paragraph,
         $._blank_line,
         $._hard_break,
-        $.escaped_sequence
       )
     ),
 
@@ -103,6 +102,7 @@ const skald_grammar = {
       repeat1(
         choice(
           $._word,
+          $.escaped_sequence,
           $.bold,
           $.italic,
           $.strikethrough,
@@ -166,7 +166,6 @@ const skald_grammar = {
           $.hashtag,
           $.paragraph,
           $._blank_line,
-          $.escaped_sequence,
         )
       ),
       alias($.ranged_tag_end, $.end_tag)
@@ -339,7 +338,6 @@ function gen_section($, level) {
           $.hashtag,
           $.paragraph,
           $._blank_line,
-          $.escaped_sequence
         )
       ),
       optional($._soft_break)
@@ -381,7 +379,6 @@ function gen_list($, level, ordered = false) {
           $.hashtag,
           $.paragraph,
           $._blank_line,
-          $.escaped_sequence
         )
       ),
       ...next_level_list

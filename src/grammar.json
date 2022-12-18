@@ -46,10 +46,6 @@
           {
             "type": "SYMBOL",
             "name": "_hard_break"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "escaped_sequence"
           }
         ]
       }
@@ -65,6 +61,10 @@
             {
               "type": "SYMBOL",
               "name": "_word"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "escaped_sequence"
             },
             {
               "type": "SYMBOL",
@@ -316,10 +316,6 @@
               {
                 "type": "SYMBOL",
                 "name": "_blank_line"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "escaped_sequence"
               }
             ]
           }
@@ -451,10 +447,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -547,10 +539,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -639,10 +627,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -727,10 +711,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -811,10 +791,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -890,10 +866,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1166,10 +1138,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1255,10 +1223,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1344,10 +1308,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1433,10 +1393,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1522,10 +1478,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1611,10 +1563,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1700,10 +1648,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1789,10 +1733,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1878,10 +1818,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -1967,10 +1903,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2038,10 +1970,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2136,10 +2064,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2234,10 +2158,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2332,10 +2252,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2430,10 +2346,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2528,10 +2440,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2626,10 +2534,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2724,10 +2628,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2822,10 +2722,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
@@ -2920,10 +2816,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_blank_line"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escaped_sequence"
                 }
               ]
             }
