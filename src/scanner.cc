@@ -374,13 +374,17 @@ struct Scanner
             {
                 return found(TAG_END);
             }
-            else if (token("code") && iswspace(lexer->lookahead))
+            else if (valid_tokens[CODE_BEGIN]
+                && token("code") && iswspace(lexer->lookahead))
+            {
                 return found(CODE_BEGIN);
-            else {
+            }
+            else if (valid_tokens[TAG_BEGIN]) {
                 while (!iswspace(lexer->lookahead))
                     advance();
                 return found(TAG_BEGIN);
             }
+            break;
         }
         case '#': { // HASHTAG or COMMENT
             if (is_space_or_newline(lexer->lookahead))
@@ -390,6 +394,7 @@ struct Scanner
                     advance();
                 return found(HASHTAG);
             }
+            break;
         }
         }
 
