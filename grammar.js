@@ -63,6 +63,7 @@ const skald_grammar = {
     $.hard_break,
 
     $.escape_char,
+    $.comment_token,
 
     $.word,
     $.raw_word,
@@ -94,6 +95,7 @@ const skald_grammar = {
         $.ranged_tag,
         $.hashtag,
         $.paragraph,
+        $.comment,
         $.blank_line,
         $.hard_break,
       )
@@ -129,6 +131,7 @@ const skald_grammar = {
         repeat1(
           choice(
             $.paragraph,
+            $.comment,
             $.blank_line
           )
         ),
@@ -152,9 +155,7 @@ const skald_grammar = {
         field("language", $.tag_parameter)
       ),
       alias(
-        repeat(
-          alias($.raw_word, "raw_word")
-        ),
+        repeat( alias($.raw_word, "raw_word") ),
         $.code
       ),
       alias($.ranged_tag_end, $.end_tag)
@@ -174,6 +175,16 @@ const skald_grammar = {
         )
       ),
       alias($.ranged_tag_end, $.end_tag)
+    ),
+
+    // single line comment
+    comment: $ => prec.right(
+      repeat1(
+        seq(
+          alias($.comment_token, "comment"),
+          repeat( alias($.tag_parameter, "comment") )
+        )
+      )
     ),
 
     hashtag: $=> seq(
@@ -343,6 +354,7 @@ function gen_section($, level) {
           $.ranged_tag,
           $.hashtag,
           $.paragraph,
+          $.comment,
           $.blank_line,
         )
       ),
@@ -389,6 +401,7 @@ function gen_list_item($, level, ordered = false) {
           $.ranged_tag,
           $.hashtag,
           $.paragraph,
+          $.comment,
           $.blank_line,
         )
       ),

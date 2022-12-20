@@ -109,6 +109,7 @@ enum TokenType : unsigned char {
     HARD_BREAK,
 
     ESCAPE,
+    COMMENT,
 
     WORD,
     RAW_WORD,
@@ -176,6 +177,7 @@ vector<string> tokens_names = {
     "hard_break",
 
     "escape",
+    "comment",
 
     "word",
     "raw_word",
@@ -412,10 +414,14 @@ struct Scanner
                 return found(TAG_BEGIN);
             }
         }
-        case '#': { // HASHTAG
-            while (!iswspace(lexer->lookahead))
-                advance();
-            return found(HASHTAG);
+        case '#': { // HASHTAG or COMMENT
+            if (is_space_or_newline(lexer->lookahead))
+                return found(COMMENT);
+            else {
+                while (!iswspace(lexer->lookahead))
+                    advance();
+                return found(HASHTAG);
+            }
         }
         }
 

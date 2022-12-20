@@ -41,6 +41,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "comment"
+          },
+          {
+            "type": "SYMBOL",
             "name": "blank_line"
           },
           {
@@ -171,6 +175,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -356,6 +364,39 @@
         }
       ]
     },
+    "comment": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "comment_token"
+              },
+              "named": false,
+              "value": "comment"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "tag_parameter"
+                },
+                "named": false,
+                "value": "comment"
+              }
+            }
+          ]
+        }
+      }
+    },
     "hashtag": {
       "type": "SEQ",
       "members": [
@@ -471,6 +512,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -563,6 +608,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -651,6 +700,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -735,6 +788,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -815,6 +872,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -887,6 +948,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -1177,6 +1242,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -1268,6 +1337,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -1365,6 +1438,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -1456,6 +1533,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -1553,6 +1634,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -1644,6 +1729,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -1741,6 +1830,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -1832,6 +1925,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -1929,6 +2026,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -2023,6 +2124,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -2091,6 +2196,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -2197,6 +2306,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -2297,6 +2410,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -2403,6 +2520,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -2503,6 +2624,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -2609,6 +2734,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -2709,6 +2838,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -2815,6 +2948,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -2918,6 +3055,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "blank_line"
                 }
               ]
@@ -3018,6 +3159,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "paragraph"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
                 },
                 {
                   "type": "SYMBOL",
@@ -3566,6 +3711,10 @@
     {
       "type": "SYMBOL",
       "name": "escape_char"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment_token"
     },
     {
       "type": "SYMBOL",
