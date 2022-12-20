@@ -1,35 +1,3 @@
-/**
- * organ *.ogn
- * clavecin
- * organica
- * org mode
- * norg2
- * orc
- * muninn *.mnn *.min
- * lamp *.lmp
- * remark
- * context
- * memo
- *
- * orgdown -> odin
- * orgnote -> ono
- * U+2625 - Ankh
- *
- * corgi
- * orgnote
- *
- * cyborg
- * morgen
- * treeorg
- * mistral
- * piramida
- *
- * forge - кузница
- *
- * Obelisk
- * Crystal
- * Skald --- The poetry of organization!
- */
 #include <functional>
 #include <vector>
 #include <cstring>
@@ -40,13 +8,13 @@
 #include <unordered_map>
 #include "tree_sitter/parser.h"
 
-#define DEBUG 1
+// #define DEBUG 1
 
 /**
  * Print the upcoming token after parsing finished.
  * Note: May change parser behaviour.
  */
-#define DEBUG_CURRENT_CHAR 1
+// #define DEBUG_CURRENT_CHAR 1
 
 using namespace std;
 
