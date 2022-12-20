@@ -541,8 +541,6 @@ Hashtag
 ================================================================================
 * Title *bold*
 #tags home work hobby
-
-Paragraph content.
 --------------------------------------------------------------------------------
 
 (document
@@ -559,11 +557,7 @@ Paragraph content.
       (tag)
       (tag_parameter)
       (tag_parameter)
-      (tag_parameter))
-    (blank_line)
-    (paragraph
-      (word)
-      (word))))
+      (tag_parameter))))
 
 ================================================================================
 Escaped sequences

@@ -40,13 +40,13 @@
 #include <unordered_map>
 #include "tree_sitter/parser.h"
 
-// #define DEBUG 1
+#define DEBUG 1
 
 /**
  * Print the upcoming token after parsing finished.
  * Note: May change parser behaviour.
  */
-// #define DEBUG_CURRENT_CHAR 1
+#define DEBUG_CURRENT_CHAR 1
 
 using namespace std;
 
@@ -444,10 +444,11 @@ struct Scanner
      */
     inline bool parse_tag_parameter() {
         if (valid_tokens[TAG_PARAMETER] && tag_parameter_is_valid) {
-            // while (lexer->lookahead && !iswspace(lexer->lookahead))
-            while (!iswspace(lexer->lookahead))
+            while (lexer->lookahead && !iswspace(lexer->lookahead))
                 advance();
-            return found(TAG_PARAMETER);
+
+            if (current)
+                return found(TAG_PARAMETER);
         }
         return false;
     }
