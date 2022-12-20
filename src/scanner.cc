@@ -96,6 +96,7 @@ enum TokenType : unsigned char {
     CHECKBOX_DONE,
     CHECKBOX_PENDING,
     CHECKBOX_URGENT,
+    CHECKBOX_UNCERTAIN,
 
     CODE_BEGIN,
     TAG_BEGIN,
@@ -162,6 +163,7 @@ vector<string> tokens_names = {
     "checkbox_done",
     "checkbox_pending",
     "checkbox_urgent",
+    "checkbox_uncertain",
 
     "code_begin",
     "tag_begin",
@@ -253,7 +255,7 @@ struct Scanner
         if (parse_escape_char()) return true;
         if (parse_raw_word()) return true;
 
-        if (parse_check_box()) return true;
+        if (parse_checkbox()) return true;
         if (parse_definition()) return true;
         if (parse_open_markup()) return true;
         if (parse_close_markup()) return true;
@@ -346,17 +348,14 @@ struct Scanner
                     ++n;
                 }
 
-                skip_spaces();
-                if (is_eof()) return false;
-
-                if (is_newline(lexer->lookahead))
+                if (!is_space(lexer->lookahead))
                     return false;
 
                 return found(static_cast<TokenType>(
                              HEADING_1 + (n < MAX_HEADING ? n : MAX_HEADING - 1)));
             }
-            // We are on the first non-blank character of the line, and it is '*'.
-            // Need to check bold markup.
+            // We are on the first non-blank character of the line, and it is '*',
+            // need to check bold markup.
             else if (parse_open_markup()) return true;
             break;
         }
@@ -551,7 +550,7 @@ struct Scanner
         return false;
     }
 
-    bool parse_check_box() {
+    bool parse_checkbox() {
         if (parsed_chars != 1) return false;
 
         if (valid_tokens[CHECKBOX_OPEN]
@@ -577,6 +576,8 @@ struct Scanner
                 return found(CHECKBOX_PENDING);
             case '!':
                 return found(CHECKBOX_URGENT);
+            case '?':
+                return found(CHECKBOX_UNCERTAIN);
             }
         }
         else if (valid_tokens[CHECKBOX_CLOSE]

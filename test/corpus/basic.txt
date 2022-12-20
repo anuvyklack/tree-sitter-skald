@@ -6,7 +6,12 @@ several lines.
 --------------------------------------------------------------------------------
 
 (document
-  (paragraph))
+  (paragraph
+    (word)
+    (word)
+    (word)
+    (word)
+    (word)))
 
 ================================================================================
 Body.2 - Newline, paragraph
@@ -15,8 +20,10 @@ Body.2 - Newline, paragraph
 a
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph))
+    (document
+      (blank_line)
+      (paragraph
+        (word)))
 
 ================================================================================
 Body.3 - Two paragraphs
@@ -26,9 +33,12 @@ aa
 a
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph)
-  (paragraph))
+    (document
+      (paragraph
+        (word))
+      (blank_line)
+      (paragraph
+        (word)))
 
 ================================================================================
 Headings.1 - Check all levels
@@ -42,35 +52,53 @@ Headings.1 - Check all levels
 ******* Title 7 fallback to level 6
 --------------------------------------------------------------------------------
 
-(document
-  (section
-    (heading
-      (token)
-      (title))
-    (section
-      (heading
-        (token)
-        (title))
+    (document
       (section
         (heading
           (token)
-          (title))
+          (paragraph
+            (word)
+            (word)))
         (section
           (heading
             (token)
-            (title))
+            (paragraph
+              (word)
+              (word)))
           (section
             (heading
               (token)
-              (title))
+              (paragraph
+                (word)
+                (word)))
             (section
               (heading
                 (token)
-                (title)))
-            (section
-              (heading
-                (token)
-                (title)))))))))
+                (paragraph
+                  (word)
+                  (word)))
+              (section
+                (heading
+                  (token)
+                  (paragraph
+                    (word)
+                    (word)))
+                (section
+                  (heading
+                    (token)
+                    (paragraph
+                      (word)
+                      (word))))
+                (section
+                  (heading
+                    (token)
+                    (paragraph
+                      (word)
+                      (word)
+                      (word)
+                      (word)
+                      (word)
+                      (word))))))))))
 
 ================================================================================
 Headings.2 - Multiline title
@@ -79,11 +107,34 @@ Headings.2 - Multiline title
   labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
 --------------------------------------------------------------------------------
 
-(document
-  (section
-    (heading
-      (token)
-      (title))))
+    (document
+      (section
+        (heading
+          (token)
+          (paragraph
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)
+            (word)))))
 
 ================================================================================
 Definition.1
@@ -92,10 +143,16 @@ Definition.1
 
 --------------------------------------------------------------------------------
 
-(document
-  (definition
-    (term)
-    (description)))
+    (document
+      (definition
+        (token)
+        (term
+          (word))
+        (token)
+        (description
+          (paragraph
+            (word)))
+        (token)))
 
 ================================================================================
 Definition.2
@@ -108,23 +165,40 @@ Description
 
 --------------------------------------------------------------------------------
 
-(document
-  (definition
-    (term)
-    (description)))
+    (document
+      (definition
+        (token)
+        (term
+          (word))
+        (token)
+        (description
+          (paragraph
+            (word)))
+        (token)))
 
 ================================================================================
 Definition.3
 ================================================================================
 : Term :
+                        Description
+
                         Description :
 
 --------------------------------------------------------------------------------
 
-(document
-  (definition
-    (term)
-    (description)))
+    (document
+      (definition
+        (token)
+        (term
+          (word))
+        (token)
+        (description
+          (paragraph
+            (word))
+          (blank_line)
+          (paragraph
+            (word)))
+        (token)))
 
 ================================================================================
 Complex.1
@@ -144,26 +218,54 @@ Text on the zero level.
 
 --------------------------------------------------------------------------------
 
-(document
-  (section
-    (heading
-      (token)
-      (title))
-    (section
-      (heading
-        (token)
-        (title))
+    (document
+      (section
+        (heading
+          (token)
+          (paragraph
+            (word)
+            (word)))
+        (blank_line)
+        (section
+          (heading
+            (token)
+            (paragraph
+              (word)))
+          (blank_line)
+          (paragraph
+            (italic
+              (token)
+              (bold
+                (token)
+                (word)
+                (word)
+                (word)
+                (token))
+              (token)))
+          (blank_line))
+        (section
+          (heading
+            (token)
+            (paragraph
+              (word)))
+          (blank_line)
+          (definition
+            (token)
+            (term
+              (word))
+            (token)
+            (description
+              (paragraph
+                (word)))
+            (token))))
+      (hard_break)
+      (blank_line)
       (paragraph
-        (italic
-          (bold))))
-    (section
-      (heading
-        (token)
-        (title))
-      (definition
-        (term)
-        (description))))
-  (paragraph))
+        (word)
+        (word)
+        (word)
+        (word)
+        (word)))
 
 ================================================================================
 List.1 - 11 level of list
@@ -182,41 +284,77 @@ List.1 - 11 level of list
 ---
 --------------------------------------------------------------------------------
 
-(document
-  (list
-    (unordered_list_1
-      (token)
-      (paragraph)
-      (unordered_list_2
-        (token)
-        (paragraph)
-        (unordered_list_3
-          (token)
-          (paragraph)
-          (unordered_list_4
-            (token)
-            (paragraph)
-            (unordered_list_5
-              (token)
-              (paragraph)
-              (unordered_list_6
-                (token)
-                (paragraph)
-                (unordered_list_7
-                  (token)
-                  (paragraph)
-                  (unordered_list_8
-                    (token)
-                    (paragraph)
-                    (unordered_list_9
-                      (token)
-                      (paragraph)
-                      (unordered_list_10
-                        (token)
-                        (paragraph))
-                      (unordered_list_10
-                        (token)
-                        (paragraph)))))))))))))
+    (document
+      (list
+        item: (item_1
+          level: (token)
+          (paragraph
+            (word)
+            (word))
+          (list
+            (item_2
+              level: (token)
+              (paragraph
+                (word)
+                (word))
+              (list
+                (item_3
+                  level: (token)
+                  (paragraph
+                    (word)
+                    (word))
+                  (list
+                    (item_4
+                      level: (token)
+                      (paragraph
+                        (word)
+                        (word))
+                      (list
+                        (item_5
+                          level: (token)
+                          (paragraph
+                            (word)
+                            (word))
+                          (list
+                            (item_6
+                              level: (token)
+                              (paragraph
+                                (word)
+                                (word))
+                              (list
+                                (item_7
+                                  level: (token)
+                                  (paragraph
+                                    (word)
+                                    (word))
+                                  (list
+                                    (item_8
+                                      level: (token)
+                                      (paragraph
+                                        (word)
+                                        (word))
+                                      (list
+                                        (item_9
+                                          level: (token)
+                                          (paragraph
+                                            (word)
+                                            (word))
+                                          (list
+                                            (item_10
+                                              level: (token)
+                                              (paragraph
+                                                (word)
+                                                (word)))
+                                            (item_10
+                                              level: (token)
+                                              (paragraph
+                                                (word)
+                                                (word)
+                                                (word)
+                                                (word)
+                                                (word)
+                                                (word)))))))))))))))))))))
+        (list_break)))
 
 ================================================================================
 List.2 - Ordered list
@@ -233,44 +371,58 @@ List.2 - Ordered list
 ---
 --------------------------------------------------------------------------------
 
-(document
-  (list
-    (ordered_list_1
-      (token)
-      (label)
-      (paragraph)
-      (ordered_list_2
-        (token)
-        (label)
-        (paragraph)
-        (ordered_list_3
+    (document
+      (list
+        (ordered_item_1
           (token)
           (label)
-          (paragraph)))
-      (ordered_list_2
-        (token)
-        (label)
-        (paragraph)
-        (ordered_list_3
-          (token)
-          (label)
-          (paragraph))
-        (ordered_list_3
-          (token)
-          (label)
-          (paragraph)))
-      (ordered_list_2
-        (token)
-        (label)
-        (paragraph)
-        (ordered_list_3
-          (token)
-          (label)
-          (paragraph))
-        (ordered_list_3
-          (token)
-          (label)
-          (paragraph))))))
+          (paragraph
+            (word))
+          (list
+            (ordered_item_2
+              (token)
+              (label)
+              (paragraph
+                (word))
+              (list
+                (ordered_item_3
+                  (token)
+                  (label)
+                  (paragraph
+                    (word)))))
+            (ordered_item_2
+              (token)
+              (label)
+              (paragraph
+                (word))
+              (list
+                (ordered_item_3
+                  (token)
+                  (label)
+                  (paragraph
+                    (word)))
+                (ordered_item_3
+                  (token)
+                  (label)
+                  (paragraph
+                    (word)))))
+            (ordered_item_2
+              (token)
+              (label)
+              (paragraph
+                (word))
+              (list
+                (ordered_item_3
+                  (token)
+                  (label)
+                  (paragraph
+                    (word)))
+                (ordered_item_3
+                  (token)
+                  (label)
+                  (paragraph
+                    (word)))))))
+        (list_break)))
 
 ================================================================================
 List.3 - Checkbox
@@ -279,45 +431,76 @@ List.3 - Checkbox
 - [x] done
 - [-] pending
 - [!] urgent
+- [?] uncertain
 ---
 --------------------------------------------------------------------------------
 
-(document
-  (list
-    (unordered_list_1
-      (token)
-      (checkbox)
-      (paragraph))
-    (unordered_list_1
-      (token)
-      (checkbox)
-      (paragraph))
-    (unordered_list_1
-      (token)
-      (checkbox)
-      (paragraph))
-    (unordered_list_1
-      (token)
-      (checkbox)
-      (paragraph))))
+    (document
+      (list
+        (item_1
+          (token)
+          (checkbox
+            (token)
+            (undone)
+            (token))
+          (paragraph
+            (word)))
+        (item_1
+          (token)
+          (checkbox
+            (token)
+            (done)
+            (token))
+          (paragraph
+            (word)))
+        (item_1
+          (token)
+          (checkbox
+            (token)
+            (pending)
+            (token))
+          (paragraph
+            (word)))
+        (item_1
+          (token)
+          (checkbox
+            (token)
+            (urgent)
+            (token))
+          (paragraph
+            (word)))
+        (item_1
+          (token)
+          (paragraph
+            (word)
+            (word)))
+        (list_break)))
 
 ================================================================================
 List.4 - Definition inside list is not allowed
 ================================================================================
-- list item
+- item
   : Term : Definition :
-- list item
+- item
 ---
 --------------------------------------------------------------------------------
 
 (document
   (list
-    (unordered_list_1
+    (item_1
       (token)
-      (paragraph))
-    (unordered_list_1
+      (paragraph
+        (word)
+        (word)
+        (word)
+        (word)
+        (word)
+        (word)))
+    (item_1
       (token)
-      (paragraph))))
+      (paragraph
+        (word)))
+    (list_break)))
 
 ================================================================================
 Code block
@@ -330,7 +513,7 @@ local x = 3
 (document
   (code_block
     (tag)
-    (language)
+    (tag_parameter)
     (code)
     (end_tag)))
 
@@ -346,7 +529,11 @@ propertie2: value2
 (document
   (ranged_tag
     (tag)
-    (paragraph)
+    (paragraph
+      (word)
+      (word)
+      (word)
+      (word))
     (end_tag)))
 
 ================================================================================
@@ -362,14 +549,21 @@ Paragraph content.
   (section
     (heading
       (token)
-      (title
-        (bold)))
+      (paragraph
+        (word)
+        (bold
+          (token)
+          (word)
+          (token))))
     (hashtag
       (tag)
       (tag_parameter)
       (tag_parameter)
       (tag_parameter))
-    (paragraph)))
+    (blank_line)
+    (paragraph
+      (word)
+      (word))))
 
 ================================================================================
 Escaped sequences
@@ -381,6 +575,9 @@ Escaped sequences
   (section
     (heading
       (token)
-      (title
+      (paragraph
+        (word)
         (escaped_sequence
-          (escape_char))))))
+          (token)
+          (raw_word))
+        (word)))))

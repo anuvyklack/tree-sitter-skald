@@ -19,37 +19,38 @@ const skald_grammar = {
     $.verbatim_close,
     $.inline_math_close,
 
-    $.heading_1_prefix,
-    $.heading_2_prefix,
-    $.heading_3_prefix,
-    $.heading_4_prefix,
-    $.heading_5_prefix,
-    $.heading_6_prefix,
+    $.heading_1_token,
+    $.heading_2_token,
+    $.heading_3_token,
+    $.heading_4_token,
+    $.heading_5_token,
+    $.heading_6_token,
 
     $.definition_begin,
     $.definition_separator,
     $.definition_end,
 
-    $.list_1_prefix,
-    $.list_2_prefix,
-    $.list_3_prefix,
-    $.list_4_prefix,
-    $.list_5_prefix,
-    $.list_6_prefix,
-    $.list_7_prefix,
-    $.list_8_prefix,
-    $.list_9_prefix,
-    $.list_10_prefix,
+    $.list_1_token,
+    $.list_2_token,
+    $.list_3_token,
+    $.list_4_token,
+    $.list_5_token,
+    $.list_6_token,
+    $.list_7_token,
+    $.list_8_token,
+    $.list_9_token,
+    $.list_10_token,
 
     $.ordered_list_label,
 
     $.checkbox_open,
     $.checkbox_close,
 
-    $.checkbox_undone,  // [ ]
-    $.checkbox_done,    // [x]
-    $.checkbox_pending, // [-]
-    $.checkbox_urgent,  // [!]
+    $.checkbox_undone,    // [ ]
+    $.checkbox_done,      // [x]
+    $.checkbox_pending,   // [-]
+    $.checkbox_urgent,    // [!]
+    $.checkbox_uncertain, // [?]
 
     $.code_block_begin,
     $.ranged_tag_begin,
@@ -57,14 +58,14 @@ const skald_grammar = {
     $.hashtag_begin,
     $.tag_parameter,
 
-    $._blank_line,
-    $._soft_break,
-    $._hard_break,
+    $.blank_line,
+    $.soft_break,
+    $.hard_break,
 
     $.escape_char,
 
-    $._word,
-    $._raw_word,
+    $.word,
+    $.raw_word,
 
     $._, // none
   ],
@@ -93,15 +94,15 @@ const skald_grammar = {
         $.ranged_tag,
         $.hashtag,
         $.paragraph,
-        $._blank_line,
-        $._hard_break,
+        $.blank_line,
+        $.hard_break,
       )
     ),
 
     paragraph: $ => prec.right(
       repeat1(
         choice(
-          $._word,
+          $.word,
           $.escaped_sequence,
           $.bold,
           $.italic,
@@ -118,38 +119,42 @@ const skald_grammar = {
     ),
 
     definition: $ => seq(
-      alias($.definition_begin, "token"),
+      field("open", alias($.definition_begin, $.token)),
+
+      alias($.paragraph, $.term),
+
+      field("separator", alias($.definition_separator, $.token)),
 
       alias(
-        repeat1(alias($.paragraph, "paragraph")),
-        $.term
-      ),
-
-      alias($.definition_separator, "token"),
-
-      alias(
-        repeat1(alias($.paragraph, "paragraph")),
+        repeat1(
+          choice(
+            $.paragraph,
+            $.blank_line
+          )
+        ),
         $.description
       ),
 
-      alias($.definition_end, "token")
+      field("close", alias($.definition_end, $.token))
     ),
 
     list: $ => seq(
       choice(
-        repeat1($.unordered_list_1),
-        repeat1($.ordered_list_1)
+        field("item", repeat1($.item_1)),
+        field("item", repeat1($.ordered_item_1))
       ),
-      $._soft_break
+      alias($.soft_break, $.list_break)
     ),
 
     code_block: $ => seq(
       alias($.code_block_begin, $.tag),
       optional(
-        alias($.tag_parameter, $.language)
+        field("language", $.tag_parameter)
       ),
       alias(
-        repeat($._raw_word),
+        repeat(
+          alias($.raw_word, "raw_word")
+        ),
         $.code
       ),
       alias($.ranged_tag_end, $.end_tag)
@@ -165,7 +170,7 @@ const skald_grammar = {
           $.code_block,
           $.hashtag,
           $.paragraph,
-          $._blank_line,
+          $.blank_line,
         )
       ),
       alias($.ranged_tag_end, $.end_tag)
@@ -177,11 +182,11 @@ const skald_grammar = {
     ),
 
     escaped_sequence: $=> seq(
-      $.escape_char,
-      alias($._raw_word, "_word")
+      alias($.escape_char, $.token),
+      $.raw_word
     ),
 
-    // _word: _ => choice(/\p{L}+/, /\p{N}+/),
+    // word: _ => choice(/\p{L}+/, /\p{N}+/),
   }
 }
 
@@ -203,117 +208,118 @@ const sections = {
 
 const lists = {
   checkbox: $ => seq(
-    alias($.checkbox_open, "open"),
+    field("open", alias($.checkbox_open, $.token)),
     choice(
-      alias($.checkbox_undone,  "undone"),
-      alias($.checkbox_done,    "done"),
-      alias($.checkbox_pending, "pending"),
-      alias($.checkbox_urgent,  "urgent")
+      alias($.checkbox_undone,    $.undone),
+      alias($.checkbox_done,      $.done),
+      alias($.checkbox_pending,   $.pending),
+      alias($.checkbox_urgent,    $.urgent),
+      alias($.checkbox_uncertain, $.uncertain)
     ),
-    alias($.checkbox_close, "close")
+    field("close", alias($.checkbox_close, $.token))
   ),
 
-  unordered_list_1: $ => gen_list($, 1),
-  unordered_list_2: $ => gen_list($, 2),
-  unordered_list_3: $ => gen_list($, 3),
-  unordered_list_4: $ => gen_list($, 4),
-  unordered_list_5: $ => gen_list($, 5),
-  unordered_list_6: $ => gen_list($, 6),
-  unordered_list_7: $ => gen_list($, 7),
-  unordered_list_8: $ => gen_list($, 8),
-  unordered_list_9: $ => gen_list($, 9),
-  unordered_list_10:$ => gen_list($,10),
+  item_1: $ => gen_list_item($, 1),
+  item_2: $ => gen_list_item($, 2),
+  item_3: $ => gen_list_item($, 3),
+  item_4: $ => gen_list_item($, 4),
+  item_5: $ => gen_list_item($, 5),
+  item_6: $ => gen_list_item($, 6),
+  item_7: $ => gen_list_item($, 7),
+  item_8: $ => gen_list_item($, 8),
+  item_9: $ => gen_list_item($, 9),
+  item_10:$ => gen_list_item($,10),
 
-  ordered_list_1: $ => gen_list($, 1, true),
-  ordered_list_2: $ => gen_list($, 2, true),
-  ordered_list_3: $ => gen_list($, 3, true),
-  ordered_list_4: $ => gen_list($, 4, true),
-  ordered_list_5: $ => gen_list($, 5, true),
-  ordered_list_6: $ => gen_list($, 6, true),
-  ordered_list_7: $ => gen_list($, 7, true),
-  ordered_list_8: $ => gen_list($, 8, true),
-  ordered_list_9: $ => gen_list($, 9, true),
-  ordered_list_10:$ => gen_list($,10, true),
+  ordered_item_1: $ => gen_list_item($, 1, true),
+  ordered_item_2: $ => gen_list_item($, 2, true),
+  ordered_item_3: $ => gen_list_item($, 3, true),
+  ordered_item_4: $ => gen_list_item($, 4, true),
+  ordered_item_5: $ => gen_list_item($, 5, true),
+  ordered_item_6: $ => gen_list_item($, 6, true),
+  ordered_item_7: $ => gen_list_item($, 7, true),
+  ordered_item_8: $ => gen_list_item($, 8, true),
+  ordered_item_9: $ => gen_list_item($, 9, true),
+  ordered_item_10:$ => gen_list_item($,10, true),
 }
 
 const markup = {
   bold: $ => prec.right(
     seq(
-      alias($.bold_open, "open"),
+      field("open", alias($.bold_open, $.token)),
       repeat1(
         choice(
-          $._word,
+          $.word,
           $.italic,
           $.underline,
           $.strikethrough,
           $.verbatim,
         ),
       ),
-      alias($.bold_close, "close")
+      field("close" , alias($.bold_close, $.token))
     ),
   ),
 
   italic: $ => prec.right(
     seq(
-      alias($.italic_open, "open"),
+      field("open", alias($.italic_open, $.token)),
       repeat1(
         choice(
-          $._word,
+          $.word,
           $.bold,
           $.underline,
           $.strikethrough,
           $.verbatim,
         ),
       ),
-      alias($.italic_close, "close")
+      field("close", alias($.italic_close, $.token)),
     ),
   ),
 
   underline: $ => prec.right(
     seq(
-      alias($.underline_open, "open"),
+      field("open", alias($.underline_open, $.token)),
       repeat1(
         choice(
-          $._word,
+          $.word,
           $.bold,
           $.italic,
           $.strikethrough,
           $.verbatim,
         ),
       ),
-      alias($.underline_close, "close")
+      field("close", alias($.underline_close, $.token)),
     ),
   ),
 
   strikethrough: $ => prec.right(
     seq(
-      alias($.strikethrough_open, "open"),
+      field("open", alias($.strikethrough_open, $.token)),
       repeat1(
         choice(
-          $._word,
+          $.word,
           $.bold,
           $.italic,
           $.underline,
           $.verbatim,
         ),
       ),
-      alias($.strikethrough_close, "close")
+      field("close", alias($.strikethrough_close, $.token)),
     ),
   ),
 
   verbatim: $ => prec.right(
     seq(
-      alias($.verbatim_open, "open"),
-      repeat1($._word),
-      alias($.verbatim_close, "close")
+      field("open", alias($.verbatim_open, $.token)),
+      repeat1($.word),
+      field("close", alias($.verbatim_close, $.token)),
     ),
   ),
 
   inline_math: $ => prec.right(
     seq(
-      alias($.inline_math_open, "open"),
-      repeat1($._word),
-      alias($.inline_math_close, "close")
+      field("open", alias($.inline_math_open, $.token)),
+      repeat1($.word),
+      field("close", alias($.inline_math_close, $.token)),
     ),
   ),
 }
@@ -337,33 +343,38 @@ function gen_section($, level) {
           $.ranged_tag,
           $.hashtag,
           $.paragraph,
-          $._blank_line,
+          $.blank_line,
         )
       ),
-      optional($._soft_break)
+      optional($.soft_break)
     )
   );
 }
 
 function gen_heading($, level) {
   return seq(
-    alias($["heading_" + level + "_prefix"], $.token),
-    alias($.paragraph, $.title)
+    alias($["heading_" + level + "_token"], $.token),
+    field("title", $.paragraph)
   );
 }
 
-function gen_list($, level, ordered = false) {
+function gen_list_item($, level, ordered = false) {
   let token = []
-  token[0] = alias($["list_" + level + "_prefix"], $.token)
+  token[0] = field("level",
+    alias($["list_" + level + "_token"], $.token)
+  )
   if (ordered)
     token[1] = alias($.ordered_list_label, $.label )
 
   let next_level_list = []
   if (level < MAX_LIST_LEVEL) {
     next_level_list[0] = optional(
-      choice(
-        repeat1($["unordered_list_" + (level + 1)]),
-        repeat1($["ordered_list_" + (level + 1)])
+      alias(
+        choice(
+          repeat1($["item_" + (level + 1)]),
+          repeat1($["ordered_item_" + (level + 1)])
+        ),
+        $.list
       )
     )
   }
@@ -378,7 +389,7 @@ function gen_list($, level, ordered = false) {
           $.ranged_tag,
           $.hashtag,
           $.paragraph,
-          $._blank_line,
+          $.blank_line,
         )
       ),
       ...next_level_list

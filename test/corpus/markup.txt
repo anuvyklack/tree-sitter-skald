@@ -1,5 +1,5 @@
 ================================================================================
-Bold
+All styles
 ================================================================================
 *bold*
 /italic/
@@ -8,13 +8,29 @@ _underline_
 $inline math$
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (bold)
-    (italic)
-    (underline)
-    (verbatim)
-    (inline_math)))
+    (document
+      (paragraph
+        (bold
+          (token)
+          (word)
+          (token))
+        (italic
+          (token)
+          (word)
+          (token))
+        (underline
+          (token)
+          (word)
+          (token))
+        (verbatim
+          (token)
+          (word)
+          (token))
+        (inline_math
+          (token)
+          (word)
+          (word)
+          (token))))
 
 ================================================================================
 Italic
@@ -22,9 +38,15 @@ Italic
 Here is /italic/ text.
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (italic)))
+    (document
+      (paragraph
+        (word)
+        (word)
+        (italic
+          (token)
+          (word)
+          (token))
+        (word)))
 
 ================================================================================
 Strikethrough
@@ -32,9 +54,12 @@ Strikethrough
 ~a~
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (strikethrough)))
+    (document
+      (paragraph
+        (strikethrough
+          (token)
+          (word)
+          (token))))
 
 ================================================================================
 Underline
@@ -42,9 +67,12 @@ Underline
 _a_
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (underline)))
+    (document
+      (paragraph
+        (underline
+          (token)
+          (word)
+          (token))))
 
 ================================================================================
 Verbatim
@@ -52,9 +80,12 @@ Verbatim
 `a`
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (verbatim)))
+    (document
+      (paragraph
+        (verbatim
+          (token)
+          (word)
+          (token))))
 
 ================================================================================
 Inline math
@@ -62,9 +93,12 @@ Inline math
 $a$
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (inline_math)))
+    (document
+      (paragraph
+        (inline_math
+          (token)
+          (word)
+          (token))))
 
 ================================================================================
 Nested markup 1: bold inside italic
@@ -72,10 +106,15 @@ Nested markup 1: bold inside italic
 /*a*/
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (italic
-      (bold))))
+    (document
+      (paragraph
+        (italic
+          (token)
+          (bold
+            (token)
+            (word)
+            (token))
+          (token))))
 
 ================================================================================
 Nested markup 2: bold inside italic
@@ -83,10 +122,16 @@ Nested markup 2: bold inside italic
 /a *a*/
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (italic
-      (bold))))
+    (document
+      (paragraph
+        (italic
+          (token)
+          (word)
+          (bold
+            (token)
+            (word)
+            (token))
+          (token))))
 
 ================================================================================
 Nested markup 3: bold inside verbatim
@@ -94,9 +139,12 @@ Nested markup 3: bold inside verbatim
 `*a*`
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (verbatim)))
+    (document
+      (paragraph
+        (verbatim
+          (token)
+          (word)
+          (token))))
 
 ================================================================================
 Nested markup 4: bold inside second paragraph
@@ -106,10 +154,15 @@ a
 *a*
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph)
-  (paragraph
-    (bold)))
+    (document
+      (paragraph
+        (word))
+      (blank_line)
+      (paragraph
+        (bold
+          (token)
+          (word)
+          (token))))
 
 ================================================================================
 Punctuation after markup
@@ -117,10 +170,25 @@ Punctuation after markup
 *a*. /a/: _a_! ~a~?
 --------------------------------------------------------------------------------
 
-(document
-  (paragraph
-    (bold)
-    (italic)
-    (underline)
-    (strikethrough)))
-
+    (document
+      (paragraph
+        (bold
+          (token)
+          (word)
+          (token))
+        (word)
+        (italic
+          (token)
+          (word)
+          (token))
+        (word)
+        (underline
+          (token)
+          (word)
+          (token))
+        (word)
+        (strikethrough
+          (token)
+          (word)
+          (token))
+        (word)))
