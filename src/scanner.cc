@@ -599,8 +599,8 @@ struct Scanner
         return found(RAW_WORD);
     }
 
-    inline bool found(TokenType tkn) {
-        lexer->result_symbol = tkn;
+    inline bool found(TokenType token) {
+        lexer->result_symbol = token;
 #ifdef DEBUG
         clog << "  found: " << tokens_names[lexer->result_symbol] << endl
              // << "  parsed chars: " << m_parsed_chars << endl
