@@ -11,8 +11,7 @@
 // #define DEBUG 1
 
 /**
- * Print the upcoming token after parsing finished.
- * Note: May change parser behaviour.
+ * Print the current character after every advance() call.
  */
 // #define DEBUG_CURRENT_CHAR 1
 
