@@ -65,7 +65,7 @@ const skald_grammar = {
     $.escape_char,
     $.comment_token,
 
-    $.word,
+    $._word,
     $.raw_word,
 
     $._, // none
@@ -104,7 +104,7 @@ const skald_grammar = {
     paragraph: $ => prec.right(
       repeat1(
         choice(
-          $.word,
+          $._word,
           $.escaped_sequence,
           $.bold,
           $.italic,
@@ -197,7 +197,7 @@ const skald_grammar = {
       $.raw_word
     ),
 
-    // word: _ => choice(/\p{L}+/, /\p{N}+/),
+    // _word: _ => choice(/\p{L}+/, /\p{N}+/),
   }
 }
 
@@ -261,7 +261,7 @@ const markup = {
       field("open", alias($.bold_open, $.token)),
       repeat1(
         choice(
-          $.word,
+          $._word,
           $.italic,
           $.underline,
           $.strikethrough,
@@ -277,7 +277,7 @@ const markup = {
       field("open", alias($.italic_open, $.token)),
       repeat1(
         choice(
-          $.word,
+          $._word,
           $.bold,
           $.underline,
           $.strikethrough,
@@ -293,7 +293,7 @@ const markup = {
       field("open", alias($.underline_open, $.token)),
       repeat1(
         choice(
-          $.word,
+          $._word,
           $.bold,
           $.italic,
           $.strikethrough,
@@ -309,7 +309,7 @@ const markup = {
       field("open", alias($.strikethrough_open, $.token)),
       repeat1(
         choice(
-          $.word,
+          $._word,
           $.bold,
           $.italic,
           $.underline,
@@ -323,7 +323,7 @@ const markup = {
   verbatim: $ => prec.right(
     seq(
       field("open", alias($.verbatim_open, $.token)),
-      repeat1($.word),
+      repeat1($._word),
       field("close", alias($.verbatim_close, $.token)),
     ),
   ),
@@ -331,7 +331,7 @@ const markup = {
   inline_math: $ => prec.right(
     seq(
       field("open", alias($.inline_math_open, $.token)),
-      repeat1($.word),
+      repeat1($._word),
       field("close", alias($.inline_math_close, $.token)),
     ),
   ),

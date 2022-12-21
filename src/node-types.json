@@ -26,7 +26,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "italic",
@@ -42,10 +42,6 @@
         },
         {
           "type": "verbatim",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -359,16 +355,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -398,7 +384,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bold",
@@ -414,10 +400,6 @@
         },
         {
           "type": "verbatim",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -1643,7 +1625,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bold",
@@ -1671,10 +1653,6 @@
         },
         {
           "type": "verbatim",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -2135,7 +2113,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bold",
@@ -2152,10 +2130,6 @@
         {
           "type": "verbatim",
           "named": true
-        },
-        {
-          "type": "word",
-          "named": true
         }
       ]
     }
@@ -2166,7 +2140,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bold",
@@ -2194,10 +2168,6 @@
         },
         {
           "type": "verbatim",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -2230,7 +2200,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "bold",
@@ -2246,10 +2216,6 @@
         },
         {
           "type": "verbatim",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -2279,16 +2245,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "word",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2357,10 +2313,6 @@
   },
   {
     "type": "urgent",
-    "named": true
-  },
-  {
-    "type": "word",
     "named": true
   }
 ]
