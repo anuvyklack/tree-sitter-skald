@@ -652,6 +652,7 @@ struct Scanner
         case 'x': // done
         case '-': // pending
         case '!': // urgent
+        case '?': // uncertain
             return true;
         default:
             return false;
