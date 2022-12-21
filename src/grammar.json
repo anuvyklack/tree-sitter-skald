@@ -1124,54 +1124,58 @@
           }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "checkbox_undone"
+          "type": "FIELD",
+          "name": "status",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "checkbox_undone"
+                },
+                "named": true,
+                "value": "undone"
               },
-              "named": true,
-              "value": "undone"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "checkbox_done"
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "checkbox_done"
+                },
+                "named": true,
+                "value": "done"
               },
-              "named": true,
-              "value": "done"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "checkbox_pending"
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "checkbox_pending"
+                },
+                "named": true,
+                "value": "pending"
               },
-              "named": true,
-              "value": "pending"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "checkbox_urgent"
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "checkbox_urgent"
+                },
+                "named": true,
+                "value": "urgent"
               },
-              "named": true,
-              "value": "urgent"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "checkbox_uncertain"
-              },
-              "named": true,
-              "value": "uncertain"
-            }
-          ]
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "checkbox_uncertain"
+                },
+                "named": true,
+                "value": "uncertain"
+              }
+            ]
+          }
         },
         {
           "type": "FIELD",

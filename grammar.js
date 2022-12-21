@@ -220,12 +220,14 @@ const sections = {
 const lists = {
   checkbox: $ => seq(
     field("open", alias($.checkbox_open, $.token)),
-    choice(
-      alias($.checkbox_undone,    $.undone),
-      alias($.checkbox_done,      $.done),
-      alias($.checkbox_pending,   $.pending),
-      alias($.checkbox_urgent,    $.urgent),
-      alias($.checkbox_uncertain, $.uncertain)
+    field("status",
+      choice(
+        alias($.checkbox_undone,    $.undone),
+        alias($.checkbox_done,      $.done),
+        alias($.checkbox_pending,   $.pending),
+        alias($.checkbox_urgent,    $.urgent),
+        alias($.checkbox_uncertain, $.uncertain)
+      )
     ),
     field("close", alias($.checkbox_close, $.token))
   ),

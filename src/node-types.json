@@ -74,33 +74,33 @@
             "named": true
           }
         ]
+      },
+      "status": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "done",
+            "named": true
+          },
+          {
+            "type": "pending",
+            "named": true
+          },
+          {
+            "type": "uncertain",
+            "named": true
+          },
+          {
+            "type": "undone",
+            "named": true
+          },
+          {
+            "type": "urgent",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "done",
-          "named": true
-        },
-        {
-          "type": "pending",
-          "named": true
-        },
-        {
-          "type": "uncertain",
-          "named": true
-        },
-        {
-          "type": "undone",
-          "named": true
-        },
-        {
-          "type": "urgent",
-          "named": true
-        }
-      ]
     }
   },
   {
