@@ -182,7 +182,7 @@ const skald_grammar = {
       repeat1(
         seq(
           alias($.comment_token, "comment"),
-          repeat( alias($.tag_parameter, "comment") )
+          repeat( alias($.tag_parameter, "raw_word") )
         )
       )
     ),

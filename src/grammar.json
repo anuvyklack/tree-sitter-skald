@@ -390,7 +390,7 @@
                   "name": "tag_parameter"
                 },
                 "named": false,
-                "value": "comment"
+                "value": "raw_word"
               }
             }
           ]
