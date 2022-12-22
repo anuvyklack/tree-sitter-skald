@@ -4,6 +4,7 @@ All styles
 *bold*
 /italic/
 _underline_
+~strikethrough~
 `verbatim`
 $inline math$
 --------------------------------------------------------------------------------
@@ -12,24 +13,27 @@ $inline math$
       (paragraph
         (bold
           (token)
-          (word)
+          (content)
           (token))
         (italic
           (token)
-          (word)
+          (content)
           (token))
         (underline
           (token)
-          (word)
+          (content)
+          (token))
+        (strikethrough
+          (token)
+          (content)
           (token))
         (verbatim
           (token)
-          (word)
+          (content)
           (token))
         (inline_math
           (token)
-          (word)
-          (word)
+          (content)
           (token))))
 
 ================================================================================
