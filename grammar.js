@@ -53,6 +53,7 @@ const skald_grammar = {
     $.checkbox_uncertain, // [?]
 
     $.code_block_begin,
+    $.markdown_code_block_token,
     $.ranged_tag_begin,
     $.ranged_tag_end,
     $.hashtag_begin,
@@ -92,6 +93,7 @@ const skald_grammar = {
         $.list,
         $.definition,
         $.code_block,
+        $.markdown_code_block,
         $.ranged_tag,
         $.hashtag,
         $.paragraph,
@@ -152,13 +154,29 @@ const skald_grammar = {
     code_block: $ => seq(
       alias($.code_block_begin, $.tag),
       optional(
-        field("language", $.tag_parameter)
+        alias($.tag_parameter, $.language)
       ),
       alias(
-        repeat( alias($.raw_word, "raw_word") ),
+        repeat(alias($.raw_word, "raw_word")),
         $.code
       ),
       alias($.ranged_tag_end, $.end_tag)
+    ),
+
+    markdown_code_block: $ => seq(
+      field("open",
+        alias($.markdown_code_block_token, $.token)
+      ),
+      optional(
+        alias($.tag_parameter, $.language)
+      ),
+      alias(
+        repeat(alias($.raw_word, "raw_word")),
+        $.code
+      ),
+      field("close",
+        alias($.markdown_code_block_token, $.token)
+      ),
     ),
 
     ranged_tag: $ => seq(
@@ -169,6 +187,7 @@ const skald_grammar = {
           $.list,
           $.definition,
           $.code_block,
+          $.markdown_code_block,
           $.hashtag,
           $.paragraph,
           $.blank_line,
@@ -330,6 +349,7 @@ function gen_section($, level) {
           $.list,
           $.definition,
           $.code_block,
+          $.markdown_code_block,
           $.ranged_tag,
           $.hashtag,
           $.paragraph,
@@ -383,6 +403,7 @@ function gen_list_item($, level, ordered = false) {
       repeat1(
         choice(
           $.code_block,
+          $.markdown_code_block,
           $.ranged_tag,
           $.hashtag,
           $.paragraph,

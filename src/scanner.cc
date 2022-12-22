@@ -65,7 +65,9 @@ enum TokenType : unsigned char {
     CHECKBOX_URGENT,
     CHECKBOX_UNCERTAIN,
 
+
     CODE_BEGIN,
+    MARKDOWN_CODE_BLOCK,
     TAG_BEGIN,
     TAG_END,
     HASHTAG,
@@ -134,6 +136,7 @@ vector<string> tokens_names = {
     "checkbox_uncertain",
 
     "code_begin",
+    "markdown_code_block",
     "tag_begin",
     "tag_end",
     "hashtag",
@@ -393,6 +396,16 @@ struct Scanner
                     advance();
                 return found(HASHTAG);
             }
+            break;
+        }
+        case '`': {
+            constexpr auto expected = '`';
+            while (lexer->lookahead == expected) {
+                advance();
+                ++n;
+            }
+            if (1 + n == 3)
+                return found(MARKDOWN_CODE_BLOCK);
             break;
         }
         }

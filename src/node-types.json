@@ -95,18 +95,7 @@
   {
     "type": "code_block",
     "named": true,
-    "fields": {
-      "language": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "tag_parameter",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -117,6 +106,10 @@
         },
         {
           "type": "end_tag",
+          "named": true
+        },
+        {
+          "type": "language",
           "named": true
         },
         {
@@ -277,6 +270,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "markdown_code_block",
           "named": true
         },
         {
@@ -534,6 +531,10 @@
           "named": true
         },
         {
+          "type": "markdown_code_block",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -558,6 +559,46 @@
         },
         {
           "type": "list_break",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "markdown_code_block",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "code",
+          "named": true
+        },
+        {
+          "type": "language",
           "named": true
         }
       ]
@@ -635,6 +676,10 @@
           "named": true
         },
         {
+          "type": "markdown_code_block",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -683,6 +728,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "markdown_code_block",
           "named": true
         },
         {
@@ -741,6 +790,10 @@
           "named": true
         },
         {
+          "type": "markdown_code_block",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -793,6 +846,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "markdown_code_block",
           "named": true
         },
         {
@@ -851,6 +908,10 @@
           "named": true
         },
         {
+          "type": "markdown_code_block",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -903,6 +964,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "markdown_code_block",
           "named": true
         },
         {
@@ -961,6 +1026,10 @@
           "named": true
         },
         {
+          "type": "markdown_code_block",
+          "named": true
+        },
+        {
           "type": "paragraph",
           "named": true
         },
@@ -1013,6 +1082,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "markdown_code_block",
           "named": true
         },
         {
@@ -1202,16 +1275,16 @@
     "named": true
   },
   {
+    "type": "language",
+    "named": true
+  },
+  {
     "type": "list_break",
     "named": true
   },
   {
     "type": "pending",
     "named": true
-  },
-  {
-    "type": "raw_word",
-    "named": false
   },
   {
     "type": "raw_word",
