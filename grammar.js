@@ -256,74 +256,25 @@ const lists = {
 }
 
 const markup = {
-  bold: $ => prec.right(
-    seq(
-      field("open", alias($.bold_open, $.token)),
-      repeat1(
-        choice(
-          $._word,
-          $.italic,
-          $.underline,
-          $.strikethrough,
-          $.verbatim,
-        ),
-      ),
-      field("close" , alias($.bold_close, $.token))
-    ),
-  ),
+  bold: $ => gen_markup($, "bold",
+          [$.italic, $.underline, $.strikethrough, $.verbatim, $.inline_math]),
 
-  italic: $ => prec.right(
-    seq(
-      field("open", alias($.italic_open, $.token)),
-      repeat1(
-        choice(
-          $._word,
-          $.bold,
-          $.underline,
-          $.strikethrough,
-          $.verbatim,
-        ),
-      ),
-      field("close", alias($.italic_close, $.token)),
-    ),
-  ),
+  italic: $ => gen_markup($, "italic",
+          [$.bold, $.underline, $.strikethrough, $.verbatim, $.inline_math]),
 
-  underline: $ => prec.right(
-    seq(
-      field("open", alias($.underline_open, $.token)),
-      repeat1(
-        choice(
-          $._word,
-          $.bold,
-          $.italic,
-          $.strikethrough,
-          $.verbatim,
-        ),
-      ),
-      field("close", alias($.underline_close, $.token)),
-    ),
-  ),
+  underline: $ => gen_markup($, "underline",
+          [$.bold, $.italic, $.strikethrough, $.verbatim, $.inline_math]),
 
-  strikethrough: $ => prec.right(
-    seq(
-      field("open", alias($.strikethrough_open, $.token)),
-      repeat1(
-        choice(
-          $._word,
-          $.bold,
-          $.italic,
-          $.underline,
-          $.verbatim,
-        ),
-      ),
-      field("close", alias($.strikethrough_close, $.token)),
-    ),
-  ),
+  strikethrough: $ => gen_markup($, "strikethrough",
+          [$.bold, $.italic, $.underline, $.verbatim, $.inline_math]),
 
   verbatim: $ => prec.right(
     seq(
       field("open", alias($.verbatim_open, $.token)),
-      repeat1($._word),
+      alias(
+        repeat1($._word),
+        $.content
+      ),
       field("close", alias($.verbatim_close, $.token)),
     ),
   ),
@@ -331,10 +282,36 @@ const markup = {
   inline_math: $ => prec.right(
     seq(
       field("open", alias($.inline_math_open, $.token)),
-      repeat1($._word),
+      alias(
+        repeat1($._word),
+        $.content
+      ),
       field("close", alias($.inline_math_close, $.token)),
     ),
   ),
+}
+
+function gen_markup($, kind, other_kinds) {
+  return prec.right(
+    seq(
+      field("open",
+        alias($[kind + "_open"], $.token)
+      ),
+      alias(
+        repeat1(
+          choice(
+            $._word,
+            $.escaped_sequence,
+            ...other_kinds
+          ),
+        ),
+        $.content
+      ),
+      field("close",
+        alias($[kind + "_close"], $.token)
+      )
+    )
+  );
 }
 
 function gen_section($, level) {
