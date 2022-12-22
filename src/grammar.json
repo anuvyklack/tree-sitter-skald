@@ -212,25 +212,27 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "FIELD",
-              "name": "item",
+              "type": "REPEAT1",
               "content": {
-                "type": "REPEAT1",
+                "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
                   "name": "item_1"
-                }
+                },
+                "named": true,
+                "value": "item"
               }
             },
             {
-              "type": "FIELD",
-              "name": "item",
+              "type": "REPEAT1",
               "content": {
-                "type": "REPEAT1",
+                "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
                   "name": "ordered_item_1"
-                }
+                },
+                "named": true,
+                "value": "item"
               }
             }
           ]
@@ -1178,7 +1180,7 @@
                 "name": "list_1_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token1"
             }
           },
           {
@@ -1236,15 +1238,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_2"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_2"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_2"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_2"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -1276,7 +1288,7 @@
                 "name": "list_2_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token2"
             }
           },
           {
@@ -1334,15 +1346,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_3"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_3"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_3"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_3"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -1374,7 +1396,7 @@
                 "name": "list_3_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token3"
             }
           },
           {
@@ -1432,15 +1454,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_4"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_4"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_4"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_4"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -1472,7 +1504,7 @@
                 "name": "list_4_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token4"
             }
           },
           {
@@ -1530,15 +1562,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_5"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_5"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_5"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_5"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -1570,7 +1612,7 @@
                 "name": "list_5_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token5"
             }
           },
           {
@@ -1628,15 +1670,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_6"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_6"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_6"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_6"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -1668,7 +1720,7 @@
                 "name": "list_6_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token6"
             }
           },
           {
@@ -1726,15 +1778,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_7"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_7"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_7"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_7"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -1766,7 +1828,7 @@
                 "name": "list_7_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token7"
             }
           },
           {
@@ -1824,15 +1886,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_8"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_8"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_8"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_8"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -1864,7 +1936,7 @@
                 "name": "list_8_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token8"
             }
           },
           {
@@ -1922,15 +1994,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_9"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_9"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_9"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_9"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -1962,7 +2044,7 @@
                 "name": "list_9_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token9"
             }
           },
           {
@@ -2020,15 +2102,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_10"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_10"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_10"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_10"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -2060,7 +2152,7 @@
                 "name": "list_10_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token10"
             }
           },
           {
@@ -2126,7 +2218,7 @@
                 "name": "list_1_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token1"
             }
           },
           {
@@ -2193,15 +2285,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_2"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_2"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_2"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_2"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -2233,7 +2335,7 @@
                 "name": "list_2_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token2"
             }
           },
           {
@@ -2300,15 +2402,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_3"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_3"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_3"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_3"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -2340,7 +2452,7 @@
                 "name": "list_3_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token3"
             }
           },
           {
@@ -2407,15 +2519,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_4"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_4"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_4"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_4"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -2447,7 +2569,7 @@
                 "name": "list_4_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token4"
             }
           },
           {
@@ -2514,15 +2636,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_5"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_5"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_5"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_5"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -2554,7 +2686,7 @@
                 "name": "list_5_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token5"
             }
           },
           {
@@ -2621,15 +2753,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_6"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_6"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_6"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_6"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -2661,7 +2803,7 @@
                 "name": "list_6_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token6"
             }
           },
           {
@@ -2728,15 +2870,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_7"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_7"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_7"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_7"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -2768,7 +2920,7 @@
                 "name": "list_7_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token7"
             }
           },
           {
@@ -2835,15 +2987,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_8"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_8"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_8"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_8"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -2875,7 +3037,7 @@
                 "name": "list_8_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token8"
             }
           },
           {
@@ -2942,15 +3104,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_9"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_9"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_9"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_9"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -2982,7 +3154,7 @@
                 "name": "list_9_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token9"
             }
           },
           {
@@ -3049,15 +3221,25 @@
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "item_10"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "item_10"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     },
                     {
                       "type": "REPEAT1",
                       "content": {
-                        "type": "SYMBOL",
-                        "name": "ordered_item_10"
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "ordered_item_10"
+                        },
+                        "named": true,
+                        "value": "item"
                       }
                     }
                   ]
@@ -3089,7 +3271,7 @@
                 "name": "list_10_token"
               },
               "named": true,
-              "value": "token"
+              "value": "token10"
             }
           },
           {

@@ -143,8 +143,8 @@ const skald_grammar = {
 
     list: $ => seq(
       choice(
-        field("item", repeat1($.item_1)),
-        field("item", repeat1($.ordered_item_1))
+        repeat1(alias($.item_1, $.item)),
+        repeat1(alias($.ordered_item_1, $.item))
       ),
       alias($.soft_break, $.list_break)
     ),
@@ -352,7 +352,7 @@ function gen_heading($, level) {
 function gen_list_item($, level, ordered = false) {
   let token = []
   token[0] = field("level",
-    alias($["list_" + level + "_token"], $.token)
+    alias($["list_" + level + "_token"], $["token" + level])
   )
   if (ordered)
     token[1] = alias($.ordered_list_label, $.label )
@@ -362,8 +362,12 @@ function gen_list_item($, level, ordered = false) {
     next_level_list[0] = optional(
       alias(
         choice(
-          repeat1($["item_" + (level + 1)]),
-          repeat1($["ordered_item_" + (level + 1)])
+          repeat1(
+            alias($["item_" + (level + 1)], $.item)
+          ),
+          repeat1(
+            alias($["ordered_item_" + (level + 1)], $.item)
+          )
         ),
         $.list
       )
