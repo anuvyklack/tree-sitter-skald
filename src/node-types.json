@@ -333,9 +333,39 @@
     }
   },
   {
-    "type": "heading1",
+    "type": "heading",
     "named": true,
     "fields": {
+      "level": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token1",
+            "named": true
+          },
+          {
+            "type": "token2",
+            "named": true
+          },
+          {
+            "type": "token3",
+            "named": true
+          },
+          {
+            "type": "token4",
+            "named": true
+          },
+          {
+            "type": "token5",
+            "named": true
+          },
+          {
+            "type": "token6",
+            "named": true
+          }
+        ]
+      },
       "title": {
         "multiple": false,
         "required": true,
@@ -346,146 +376,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "heading2",
-    "named": true,
-    "fields": {
-      "title": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "paragraph",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "heading3",
-    "named": true,
-    "fields": {
-      "title": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "paragraph",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "heading4",
-    "named": true,
-    "fields": {
-      "title": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "paragraph",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "heading5",
-    "named": true,
-    "fields": {
-      "title": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "paragraph",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "heading6",
-    "named": true,
-    "fields": {
-      "title": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "paragraph",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "token",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -788,23 +678,7 @@
           "named": true
         },
         {
-          "type": "heading2",
-          "named": true
-        },
-        {
-          "type": "heading3",
-          "named": true
-        },
-        {
-          "type": "heading4",
-          "named": true
-        },
-        {
-          "type": "heading5",
-          "named": true
-        },
-        {
-          "type": "heading6",
+          "type": "heading",
           "named": true
         },
         {
@@ -859,7 +733,7 @@
           "named": true
         },
         {
-          "type": "heading1",
+          "type": "heading",
           "named": true
         },
         {
@@ -914,7 +788,7 @@
           "named": true
         },
         {
-          "type": "heading2",
+          "type": "heading",
           "named": true
         },
         {
@@ -969,7 +843,7 @@
           "named": true
         },
         {
-          "type": "heading3",
+          "type": "heading",
           "named": true
         },
         {
@@ -1024,7 +898,7 @@
           "named": true
         },
         {
-          "type": "heading4",
+          "type": "heading",
           "named": true
         },
         {
@@ -1079,7 +953,7 @@
           "named": true
         },
         {
-          "type": "heading5",
+          "type": "heading",
           "named": true
         },
         {
@@ -1134,7 +1008,7 @@
           "named": true
         },
         {
-          "type": "heading6",
+          "type": "heading",
           "named": true
         },
         {
@@ -1334,6 +1208,10 @@
   {
     "type": "pending",
     "named": true
+  },
+  {
+    "type": "raw_word",
+    "named": false
   },
   {
     "type": "raw_word",
