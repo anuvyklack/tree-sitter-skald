@@ -443,13 +443,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "heading1"
-            },
-            "named": true,
-            "value": "heading"
+            "type": "SYMBOL",
+            "name": "heading1"
           },
           {
             "type": "REPEAT",
@@ -543,13 +538,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "heading2"
-            },
-            "named": true,
-            "value": "heading"
+            "type": "SYMBOL",
+            "name": "heading2"
           },
           {
             "type": "REPEAT",
@@ -639,13 +629,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "heading3"
-            },
-            "named": true,
-            "value": "heading"
+            "type": "SYMBOL",
+            "name": "heading3"
           },
           {
             "type": "REPEAT",
@@ -731,13 +716,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "heading4"
-            },
-            "named": true,
-            "value": "heading"
+            "type": "SYMBOL",
+            "name": "heading4"
           },
           {
             "type": "REPEAT",
@@ -819,13 +799,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "heading5"
-            },
-            "named": true,
-            "value": "heading"
+            "type": "SYMBOL",
+            "name": "heading5"
           },
           {
             "type": "REPEAT",
@@ -903,13 +878,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "heading6"
-            },
-            "named": true,
-            "value": "heading"
+            "type": "SYMBOL",
+            "name": "heading6"
           },
           {
             "type": "REPEAT",

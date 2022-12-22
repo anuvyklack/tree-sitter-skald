@@ -323,7 +323,7 @@ function gen_section($, level) {
 
   return prec.right(
     seq(
-      alias($["heading" + level], $.heading),
+      $["heading" + level],
       repeat(
         choice(
           alias(choice(...lower_level_sections), $.section),
