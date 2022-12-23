@@ -88,38 +88,6 @@
     }
   },
   {
-    "type": "code",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "code_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "code",
-          "named": true
-        },
-        {
-          "type": "end_tag",
-          "named": true
-        },
-        {
-          "type": "language",
-          "named": true
-        },
-        {
-          "type": "tag",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "comment",
     "named": true,
     "fields": {}
@@ -133,11 +101,23 @@
       "required": false,
       "types": [
         {
+          "type": "blank_line",
+          "named": true
+        },
+        {
           "type": "bold",
           "named": true
         },
         {
+          "type": "definition",
+          "named": true
+        },
+        {
           "type": "escaped_sequence",
+          "named": true
+        },
+        {
+          "type": "hashtag",
           "named": true
         },
         {
@@ -149,7 +129,19 @@
           "named": true
         },
         {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "paragraph",
+          "named": true
+        },
+        {
           "type": "strikethrough",
+          "named": true
+        },
+        {
+          "type": "tag",
           "named": true
         },
         {
@@ -249,10 +241,6 @@
           "named": true
         },
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
           "type": "comment",
           "named": true
         },
@@ -273,23 +261,24 @@
           "named": true
         },
         {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
           "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "ranged_tag",
           "named": true
         },
         {
           "type": "section",
           "named": true
+        },
+        {
+          "type": "tag",
+          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "end_tag",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "escaped_sequence",
@@ -511,10 +500,6 @@
           "named": true
         },
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
           "type": "comment",
           "named": true
         },
@@ -531,15 +516,11 @@
           "named": true
         },
         {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
           "type": "paragraph",
           "named": true
         },
         {
-          "type": "ranged_tag",
+          "type": "tag",
           "named": true
         }
       ]
@@ -559,46 +540,6 @@
         },
         {
           "type": "list_break",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "markdown_code_block",
-    "named": true,
-    "fields": {
-      "close": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "token",
-            "named": true
-          }
-        ]
-      },
-      "open": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "token",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "code",
-          "named": true
-        },
-        {
-          "type": "language",
           "named": true
         }
       ]
@@ -644,57 +585,6 @@
     }
   },
   {
-    "type": "ranged_tag",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "blank_line",
-          "named": true
-        },
-        {
-          "type": "code_block",
-          "named": true
-        },
-        {
-          "type": "definition",
-          "named": true
-        },
-        {
-          "type": "end_tag",
-          "named": true
-        },
-        {
-          "type": "hashtag",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
-          "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "tag",
-          "named": true
-        },
-        {
-          "type": "tag_parameter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "section",
     "named": true,
     "fields": {},
@@ -704,10 +594,6 @@
       "types": [
         {
           "type": "blank_line",
-          "named": true
-        },
-        {
-          "type": "code_block",
           "named": true
         },
         {
@@ -731,15 +617,7 @@
           "named": true
         },
         {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
           "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "ranged_tag",
           "named": true
         },
         {
@@ -748,6 +626,10 @@
         },
         {
           "type": "soft_break",
+          "named": true
+        },
+        {
+          "type": "tag",
           "named": true
         }
       ]
@@ -766,10 +648,6 @@
           "named": true
         },
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
           "type": "comment",
           "named": true
         },
@@ -790,15 +668,7 @@
           "named": true
         },
         {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
           "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "ranged_tag",
           "named": true
         },
         {
@@ -807,6 +677,10 @@
         },
         {
           "type": "soft_break",
+          "named": true
+        },
+        {
+          "type": "tag",
           "named": true
         }
       ]
@@ -825,10 +699,6 @@
           "named": true
         },
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
           "type": "comment",
           "named": true
         },
@@ -849,15 +719,7 @@
           "named": true
         },
         {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
           "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "ranged_tag",
           "named": true
         },
         {
@@ -866,6 +728,10 @@
         },
         {
           "type": "soft_break",
+          "named": true
+        },
+        {
+          "type": "tag",
           "named": true
         }
       ]
@@ -884,10 +750,6 @@
           "named": true
         },
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
           "type": "comment",
           "named": true
         },
@@ -908,15 +770,7 @@
           "named": true
         },
         {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
           "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "ranged_tag",
           "named": true
         },
         {
@@ -925,6 +779,10 @@
         },
         {
           "type": "soft_break",
+          "named": true
+        },
+        {
+          "type": "tag",
           "named": true
         }
       ]
@@ -943,10 +801,6 @@
           "named": true
         },
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
           "type": "comment",
           "named": true
         },
@@ -967,15 +821,7 @@
           "named": true
         },
         {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
           "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "ranged_tag",
           "named": true
         },
         {
@@ -984,6 +830,10 @@
         },
         {
           "type": "soft_break",
+          "named": true
+        },
+        {
+          "type": "tag",
           "named": true
         }
       ]
@@ -1002,10 +852,6 @@
           "named": true
         },
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
           "type": "comment",
           "named": true
         },
@@ -1026,15 +872,7 @@
           "named": true
         },
         {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
           "type": "paragraph",
-          "named": true
-        },
-        {
-          "type": "ranged_tag",
           "named": true
         },
         {
@@ -1043,6 +881,10 @@
         },
         {
           "type": "soft_break",
+          "named": true
+        },
+        {
+          "type": "tag",
           "named": true
         }
       ]
@@ -1061,10 +903,6 @@
           "named": true
         },
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
           "type": "comment",
           "named": true
         },
@@ -1085,19 +923,15 @@
           "named": true
         },
         {
-          "type": "markdown_code_block",
-          "named": true
-        },
-        {
           "type": "paragraph",
           "named": true
         },
         {
-          "type": "ranged_tag",
+          "type": "soft_break",
           "named": true
         },
         {
-          "type": "soft_break",
+          "type": "tag",
           "named": true
         }
       ]
@@ -1134,6 +968,60 @@
       "types": [
         {
           "type": "content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tag",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "tag_name",
+            "named": true
+          }
+        ]
+      },
+      "parameter": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "tag_parameter",
+            "named": true
+          }
+        ]
+      },
+      "token": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "extended_token",
+            "named": true
+          },
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "content",
+          "named": true
+        },
+        {
+          "type": "end_tag",
           "named": true
         }
       ]
@@ -1252,6 +1140,10 @@
   },
   {
     "type": "blank_line",
+    "named": false
+  },
+  {
+    "type": "blank_line",
     "named": true
   },
   {
@@ -1263,7 +1155,7 @@
     "named": true
   },
   {
-    "type": "end_tag",
+    "type": "extended_token",
     "named": true
   },
   {
@@ -1272,10 +1164,6 @@
   },
   {
     "type": "label",
-    "named": true
-  },
-  {
-    "type": "language",
     "named": true
   },
   {
@@ -1288,19 +1176,23 @@
   },
   {
     "type": "raw_word",
-    "named": true
+    "named": false
   },
   {
     "type": "raw_word",
-    "named": false
+    "named": true
   },
   {
     "type": "soft_break",
     "named": true
   },
   {
-    "type": "tag",
+    "type": "tag_name",
     "named": true
+  },
+  {
+    "type": "tag_name",
+    "named": false
   },
   {
     "type": "tag_parameter",
@@ -1309,6 +1201,10 @@
   {
     "type": "token",
     "named": true
+  },
+  {
+    "type": "token",
+    "named": false
   },
   {
     "type": "token1",

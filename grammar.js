@@ -52,10 +52,11 @@ const skald_grammar = {
     $.checkbox_urgent,    // [!]
     $.checkbox_uncertain, // [?]
 
-    $.code_block_begin,
     $.markdown_code_block_token,
-    $.ranged_tag_begin,
-    $.ranged_tag_end,
+    $.tag_token,
+    $.extended_tag_token,
+    $.tag_name,
+    $.end_tag_name,
     $.hashtag_begin,
     $.tag_parameter,
 
@@ -73,7 +74,7 @@ const skald_grammar = {
   ],
 
   // conflicts: $ => [
-  //   [$.list_1, $.ordered_list_1],
+  //   [$.verbatim_tag_content],
   // ],
 
   inline: $ => [
@@ -92,9 +93,9 @@ const skald_grammar = {
         alias($.section, $.section),
         $.list,
         $.definition,
-        $.code_block,
-        $.markdown_code_block,
-        $.ranged_tag,
+        // $.markdown_code_block,
+        alias($.verbatim_tag, $.tag),
+        $.tag,
         $.hashtag,
         $.paragraph,
         $.comment,
@@ -151,49 +152,70 @@ const skald_grammar = {
       alias($.soft_break, $.list_break)
     ),
 
-    code_block: $ => seq(
-      alias($.code_block_begin, $.tag),
-      optional(
-        alias($.tag_parameter, $.language)
-      ),
-      alias(
-        repeat(alias($.raw_word, "raw_word")),
-        $.code
-      ),
-      alias($.ranged_tag_end, $.end_tag)
+    // markdown_code_block: $ => seq(
+    //   field("open",
+    //     alias($.markdown_code_block_token, $.token)
+    //   ),
+    //   optional(
+    //     alias($.tag_parameter, $.language)
+    //   ),
+    //   optional(
+    //     alias($.raw_content, $.content)
+    //   ),
+    //   field("close",
+    //     alias($.markdown_code_block_token, $.token)
+    //   ),
+    // ),
+
+    end_tag: $ => seq(
+      alias($.tag_token, "token"),
+      alias($.end_tag_name, "tag_name")
     ),
 
-    markdown_code_block: $ => seq(
-      field("open",
-        alias($.markdown_code_block_token, $.token)
-      ),
-      optional(
-        alias($.tag_parameter, $.language)
-      ),
-      alias(
-        repeat(alias($.raw_word, "raw_word")),
-        $.code
-      ),
-      field("close",
-        alias($.markdown_code_block_token, $.token)
-      ),
-    ),
-
-    ranged_tag: $ => seq(
-      alias($.ranged_tag_begin, $.tag),
-      repeat($.tag_parameter),
-      repeat(
-        choice(
-          $.list,
-          $.definition,
-          $.code_block,
-          $.markdown_code_block,
-          $.hashtag,
-          $.paragraph,
-          $.blank_line,
+    // The content of this tag will be parsed by this parser
+    tag: $ => seq(
+      field("token", alias($.extended_tag_token, $.extended_token)),
+      field("name", $.tag_name),
+      field("parameter", repeat($.tag_parameter)),
+      optional( // content
+        alias(
+          repeat(
+            choice(
+              $.list,
+              $.definition,
+              // $.markdown_code_block,
+              alias($.verbatim_tag, $.tag),
+              $.tag,
+              $.hashtag,
+              $.paragraph,
+              $.blank_line,
+            )
+          ),
+          $.content
         )
       ),
-      alias($.ranged_tag_end, $.end_tag)
+      $.end_tag
+    ),
+
+    // The content of this tag this sitter parser will skip.
+    verbatim_tag: $ => seq(
+      field("token", alias($.tag_token, $.token)),
+      field("name", $.tag_name),
+      field("parameter", repeat($.tag_parameter)),
+      optional( // content
+        alias(
+          repeat1(
+            choice(
+              alias($.raw_word, "raw_word"),
+              alias($.blank_line, "blank_line"),
+              alias($.verbatim_tag, $.tag),
+              $.tag
+            )
+          ),
+          $.content
+        )
+      ),
+      $.end_tag
     ),
 
     // single line comment
@@ -348,9 +370,9 @@ function gen_section($, level) {
           alias(choice(...lower_level_sections), $.section),
           $.list,
           $.definition,
-          $.code_block,
-          $.markdown_code_block,
-          $.ranged_tag,
+          // $.markdown_code_block,
+          alias($.verbatim_tag, $.tag),
+          $.tag,
           $.hashtag,
           $.paragraph,
           $.comment,
@@ -402,9 +424,9 @@ function gen_list_item($, level, ordered = false) {
       optional($.checkbox),
       repeat1(
         choice(
-          $.code_block,
-          $.markdown_code_block,
-          $.ranged_tag,
+          // $.markdown_code_block,
+          alias($.verbatim_tag, $.tag),
+          $.tag,
           $.hashtag,
           $.paragraph,
           $.comment,

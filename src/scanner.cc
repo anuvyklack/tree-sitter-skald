@@ -66,10 +66,10 @@ enum TokenType : unsigned char {
     CHECKBOX_URGENT,
     CHECKBOX_UNCERTAIN,
 
-
-    CODE_BEGIN,
     MARKDOWN_CODE_BLOCK,
-    TAG_BEGIN,
+    TAG_TOKEN,
+    EXTENDED_TAG_TOKEN,
+    TAG_NAME,
     TAG_END,
     HASHTAG,
     TAG_PARAMETER,
@@ -136,10 +136,11 @@ vector<string> tokens_names = {
     "checkbox_urgent",
     "checkbox_uncertain",
 
-    "code_begin",
     "markdown_code_block",
-    "tag_begin",
-    "tag_end",
+    "tag_token",
+    "extended_tag_token",
+    "tag_name",
+    "end_tag",
     "hashtag",
     "tag_parameter",
 
@@ -222,7 +223,7 @@ struct Scanner
         if (parsed_chars == 0)
             advance();
 
-        if (parse_tag_parameter()) return true;
+        if (parse_tag()) return true;
         if (parse_code_block()) return true;
 
         if (parse_escape_char()) return true;
@@ -245,6 +246,12 @@ struct Scanner
     /// Advances the lexer forward. The char that was advanced
     /// will be returned in the final result.
     void advance() {
+//         if (!lexer->lookahead) {
+// #ifdef DEBUG_CURRENT_CHAR
+//             clog << "  Next char is \\0" << endl;
+// #endif
+//             return;
+//         }
         previous = current;
         current = lexer->lookahead;
         lexer->advance(lexer, false);
@@ -271,6 +278,12 @@ struct Scanner
 
     /// Skips the next character without including it in the final result.
     void skip() {
+//         if (!lexer->lookahead) {
+// #ifdef DEBUG_CURRENT_CHAR
+//             clog << "  Next char is \\0" << endl;
+// #endif
+//             return;
+//         }
         previous = current;
         current = lexer->lookahead;
         lexer->advance(lexer, true);
@@ -371,21 +384,15 @@ struct Scanner
                 return found(HARD_BREAK);
             break;
         }
-        case '@': { // Code block or ranged tag
-            if (valid_tokens[TAG_END] && token("end")
-                && (!lexer->lookahead || is_newline(lexer->lookahead)))
+        case '@': { // Tags
+            if (valid_tokens[EXTENDED_TAG_TOKEN]
+                && lexer->lookahead && lexer->lookahead == '+')
             {
-                return found(TAG_END);
+                advance();
+                return found(EXTENDED_TAG_TOKEN);
             }
-            else if (valid_tokens[CODE_BEGIN]
-                && token("code") && iswspace(lexer->lookahead))
-            {
-                return found(CODE_BEGIN);
-            }
-            else if (valid_tokens[TAG_BEGIN]) {
-                while (!iswspace(lexer->lookahead))
-                    advance();
-                return found(TAG_BEGIN);
+            else if (valid_tokens[TAG_TOKEN] && !iswspace(lexer->lookahead)) {
+                return found(TAG_TOKEN);
             }
             break;
         }
@@ -393,7 +400,7 @@ struct Scanner
             if (is_space_or_newline(lexer->lookahead))
                 return found(COMMENT);
             else {
-                while (!iswspace(lexer->lookahead))
+                while (not_space_or_newline(lexer->lookahead))
                     advance();
                 return found(HASHTAG);
             }
@@ -416,21 +423,27 @@ struct Scanner
         return false;
     }
 
-    /**
-     * Parse tag parameter. It is `param1` and `param2` in examples below:
-     * ```
-     *   #tag param1 param2
-     * ```
-     * or
-     * ```
-     *   @tag param1 param2
-     *   ...
-     *   @end
-     * ```
-     */
-    inline bool parse_tag_parameter() {
-        if (valid_tokens[TAG_PARAMETER] && tag_parameter_is_valid) {
-            while (lexer->lookahead && !iswspace(lexer->lookahead))
+    inline bool parse_tag() {
+        if (valid_tokens[TAG_END] && token("end")
+            && is_space_or_newline(lexer->lookahead))
+        {
+            return found(TAG_END);
+        }
+        else if (valid_tokens[TAG_NAME]) {
+            while (not_space_or_newline(lexer->lookahead))
+                advance();
+            return found(TAG_NAME);
+        }
+        else if (valid_tokens[TAG_PARAMETER] && tag_parameter_is_valid) {
+            /**
+             * Parse tag parameter. It is `param1` and `param2` in examples below:
+             *   #tag param1 param2
+             *        ^----- ^-----
+             * or
+             *   @tag param1 param2
+             *        ^----- ^-----
+             */
+            while (not_space_or_newline(lexer->lookahead))
                 advance();
 
             if (current)
@@ -583,9 +596,10 @@ struct Scanner
     }
 
     bool parse_word() {
-        if (!current) return false;
+        if (!valid_tokens[WORD] || is_eof())
+            return false;
 
-        while (lexer->lookahead && !iswspace(lexer->lookahead)) {
+        while (not_space_or_newline(lexer->lookahead)) {
             if (!markup_stack.empty()
                 && lexer->lookahead == markup_stack.back()
                 && !iswspace(current))
@@ -605,10 +619,10 @@ struct Scanner
 
     /// RAW_WORD is a sequence of any characters until space or new line char.
     inline bool parse_raw_word() {
-        if (!valid_tokens[RAW_WORD])
+        if (!valid_tokens[RAW_WORD] || is_eof())
             return false;
 
-        while (lexer->lookahead && !iswspace(lexer->lookahead))
+        while (not_space_or_newline(lexer->lookahead))
             advance();
         return found(RAW_WORD);
     }
@@ -639,6 +653,8 @@ struct Scanner
     }
 
     inline bool is_space_or_newline(const int32_t c) { return !c || iswspace(c); }
+
+    inline bool not_space_or_newline(const int32_t c) { return c && !iswspace(c); }
 
     inline bool is_eof() { return lexer->eof(lexer); }
 
@@ -685,13 +701,22 @@ struct Scanner
     }
 
     bool token(const string str) {
-        for (int32_t c : str) {
-            if (c == lexer->lookahead)
+        // for (size_t i = 0; i < str.size(); ++i) {
+        //     if (current != str[i])
+        //         return false;
+        //     else if (i < str.size() - 1)
+        //         advance();
+        // }
+        // return true;
+
+        size_t i = 0;
+        while (current == str[i]) {
+            if (i++ < str.size() - 1)
                 advance();
             else
-                return false;
+                return true;;
         }
-        return true;
+        return false;
     }
 
     /**
