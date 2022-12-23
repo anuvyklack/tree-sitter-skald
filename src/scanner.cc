@@ -3,6 +3,7 @@
 #include <cstring>
 #include <cwctype>
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <stack>
 #include <unordered_map>
@@ -250,7 +251,7 @@ struct Scanner
         ++parsed_chars;
 
 #ifdef DEBUG_CURRENT_CHAR
-        clog << "  -> " << current << ' ';
+        clog << "  -> " << setw(3) << current << ' ';
         switch (current) {
         case 13:
             clog << "\\r";
