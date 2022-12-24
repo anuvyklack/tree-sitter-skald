@@ -224,7 +224,6 @@ struct Scanner
             advance();
 
         if (parse_tag()) return true;
-        if (parse_code_block()) return true;
 
         if (parse_escape_char()) return true;
         if (parse_raw_word()) return true;
@@ -418,8 +417,6 @@ struct Scanner
         }
         }
 
-        if (parse_code_block()) return true;
-
         return false;
     }
 
@@ -449,20 +446,6 @@ struct Scanner
             if (current)
                 return found(TAG_PARAMETER);
         }
-        return false;
-    }
-
-    /**
-     * Parse the conntent of the code block:
-     * ```
-     *   @code bash
-     *     content
-     *   @end
-     * ```
-     */
-    inline bool parse_code_block() {
-        if (valid_tokens[RAW_WORD] && valid_tokens[TAG_END])
-            return parse_raw_word();
         return false;
     }
 
