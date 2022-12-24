@@ -70,7 +70,7 @@ enum TokenType : unsigned char {
     TAG_TOKEN,
     EXTENDED_TAG_TOKEN,
     TAG_NAME,
-    TAG_END,
+    END_TAG,
     HASHTAG,
     TAG_PARAMETER,
 
@@ -208,9 +208,10 @@ struct Scanner
         if (get_column() == 0)
             if (parse_newline()) return true;
 
-        if (parsed_chars == 0) {
-            if (parse_ordered_list()) return true;
+        if (parse_ordered_list()) return true;
+        if (parse_tag_name()) return true;
 
+        if (parsed_chars == 0) {
             skip_spaces();
             if (is_eof()) return false;
         }
@@ -223,7 +224,9 @@ struct Scanner
         if (parsed_chars == 0)
             advance();
 
-        if (parse_tag()) return true;
+        if (parse_tag_parameter()) return true;
+
+        if (parse_comment()) return true;
 
         if (parse_escape_char()) return true;
         if (parse_raw_word()) return true;
@@ -396,13 +399,15 @@ struct Scanner
             break;
         }
         case '#': { // HASHTAG or COMMENT
-            if (is_space_or_newline(lexer->lookahead))
-                return found(COMMENT);
-            else {
-                while (not_space_or_newline(lexer->lookahead))
-                    advance();
+            if (not_space_or_newline(lexer->lookahead))
                 return found(HASHTAG);
-            }
+            // if (is_space_or_newline(lexer->lookahead))
+            //     return found(COMMENT);
+            // else {
+            //     while (not_space_or_newline(lexer->lookahead))
+            //         advance();
+            //     return found(HASHTAG);
+            // }
             break;
         }
         case '`': {
@@ -420,26 +425,32 @@ struct Scanner
         return false;
     }
 
-    inline bool parse_tag() {
-        if (valid_tokens[TAG_END] && token("end")
+    inline bool parse_tag_name() {
+        if (parsed_chars != 0) return false;
+
+        if (valid_tokens[END_TAG] && token("end")
             && is_space_or_newline(lexer->lookahead))
         {
-            return found(TAG_END);
+            return found(END_TAG);
         }
         else if (valid_tokens[TAG_NAME]) {
             while (not_space_or_newline(lexer->lookahead))
                 advance();
             return found(TAG_NAME);
         }
-        else if (valid_tokens[TAG_PARAMETER] && tag_parameter_is_valid) {
-            /**
-             * Parse tag parameter. It is `param1` and `param2` in examples below:
-             *   #tag param1 param2
-             *        ^----- ^-----
-             * or
-             *   @tag param1 param2
-             *        ^----- ^-----
-             */
+        return false;
+    }
+
+    /**
+     * Parse tag parameter. It is `param1` and `param2` in examples below:
+     *   #tag param1 param2
+     *        ^----- ^-----
+     * or
+     *   @tag param1 param2
+     *        ^----- ^-----
+     */
+    inline bool parse_tag_parameter() {
+        if (valid_tokens[TAG_PARAMETER] && tag_parameter_is_valid) {
             while (not_space_or_newline(lexer->lookahead))
                 advance();
 
@@ -468,7 +479,8 @@ struct Scanner
 
     /// Parse the label part of the ordered list token.
     inline bool parse_ordered_list() {
-        if (valid_tokens[ORDERED_LIST_LABEL]
+        if (parsed_chars == 0
+            && valid_tokens[ORDERED_LIST_LABEL]
             && iswdigit(lexer->lookahead)
             && !is_space_or_newline(lexer->lookahead))
         {
@@ -484,6 +496,12 @@ struct Scanner
                 advance();
             return found(ORDERED_LIST_LABEL);
         }
+        return false;
+    }
+
+    bool parse_comment() {
+        if (current == '#' && is_space_or_newline(lexer->lookahead))
+            return found(COMMENT);
         return false;
     }
 
@@ -683,23 +701,16 @@ struct Scanner
         }
     }
 
-    bool token(const string str) {
-        // for (size_t i = 0; i < str.size(); ++i) {
-        //     if (current != str[i])
-        //         return false;
-        //     else if (i < str.size() - 1)
-        //         advance();
-        // }
-        // return true;
-
-        size_t i = 0;
-        while (current == str[i]) {
-            if (i++ < str.size() - 1)
+    bool token(const string str)
+    {
+        for (int32_t c : str)
+        {
+            if (c == lexer->lookahead)
                 advance();
             else
-                return true;;
+                return false;
         }
-        return false;
+        return true;
     }
 
     /**

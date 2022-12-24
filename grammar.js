@@ -57,7 +57,7 @@ const skald_grammar = {
     $.extended_tag_token,
     $.tag_name,
     $.end_tag_name,
-    $.hashtag_begin,
+    $.hashtag_token,
     $.tag_parameter,
 
     $.blank_line,
@@ -98,7 +98,6 @@ const skald_grammar = {
         $.tag,
         $.hashtag,
         $.paragraph,
-        $.comment,
         $.blank_line,
         $.hard_break,
       )
@@ -115,6 +114,7 @@ const skald_grammar = {
           $.underline,
           $.verbatim,
           $.inline_math,
+          $.comment
         )
       ),
     ),
@@ -134,7 +134,6 @@ const skald_grammar = {
         repeat1(
           choice(
             $.paragraph,
-            $.comment,
             $.blank_line
           )
         ),
@@ -229,7 +228,8 @@ const skald_grammar = {
     ),
 
     hashtag: $=> seq(
-      alias($.hashtag_begin, $.tag),
+      alias($.hashtag_token, $.token),
+      $.tag_name,
       repeat($.tag_parameter)
     ),
 
@@ -375,7 +375,6 @@ function gen_section($, level) {
           $.tag,
           $.hashtag,
           $.paragraph,
-          $.comment,
           $.blank_line,
         )
       ),
@@ -429,7 +428,6 @@ function gen_list_item($, level, ordered = false) {
           $.tag,
           $.hashtag,
           $.paragraph,
-          $.comment,
           $.blank_line,
         )
       ),

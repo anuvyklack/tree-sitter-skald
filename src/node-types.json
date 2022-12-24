@@ -218,10 +218,6 @@
           "named": true
         },
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "paragraph",
           "named": true
         }
@@ -238,10 +234,6 @@
       "types": [
         {
           "type": "blank_line",
-          "named": true
-        },
-        {
-          "type": "comment",
           "named": true
         },
         {
@@ -308,11 +300,15 @@
       "required": true,
       "types": [
         {
-          "type": "tag",
+          "type": "tag_name",
           "named": true
         },
         {
           "type": "tag_parameter",
+          "named": true
+        },
+        {
+          "type": "token",
           "named": true
         }
       ]
@@ -500,10 +496,6 @@
           "named": true
         },
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "hashtag",
           "named": true
         },
@@ -558,6 +550,10 @@
           "named": true
         },
         {
+          "type": "comment",
+          "named": true
+        },
+        {
           "type": "escaped_sequence",
           "named": true
         },
@@ -594,10 +590,6 @@
       "types": [
         {
           "type": "blank_line",
-          "named": true
-        },
-        {
-          "type": "comment",
           "named": true
         },
         {
@@ -648,10 +640,6 @@
           "named": true
         },
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "definition",
           "named": true
         },
@@ -696,10 +684,6 @@
       "types": [
         {
           "type": "blank_line",
-          "named": true
-        },
-        {
-          "type": "comment",
           "named": true
         },
         {
@@ -750,10 +734,6 @@
           "named": true
         },
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "definition",
           "named": true
         },
@@ -798,10 +778,6 @@
       "types": [
         {
           "type": "blank_line",
-          "named": true
-        },
-        {
-          "type": "comment",
           "named": true
         },
         {
@@ -852,10 +828,6 @@
           "named": true
         },
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "definition",
           "named": true
         },
@@ -900,10 +872,6 @@
       "types": [
         {
           "type": "blank_line",
-          "named": true
-        },
-        {
-          "type": "comment",
           "named": true
         },
         {
@@ -979,7 +947,7 @@
     "fields": {
       "name": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "tag_name",
@@ -999,7 +967,7 @@
       },
       "token": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "extended_token",
@@ -1014,7 +982,7 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "content",
@@ -1037,6 +1005,10 @@
       "types": [
         {
           "type": "bold",
+          "named": true
+        },
+        {
+          "type": "comment",
           "named": true
         },
         {
