@@ -246,11 +246,19 @@
           "named": true
         },
         {
+          "type": "link_reference",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
         {
           "type": "paragraph",
+          "named": true
+        },
+        {
+          "type": "short_link_reference",
           "named": true
         },
         {
@@ -567,47 +575,7 @@
     }
   },
   {
-    "type": "link",
-    "named": true,
-    "fields": {
-      "close": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "token",
-            "named": true
-          }
-        ]
-      },
-      "open": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "token",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "link_label",
-          "named": true
-        },
-        {
-          "type": "link_location",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "link_label",
+    "type": "label",
     "named": true,
     "fields": {},
     "children": {
@@ -646,10 +614,10 @@
     }
   },
   {
-    "type": "link_location",
+    "type": "link",
     "named": true,
     "fields": {
-      "close": {
+      "label_close": {
         "multiple": false,
         "required": true,
         "types": [
@@ -659,7 +627,27 @@
           }
         ]
       },
-      "open": {
+      "label_open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "location_close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "location_open": {
         "multiple": false,
         "required": true,
         "types": [
@@ -675,7 +663,71 @@
       "required": false,
       "types": [
         {
-          "type": "raw_word",
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "location",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "link_reference",
+    "named": true,
+    "fields": {
+      "label_close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "label_open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "reference_close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "reference_open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "reference",
           "named": true
         }
       ]
@@ -699,6 +751,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "location",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "paragraph",
@@ -730,6 +787,53 @@
         },
         {
           "type": "link",
+          "named": true
+        },
+        {
+          "type": "link_reference",
+          "named": true
+        },
+        {
+          "type": "short_link_reference",
+          "named": true
+        },
+        {
+          "type": "strikethrough",
+          "named": true
+        },
+        {
+          "type": "underline",
+          "named": true
+        },
+        {
+          "type": "verbatim",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bold",
+          "named": true
+        },
+        {
+          "type": "escaped_sequence",
+          "named": true
+        },
+        {
+          "type": "inline_math",
+          "named": true
+        },
+        {
+          "type": "italic",
           "named": true
         },
         {
@@ -1073,6 +1177,42 @@
     }
   },
   {
+    "type": "short_link_reference",
+    "named": true,
+    "fields": {
+      "reference_close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "reference_open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "strikethrough",
     "named": true,
     "fields": {
@@ -1195,6 +1335,14 @@
           "named": true
         },
         {
+          "type": "link_reference",
+          "named": true
+        },
+        {
+          "type": "short_link_reference",
+          "named": true
+        },
+        {
           "type": "strikethrough",
           "named": true
         },
@@ -1283,11 +1431,11 @@
   },
   {
     "type": "blank_line",
-    "named": true
+    "named": false
   },
   {
     "type": "blank_line",
-    "named": false
+    "named": true
   },
   {
     "type": "comment",
@@ -1306,10 +1454,6 @@
     "named": true
   },
   {
-    "type": "label",
-    "named": true
-  },
-  {
     "type": "list_break",
     "named": true
   },
@@ -1319,11 +1463,11 @@
   },
   {
     "type": "raw_word",
-    "named": false
+    "named": true
   },
   {
     "type": "raw_word",
-    "named": true
+    "named": false
   },
   {
     "type": "soft_break",

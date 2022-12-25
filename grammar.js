@@ -62,6 +62,10 @@ const skald_grammar = {
 
     $.link_label_open,
     $.link_label_close,
+
+    $.link_label2_open,
+    $.link_label2_close,
+
     $.link_location_open,
     $.link_location_close,
 
@@ -86,46 +90,38 @@ const skald_grammar = {
 
   inline: $ => [
     $.section,
-    $.link_label
+    $.link_location
   ],
 
-  // // https://github.com/tree-sitter/tree-sitter/pull/939
-  // precedences: _ => [
-  //   ['document_directive', 'body_directive'],
-  //   ['special', 'immediate', 'non-immediate'],
-  // ],
+  // https://github.com/tree-sitter/tree-sitter/pull/939
+  precedences: _ => [
+    ['link', 'long_link_reference', 'short_link_reference']
+  ],
 
   rules: {
-    document: $ => repeat1(
-      choice(
-        alias($.section, $.section),
-        $.list,
-        $.definition,
-        // $.markdown_code_block,
-        alias($.verbatim_tag, $.tag),
-        $.tag,
-        $.hashtag,
-        $.paragraph,
-        $.blank_line,
-        $.hard_break,
-      )
-    ),
+    document: $ => repeat1( choice(
+      alias($.section, $.section),
+      $.list,
+      $.definition,
+      // $.markdown_code_block,
+      alias($.verbatim_tag, $.tag),
+      $.tag,
+      $.hashtag,
+      $.paragraph,
+      $.blank_line,
+      $.hard_break,
+    )),
 
     paragraph: $ => prec.right(
-      repeat1(
-        choice(
-          $.comment,
-          $._word,
-          $.escaped_sequence,
-          $.bold,
-          $.italic,
-          $.strikethrough,
-          $.underline,
-          $.verbatim,
-          $.inline_math,
-          $.link,
-        )
-      ),
+      repeat1( choice(
+        $.comment,
+        $._word,
+        $.escaped_sequence,
+        $.bold, $.italic, $.strikethrough, $.underline, $.verbatim, $.inline_math,
+        $.link,
+        $.link_reference,
+        $.short_link_reference,
+      )),
     ),
 
     section: $ => choice(
@@ -147,17 +143,15 @@ const skald_grammar = {
       ),
 
       alias(
-        repeat(
-          choice(
-            $.paragraph,
-            $.blank_line,
-            $.list,
-            // $.markdown_code_block,
-            alias($.verbatim_tag, $.tag),
-            $.tag,
-            $.hashtag,
-          )
-        ),
+        repeat( choice(
+          $.paragraph,
+          $.blank_line,
+          $.list,
+          // $.markdown_code_block,
+          alias($.verbatim_tag, $.tag),
+          $.tag,
+          $.hashtag,
+        )),
         $.description
       ),
 
@@ -199,18 +193,16 @@ const skald_grammar = {
       field("parameter", repeat($.tag_parameter)),
       optional( // content
         alias(
-          repeat(
-            choice(
-              $.list,
-              $.definition,
-              // $.markdown_code_block,
-              alias($.verbatim_tag, $.tag),
-              $.tag,
-              $.hashtag,
-              $.paragraph,
-              $.blank_line,
-            )
-          ),
+          repeat( choice(
+            $.list,
+            $.definition,
+            // $.markdown_code_block,
+            alias($.verbatim_tag, $.tag),
+            $.tag,
+            $.hashtag,
+            $.paragraph,
+            $.blank_line,
+          )),
           $.content
         )
       ),
@@ -224,14 +216,12 @@ const skald_grammar = {
       field("parameter", repeat($.tag_parameter)),
       optional( // content
         alias(
-          repeat1(
-            choice(
-              alias($.raw_word, "raw_word"),
-              alias($.blank_line, "blank_line"),
-              alias($.verbatim_tag, $.tag),
-              $.tag
-            )
-          ),
+          repeat1( choice(
+            alias($.raw_word, "raw_word"),
+            alias($.blank_line, "blank_line"),
+            alias($.verbatim_tag, $.tag),
+            $.tag
+          )),
           $.content
         )
       ),
@@ -260,64 +250,55 @@ const skald_grammar = {
     ),
 
     link_label: $ => seq(
-      field("open", alias($.link_label_open, $.token)),
-      alias(
-        repeat(
-          choice(
-            $._word,
-            $.escaped_sequence,
-            $.bold,
-            $.italic,
-            $.strikethrough,
-            $.underline,
-            $.verbatim,
-            $.inline_math,
-          )
-        ),
-        $.link_label
-      ),
-      field("close", alias($.link_label_close, $.token))
+      repeat1( choice(
+        $._word,
+        $.escaped_sequence,
+        $.bold, $.italic, $.strikethrough, $.underline, $.verbatim, $.inline_math,
+      )),
     ),
 
     link_location: $ => seq(
-      field("open", alias($.link_location_open, $.token),),
-      repeat(
-        choice(
-          $.raw_word
-        )
+      field("location_open", alias($.link_location_open, $.token),),
+      alias(
+        repeat( choice(
+          alias($.raw_word, "raw_word")
+        )),
+        $.location
       ),
-      field("close", alias($.link_location_close, $.token))
+      field("location_close", alias($.link_location_close, $.token))
     ),
 
-    link: $ => seq(
-      // $.link_description,
-      $.link_label,
-      $.link_location
+    short_link_reference: $ => prec('short_link_reference',
+      seq(
+        field("reference_open", alias($.link_label_open, $.token)),
+        alias($.link_label, $.reference),
+        field("reference_close", alias($.link_label_close, $.token))
+      )
     ),
 
-    // link: $ => seq(
-    //   // $.link_description,
-    //   field("open", alias($.link_label_open, $.token)),
-    //   alias(
-    //     seq(
-    //       repeat(
-    //         choice(
-    //           $._word,
-    //           $.escaped_sequence,
-    //           $.bold,
-    //           $.italic,
-    //           $.strikethrough,
-    //           $.underline,
-    //           $.verbatim,
-    //           $.inline_math,
-    //         )
-    //       )
-    //     ),
-    //     $.link_label
-    //   ),
-    //   field("close", alias($.link_label_close, $.token))
-    //   // $.link_location
-    // ),
+    link_reference: $ => prec('long_link_reference',
+      seq(
+        field("label_open", alias($.link_label_open, $.token)),
+        alias($.link_label, $.label),
+        field("label_close", alias($.link_label_close, $.token)),
+
+        field("reference_open", alias($.link_label2_open, $.token)),
+        optional(
+          alias($.link_label, $.reference),
+        ),
+        field("reference_close", alias($.link_label2_close, $.token))
+      )
+    ),
+
+    link: $ => prec('link',
+      seq(
+        field("label_open", alias($.link_label_open, $.token)),
+        optional(alias($.link_label, $.label)),
+        // alias($.link_label, $.label),
+        field("label_close", alias($.link_label_close, $.token)),
+        $.link_location
+      )
+    ),
 
     // _word: _ => choice(/\p{L}+/, /\p{N}+/),
   }
@@ -420,13 +401,11 @@ function gen_markup($, kind, other_kinds) {
         alias($[kind + "_open"], $.token)
       ),
       alias(
-        repeat1(
-          choice(
-            $._word,
-            $.escaped_sequence,
-            ...other_kinds
-          ),
-        ),
+        repeat1( choice(
+          $._word,
+          $.escaped_sequence,
+          ...other_kinds
+        )),
         $.content
       ),
       field("close",
@@ -446,19 +425,17 @@ function gen_section($, level) {
   return prec.right(
     seq(
       alias($["heading" + level], $.heading),
-      repeat(
-        choice(
-          alias(choice(...lower_level_sections), $.section),
-          $.list,
-          $.definition,
-          // $.markdown_code_block,
-          alias($.verbatim_tag, $.tag),
-          $.tag,
-          $.hashtag,
-          $.paragraph,
-          $.blank_line,
-        )
-      ),
+      repeat( choice(
+        alias(choice(...lower_level_sections), $.section),
+        $.list,
+        $.definition,
+        // $.markdown_code_block,
+        alias($.verbatim_tag, $.tag),
+        $.tag,
+        $.hashtag,
+        $.paragraph,
+        $.blank_line,
+      )),
       optional($.soft_break)
     )
   );
@@ -502,16 +479,14 @@ function gen_list_item($, level, ordered = false) {
     seq(
       ...token,
       optional($.checkbox),
-      repeat1(
-        choice(
-          // $.markdown_code_block,
-          alias($.verbatim_tag, $.tag),
-          $.tag,
-          $.hashtag,
-          $.paragraph,
-          $.blank_line,
-        )
-      ),
+      repeat1( choice(
+        // $.markdown_code_block,
+        alias($.verbatim_tag, $.tag),
+        $.tag,
+        $.hashtag,
+        $.paragraph,
+        $.blank_line,
+      )),
       ...next_level_list
     )
   );

@@ -9,12 +9,12 @@
 #include <unordered_map>
 #include "tree_sitter/parser.h"
 
-#define DEBUG 1
+// #define DEBUG 1
 
 /**
  * Print the current character after every advance() call.
  */
-#define DEBUG_CURRENT_CHAR 1
+// #define DEBUG_CURRENT_CHAR 1
 
 using namespace std;
 
@@ -76,6 +76,10 @@ enum TokenType : unsigned char {
 
     LINK_LABEL_OPEN,
     LINK_LABEL_CLOSE,
+
+    LINK_LABEL2_OPEN,
+    LINK_LABEL2_CLOSE,
+
     LINK_LOCATION_OPEN,
     LINK_LOCATION_CLOSE,
 
@@ -152,6 +156,10 @@ vector<string> tokens_names = {
 
     "link_label_open",
     "link_label_close",
+
+    "link_label2_open",
+    "link_label2_close",
+
     "link_location_open",
     "link_location_close",
 
@@ -548,17 +556,21 @@ struct Scanner
         if (parsed_chars != 1) return false;
         switch (current) {
         case '[': {
-            if (valid_tokens[LINK_LABEL_OPEN])
+            if (valid_tokens[LINK_LABEL2_OPEN] && !previous)
+                return found(LINK_LABEL2_OPEN);
+            else if (valid_tokens[LINK_LABEL_OPEN])
                 return found(LINK_LABEL_OPEN);
             break;
         }
         case ']': {
-            if (valid_tokens[LINK_LABEL_CLOSE])
+            if (valid_tokens[LINK_LABEL2_CLOSE])
+                return found(LINK_LABEL2_CLOSE);
+            else if (valid_tokens[LINK_LABEL_CLOSE] && tag_parameter_is_valid)
                 return found(LINK_LABEL_CLOSE);
             break;
         }
         case '(': {
-            if (valid_tokens[LINK_LOCATION_OPEN] && total_parsed_chars == 1 )
+            if (valid_tokens[LINK_LOCATION_OPEN] && !previous)
                 return found(LINK_LOCATION_OPEN);
             break;
         }
@@ -672,7 +684,8 @@ struct Scanner
                     || (markup_stack.size() > 1 && lexer->lookahead == markup_stack.end()[-2]))
                     break;
             }
-            else if (valid_tokens[LINK_LABEL_CLOSE] && lexer->lookahead == ']')
+            // else if (valid_tokens[LINK_LABEL_CLOSE] && lexer->lookahead == ']')
+            else if (lexer->lookahead == ']') // Link label closing bracket.
                 break;
             advance();
             lexer->mark_end(lexer);
