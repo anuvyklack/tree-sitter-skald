@@ -26,8 +26,8 @@ const skald_grammar = {
     $.heading_5_token,
     $.heading_6_token,
 
-    $.definition_begin,
-    $.definition_separator,
+    $.definition_term_begin,
+    $.definition_term_end,
     $.definition_end,
 
     $.list_1_token,
@@ -60,6 +60,11 @@ const skald_grammar = {
     $.hashtag_token,
     $.tag_parameter,
 
+    $.link_label_open,
+    $.link_label_close,
+    $.link_location_open,
+    $.link_location_close,
+
     $.blank_line,
     $.soft_break,
     $.hard_break,
@@ -70,6 +75,8 @@ const skald_grammar = {
     $._word,
     $.raw_word,
 
+    $.new_line,
+
     $._, // none
   ],
 
@@ -79,6 +86,7 @@ const skald_grammar = {
 
   inline: $ => [
     $.section,
+    $.link_label
   ],
 
   // // https://github.com/tree-sitter/tree-sitter/pull/939
@@ -106,6 +114,7 @@ const skald_grammar = {
     paragraph: $ => prec.right(
       repeat1(
         choice(
+          $.comment,
           $._word,
           $.escaped_sequence,
           $.bold,
@@ -114,7 +123,7 @@ const skald_grammar = {
           $.underline,
           $.verbatim,
           $.inline_math,
-          $.comment
+          $.link,
         )
       ),
     ),
@@ -124,23 +133,35 @@ const skald_grammar = {
     ),
 
     definition: $ => seq(
-      field("open", alias($.definition_begin, $.token)),
-
+      field("term_open", alias($.definition_term_begin, $.token)),
       alias($.paragraph, $.term),
+      field("term_close", alias($.definition_term_end, $.token)),
 
-      field("separator", alias($.definition_separator, $.token)),
+      repeat(
+        seq(
+          optional(alias($.paragraph, $.description)),
+          field("term_open", alias($.definition_term_begin, $.token)),
+          alias($.paragraph, $.term),
+          field("term_close", alias($.definition_term_end, $.token)),
+        )
+      ),
 
       alias(
-        repeat1(
+        repeat(
           choice(
             $.paragraph,
-            $.blank_line
+            $.blank_line,
+            $.list,
+            // $.markdown_code_block,
+            alias($.verbatim_tag, $.tag),
+            $.tag,
+            $.hashtag,
           )
         ),
         $.description
       ),
 
-      field("close", alias($.definition_end, $.token))
+      field("end", alias($.definition_end, $.token))
     ),
 
     list: $ => seq(
@@ -227,7 +248,7 @@ const skald_grammar = {
       )
     ),
 
-    hashtag: $=> seq(
+    hashtag: $ => seq(
       alias($.hashtag_token, $.token),
       $.tag_name,
       repeat($.tag_parameter)
@@ -237,6 +258,66 @@ const skald_grammar = {
       alias($.escape_char, $.token),
       $.raw_word
     ),
+
+    link_label: $ => seq(
+      field("open", alias($.link_label_open, $.token)),
+      alias(
+        repeat(
+          choice(
+            $._word,
+            $.escaped_sequence,
+            $.bold,
+            $.italic,
+            $.strikethrough,
+            $.underline,
+            $.verbatim,
+            $.inline_math,
+          )
+        ),
+        $.link_label
+      ),
+      field("close", alias($.link_label_close, $.token))
+    ),
+
+    link_location: $ => seq(
+      field("open", alias($.link_location_open, $.token),),
+      repeat(
+        choice(
+          $.raw_word
+        )
+      ),
+      field("close", alias($.link_location_close, $.token))
+    ),
+
+    link: $ => seq(
+      // $.link_description,
+      $.link_label,
+      $.link_location
+    ),
+
+    // link: $ => seq(
+    //   // $.link_description,
+    //   field("open", alias($.link_label_open, $.token)),
+    //   alias(
+    //     seq(
+    //       repeat(
+    //         choice(
+    //           $._word,
+    //           $.escaped_sequence,
+    //           $.bold,
+    //           $.italic,
+    //           $.strikethrough,
+    //           $.underline,
+    //           $.verbatim,
+    //           $.inline_math,
+    //         )
+    //       )
+    //     ),
+    //     $.link_label
+    //   ),
+    //   field("close", alias($.link_label_close, $.token))
+    //   // $.link_location
+    // ),
 
     // _word: _ => choice(/\p{L}+/, /\p{N}+/),
   }

@@ -9,12 +9,12 @@
 #include <unordered_map>
 #include "tree_sitter/parser.h"
 
-// #define DEBUG 1
+#define DEBUG 1
 
 /**
  * Print the current character after every advance() call.
  */
-// #define DEBUG_CURRENT_CHAR 1
+#define DEBUG_CURRENT_CHAR 1
 
 using namespace std;
 
@@ -40,8 +40,8 @@ enum TokenType : unsigned char {
     HEADING_5,
     HEADING_6,
 
-    DEFINITION_BEGIN,
-    DEFINITION_SEP,
+    DEFINITION_TERM_BEGIN,
+    DEFINITION_TERM_END,
     DEFINITION_END,
 
     LIST_1,
@@ -74,6 +74,11 @@ enum TokenType : unsigned char {
     HASHTAG,
     TAG_PARAMETER,
 
+    LINK_LABEL_OPEN,
+    LINK_LABEL_CLOSE,
+    LINK_LOCATION_OPEN,
+    LINK_LOCATION_CLOSE,
+
     BLANK_LINE,
     SOFT_BREAK,
     HARD_BREAK,
@@ -83,6 +88,7 @@ enum TokenType : unsigned char {
 
     WORD,
     RAW_WORD,
+    NEW_LINE,
 
     NONE,
 };
@@ -110,8 +116,8 @@ vector<string> tokens_names = {
     "heading_5",
     "heading_6",
 
-    "definition_begin",
-    "definition_sep",
+    "definition_term_begin",
+    "definition_term_end",
     "definition_end",
 
     "list_1_prefix",
@@ -144,6 +150,11 @@ vector<string> tokens_names = {
     "hashtag",
     "tag_parameter",
 
+    "link_label_open",
+    "link_label_close",
+    "link_location_open",
+    "link_location_close",
+
     "blank_line",
     "soft_break",
     "hard_break",
@@ -153,6 +164,7 @@ vector<string> tokens_names = {
 
     "word",
     "raw_word",
+    "new_line",
 
     "none",
 };
@@ -166,6 +178,11 @@ const unordered_map<char, TokenType> markup_tokens = {
     {'`', VERBATIM},
     {'$', INLINE_MATH},
 };
+
+// const unordered_map<TokenType, int32_t> tokens = {
+//     {LINK_LABEL_OPEN,  '['},
+//     {LINK_LABEL_CLOSE, ']'},
+// };
 
 constexpr uint8_t MARKUP = 6;      //< Total number of markup tokens.
 constexpr uint8_t MAX_HEADING = 6; //< Maximum heading level.
@@ -181,7 +198,11 @@ struct Scanner
     previous = 0, //< Previous char
     current = 0;  //< Current char
 
-    uint16_t parsed_chars = 0; //< Number of parsed chars
+    /// Number of parsed chars since last space char.
+    size_t parsed_chars = 0;
+
+    /// The total number of parsed chars for current parser invocation.
+    size_t total_parsed_chars = 0;
 
     deque<char> markup_stack;
 
@@ -198,7 +219,7 @@ struct Scanner
      *
      */
     bool scan () {
-        if (is_eof()) return false;
+        if (is_all_tokens_valid() || is_eof()) return false;
 
 #ifdef DEBUG
         clog << "{" << endl;
@@ -227,8 +248,10 @@ struct Scanner
         if (parse_tag_parameter()) return true;
 
         if (parse_comment()) return true;
-
         if (parse_escape_char()) return true;
+
+        if (prase_link()) return true;
+
         if (parse_raw_word()) return true;
 
         if (parse_checkbox()) return true;
@@ -258,6 +281,7 @@ struct Scanner
         current = lexer->lookahead;
         lexer->advance(lexer, false);
         ++parsed_chars;
+        ++total_parsed_chars;
 
 #ifdef DEBUG_CURRENT_CHAR
         clog << "  -> " << setw(3) << current << ' ';
@@ -348,9 +372,16 @@ struct Scanner
             break;
         }
         case ':': { // DEFINITION
-            if (valid_tokens[DEFINITION_BEGIN] && is_space_or_newline(lexer->lookahead)) {
-                return found(DEFINITION_BEGIN);
-            }
+            // if (valid_tokens[DEFINITION_TERM_BEGIN] || valid_tokens[DEFINITION_END]) {
+            //     if (is_space(lexer->lookahead))
+            //         return found(DEFINITION_TERM_BEGIN);
+            //     else if (is_newline(lexer->lookahead))
+            //         return found(DEFINITION_END);
+            // }
+            if (valid_tokens[DEFINITION_TERM_BEGIN] && is_space(lexer->lookahead))
+                return found(DEFINITION_TERM_BEGIN);
+            else if (valid_tokens[DEFINITION_END] && is_newline(lexer->lookahead))
+                return found(DEFINITION_END);
             break;
         }
         case '-': { // LIST, SOFT_BREAK
@@ -426,7 +457,7 @@ struct Scanner
     }
 
     inline bool parse_tag_name() {
-        if (parsed_chars != 0) return false;
+        if (total_parsed_chars != 0) return false;
 
         if (valid_tokens[END_TAG] && token("end")
             && is_space_or_newline(lexer->lookahead))
@@ -463,13 +494,15 @@ struct Scanner
     bool parse_definition() {
         if (parsed_chars != 1) return false;
 
-        if (valid_tokens[DEFINITION_SEP]
-            && current == ':' && is_space_or_newline(lexer->lookahead))
+        if (valid_tokens[DEFINITION_TERM_END]
+            && current == ':'
+            && is_space_or_newline(lexer->lookahead))
         {
-            return found(DEFINITION_SEP);
+            return found(DEFINITION_TERM_END);
         }
         else if (valid_tokens[DEFINITION_END]
-            && current == ':' && is_newline(lexer->lookahead))
+            && current == ':'
+            && is_newline(lexer->lookahead))
         {
             return found(DEFINITION_END);
         }
@@ -508,6 +541,33 @@ struct Scanner
     bool parse_escape_char() {
         if (current == '\\')
             return found(ESCAPE);
+        return false;
+    }
+
+    bool prase_link() {
+        if (parsed_chars != 1) return false;
+        switch (current) {
+        case '[': {
+            if (valid_tokens[LINK_LABEL_OPEN])
+                return found(LINK_LABEL_OPEN);
+            break;
+        }
+        case ']': {
+            if (valid_tokens[LINK_LABEL_CLOSE])
+                return found(LINK_LABEL_CLOSE);
+            break;
+        }
+        case '(': {
+            if (valid_tokens[LINK_LOCATION_OPEN] && total_parsed_chars == 1 )
+                return found(LINK_LOCATION_OPEN);
+            break;
+        }
+        case ')': {
+            if (valid_tokens[LINK_LOCATION_CLOSE])
+                return found(LINK_LOCATION_CLOSE);
+            break;
+        }
+        }
         return false;
     }
 
@@ -602,8 +662,8 @@ struct Scanner
 
         while (not_space_or_newline(lexer->lookahead)) {
             if (!markup_stack.empty()
-                && lexer->lookahead == markup_stack.back()
-                && !iswspace(current))
+                && !iswspace(current)
+                && lexer->lookahead == markup_stack.back())
             {
                 lexer->mark_end(lexer);
                 advance();
@@ -612,6 +672,8 @@ struct Scanner
                     || (markup_stack.size() > 1 && lexer->lookahead == markup_stack.end()[-2]))
                     break;
             }
+            else if (valid_tokens[LINK_LABEL_CLOSE] && lexer->lookahead == ']')
+                break;
             advance();
             lexer->mark_end(lexer);
         }
@@ -623,8 +685,12 @@ struct Scanner
         if (!valid_tokens[RAW_WORD] || is_eof())
             return false;
 
-        while (not_space_or_newline(lexer->lookahead))
+        while (not_space_or_newline(lexer->lookahead)
+               && !(valid_tokens[LINK_LOCATION_CLOSE] && lexer->lookahead == ')'))
+        {
             advance();
+        }
+
         return found(RAW_WORD);
     }
 
@@ -645,6 +711,7 @@ struct Scanner
 
     inline bool is_newline(const int32_t c) {
         switch (c) {
+        // case 0:
         case 10: // \n
         case 13: // \r
             return true;
@@ -695,6 +762,9 @@ struct Scanner
         case '.': case ',': case ':': case ';':
         case '!': case '?':
         case '"': case '\'':
+        case '[': case ']':
+        case '(': case ')':
+        case '{': case '}':
             return true;
         default:
             return false;
@@ -715,9 +785,9 @@ struct Scanner
 
     /**
      * The parser appears to call `scan` with all symbols declared as valid directly
-     * after it encountered an error, so this function is used to detect them.
+     * after it encountered an error. This function defines such a case.
      */
-    bool is_all_tokens_valid() {
+    inline bool is_all_tokens_valid() {
         for (int i = 0; i <= NONE; ++i)
             if (!valid_tokens[i]) return false;
         return true;
@@ -725,7 +795,7 @@ struct Scanner
 
     inline void debug_valid_tokens() {
 #ifdef DEBUG
-        clog << "  Valid symbols: ";
+        clog << "  Valid: ";
 
         if (is_all_tokens_valid()) {
             cout << "all" << endl;
@@ -799,6 +869,7 @@ extern "C"
         Scanner* scanner = static_cast<Scanner*>(payload);
         scanner->current = 0;
         scanner->parsed_chars = 0;
+        scanner->total_parsed_chars = 0;
         scanner->tag_parameter_is_valid = true;
 
         if (!length) return;
