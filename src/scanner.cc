@@ -209,9 +209,6 @@ struct Scanner
     /// Number of parsed chars since last space char.
     size_t parsed_chars = 0;
 
-    /// The total number of parsed chars for current parser invocation.
-    size_t total_parsed_chars = 0;
-
     deque<char> markup_stack;
 
     bool tag_parameter_is_valid = true;
@@ -288,7 +285,6 @@ struct Scanner
         current = lexer->lookahead;
         lexer->advance(lexer, false);
         ++parsed_chars;
-        ++total_parsed_chars;
 
 #ifdef DEBUG_CURRENT_CHAR
         clog << "  -> " << setw(3) << current << ' ';
@@ -463,7 +459,8 @@ struct Scanner
     }
 
     inline bool parse_tag_name() {
-        if (total_parsed_chars != 0) return false;
+        // if (is_space(previous)) return false;
+        if (current) return false;
 
         if (valid_tokens[END_TAG] && token("end")
             && is_space_or_newline_or_eof(lexer->lookahead))
@@ -880,7 +877,6 @@ extern "C"
         Scanner* scanner = static_cast<Scanner*>(payload);
         scanner->current = 0;
         scanner->parsed_chars = 0;
-        scanner->total_parsed_chars = 0;
         scanner->tag_parameter_is_valid = true;
 
         if (!length) return;
