@@ -74,6 +74,12 @@ enum TokenType : unsigned char {
     HASHTAG,
     TAG_PARAMETER,
 
+    INLINE_TAG_TOKEN,
+    INLINE_TAG_LABEL_OPEN,
+    INLINE_TAG_LABEL_CLOSE,
+    INLINE_TAG_PARAMETERS_OPEN,
+    INLINE_TAG_PARAMETERS_CLOSE,
+
     LINK_LABEL_OPEN,
     LINK_LABEL_CLOSE,
 
@@ -154,6 +160,12 @@ vector<string> tokens_names = {
     "hashtag",
     "tag_parameter",
 
+    "inline_tag_token",
+    "inline_tag_label_open",
+    "inline_tag_label_close",
+    "inline_tag_parameters_open",
+    "inline_tag_parameters_close",
+
     "link_label_open",
     "link_label_close",
 
@@ -186,11 +198,6 @@ const unordered_map<char, TokenType> markup_tokens = {
     {'`', VERBATIM},
     {'$', INLINE_MATH},
 };
-
-// const unordered_map<TokenType, int32_t> tokens = {
-//     {LINK_LABEL_OPEN,  '['},
-//     {LINK_LABEL_CLOSE, ']'},
-// };
 
 constexpr uint8_t MARKUP = 6;      //< Total number of markup tokens.
 constexpr uint8_t MAX_HEADING = 6; //< Maximum heading level.
@@ -247,10 +254,14 @@ struct Scanner
             if (parse_newline()) return true;
         }
 
-        if (parsed_chars == 0)
-            advance();
+        //- before advace -------------------------------
+
+        if (parsed_chars == 0) advance();
+
+        //- after advance -------------------------------
 
         if (parse_tag_parameter()) return true;
+        if (parse_inline_tag()) return true;
 
         if (parse_comment()) return true;
         if (parse_escape_char()) return true;
@@ -410,8 +421,7 @@ struct Scanner
             break;
         }
         case '=': { // HARD_BREAK
-            constexpr auto expected = '=';
-            while (lexer->lookahead == expected) {
+            while (lexer->lookahead == '=') {
                 advance();
                 ++n;
             }
@@ -443,9 +453,8 @@ struct Scanner
             // }
             break;
         }
-        case '`': {
-            constexpr auto expected = '`';
-            while (lexer->lookahead == expected) {
+        case '`': { // MARKDOWN_CODE_BLOCK
+            while (lexer->lookahead == '`') {
                 advance();
                 ++n;
             }
@@ -468,10 +477,25 @@ struct Scanner
             return found(END_TAG);
         }
         else if (valid_tokens[TAG_NAME]) {
-            while (not_space_or_newline(lexer->lookahead))
+            while (not_space_or_newline(lexer->lookahead)
+                   && !is_inline_tag_control_character(lexer->lookahead))
                 advance();
             return found(TAG_NAME);
         }
+        return false;
+    }
+
+    inline bool parse_inline_tag() {
+        if (valid_tokens[INLINE_TAG_TOKEN] && current == ':')
+            return found(INLINE_TAG_TOKEN);
+        else if (valid_tokens[INLINE_TAG_LABEL_OPEN] && current == '[' && !previous)
+            return found(INLINE_TAG_LABEL_OPEN);
+        else if (valid_tokens[INLINE_TAG_LABEL_CLOSE] && current == ']' && !previous)
+            return found(INLINE_TAG_LABEL_CLOSE);
+        else if (valid_tokens[INLINE_TAG_PARAMETERS_OPEN] && current == '{'  && !previous)
+            return found(INLINE_TAG_PARAMETERS_OPEN);
+        else if (valid_tokens[INLINE_TAG_PARAMETERS_CLOSE] && current == '}')
+            return found(INLINE_TAG_PARAMETERS_CLOSE);
         return false;
     }
 
@@ -693,7 +717,8 @@ struct Scanner
             return false;
 
         while (not_space_or_newline(lexer->lookahead)
-               && !(valid_tokens[LINK_LOCATION_CLOSE] && lexer->lookahead == ')'))
+               && !(valid_tokens[LINK_LOCATION_CLOSE] && lexer->lookahead == ')')
+               && !(valid_tokens[INLINE_TAG_PARAMETERS_CLOSE] && lexer->lookahead == '}'))
         {
             advance();
         }
@@ -751,6 +776,17 @@ struct Scanner
     };
 
     inline bool is_markup_token(int32_t c) { return markup_tokens.find(c) != markup_tokens.end(); }
+
+    inline bool is_inline_tag_control_character(int32_t c) {
+        switch (c) {
+        case '(':
+        case '[':
+        case '{':
+            return true;
+        default:
+            return false;
+        }
+    }
 
     inline bool is_checkbox_content(int32_t c) {
         switch (c) {

@@ -60,6 +60,12 @@ const skald_grammar = {
     $.hashtag_token,
     $.tag_parameter,
 
+    $.inline_tag_token,
+    $.inline_tag_label_open,
+    $.inline_tag_label_close,
+    $.inline_tag_parameters_open,
+    $.inline_tag_parameters_close,
+
     $.link_label_open,
     $.link_label_close,
 
@@ -90,43 +96,41 @@ const skald_grammar = {
 
   inline: $ => [
     $.section,
-    $.link_location
   ],
 
   // https://github.com/tree-sitter/tree-sitter/pull/939
   precedences: _ => [
-    ['link', 'long_link_reference', 'short_link_reference']
+    ['link', 'long_link_reference', 'short_link_reference'],
   ],
 
   rules: {
-    document: $ => repeat1( choice(
-      alias($.section, $.section),
-      $.list,
-      $.definition,
-      // $.markdown_code_block,
-      alias($.verbatim_tag, $.tag),
-      $.tag,
-      $.hashtag,
-      $.paragraph,
-      $.blank_line,
-      $.hard_break,
+    document: $ => repeat1(
+      choice(
+        alias($.section, $.section),
+        $.list,
+        $.definition,
+        // $.markdown_code_block,
+        alias($.verbatim_tag, $.tag),
+        $.tag,
+        $.hashtag,
+        $.paragraph,
+        $.blank_line,
+        $.hard_break
     )),
 
     paragraph: $ => prec.right(
-      repeat1( choice(
-        $.comment,
-        $._word,
-        $.escaped_sequence,
-        $.bold, $.italic, $.strikethrough, $.underline, $.verbatim, $.inline_math,
-        $.link,
-        $.link_reference,
-        $.short_link_reference,
+      repeat1(choice(
+          $.comment,
+          $._word,
+          $.escaped_sequence,
+          $.bold, $.italic, $.strikethrough, $.underline, $.verbatim, $.inline_math,
+          $.link, $.link_reference, $.short_link_reference,
+          $.inline_tag
       )),
     ),
 
     section: $ => choice(
-      $.section1, $.section2, $.section3, $.section4, $.section5, $.section6
-    ),
+      $.section1, $.section2, $.section3, $.section4, $.section5, $.section6),
 
     definition: $ => seq(
       field("term_open", alias($.definition_term_begin, $.token)),
@@ -135,34 +139,32 @@ const skald_grammar = {
 
       repeat(
         seq(
-          optional(alias($.paragraph, $.description)),
+          optional( alias($.paragraph, $.description)),
           field("term_open", alias($.definition_term_begin, $.token)),
           alias($.paragraph, $.term),
-          field("term_close", alias($.definition_term_end, $.token)),
-        )
-      ),
+          field("term_close", alias($.definition_term_end, $.token)))),
 
       alias(
-        repeat( choice(
-          $.paragraph,
-          $.blank_line,
-          $.list,
-          // $.markdown_code_block,
-          alias($.verbatim_tag, $.tag),
-          $.tag,
-          $.hashtag,
+        repeat(choice(
+            $.paragraph,
+            $.blank_line,
+            $.list,
+            // $.markdown_code_block,
+            alias($.verbatim_tag, $.tag),
+            $.tag,
+            $.hashtag
         )),
-        $.description
-      ),
+        $.description),
 
       field("end", alias($.definition_end, $.token))
     ),
 
     list: $ => seq(
       choice(
-        repeat1(alias($.item_1, $.item)),
-        repeat1(alias($.ordered_item_1, $.item))
-      ),
+        repeat1(
+          alias($.item_1, $.item)),
+        repeat1(
+          alias($.ordered_item_1, $.item))),
       alias($.soft_break, $.list_break)
     ),
 
@@ -181,9 +183,35 @@ const skald_grammar = {
     //   ),
     // ),
 
-    end_tag: $ => seq(
-      alias($.tag_token, "token"),
-      alias($.end_tag_name, "tag_name")
+    inline_tag: $ => seq(
+      field("token", alias($.inline_tag_token, $.token)),
+      field("name", $.tag_name),
+
+      optional(
+        seq(
+          field("open_label",
+                alias($.inline_tag_label_open, $.token)),
+          optional(alias($.link_label, $.label)),
+          field("close_label",
+                alias($.inline_tag_label_close, $.token)))),
+
+      optional(
+        seq(
+          field("open_content",
+                alias($.link_location_open, $.token)),
+          alias( repeat( alias($.raw_word, "raw_word")),
+                 $.content),
+          field("close_content",
+                alias($.link_location_close, $.token)))),
+
+      optional(
+        seq(
+          field("open_parameters",
+                alias($.inline_tag_parameters_open, $.token)),
+          alias( repeat(alias($.raw_word, "raw_word")),
+                 $.parameters),
+          field("close_parameters",
+                alias($.inline_tag_parameters_close, $.token)))),
     ),
 
     // The content of this tag will be parsed by this parser
@@ -191,21 +219,17 @@ const skald_grammar = {
       field("token", alias($.extended_tag_token, $.extended_token)),
       field("name", $.tag_name),
       field("parameter", repeat($.tag_parameter)),
-      optional( // content
-        alias(
-          repeat( choice(
-            $.list,
-            $.definition,
-            // $.markdown_code_block,
-            alias($.verbatim_tag, $.tag),
-            $.tag,
-            $.hashtag,
-            $.paragraph,
-            $.blank_line,
-          )),
-          $.content
-        )
-      ),
+      optional(
+        alias( repeat(choice(
+                   $.list,
+                   $.definition,
+                   // $.markdown_code_block,
+                   alias($.verbatim_tag, $.tag),
+                   $.tag,
+                   $.hashtag,
+                   $.paragraph,
+                   $.blank_line)),
+               $.content)),
       $.end_tag
     ),
 
@@ -215,27 +239,18 @@ const skald_grammar = {
       field("name", $.tag_name),
       field("parameter", repeat($.tag_parameter)),
       optional( // content
-        alias(
-          repeat1( choice(
-            alias($.raw_word, "raw_word"),
-            alias($.blank_line, "blank_line"),
-            alias($.verbatim_tag, $.tag),
-            $.tag
-          )),
-          $.content
-        )
-      ),
+         alias(repeat1(choice(
+                   alias($.raw_word, "raw_word"),
+                   alias($.blank_line, "blank_line"),
+                   alias($.verbatim_tag, $.tag),
+                   $.tag )),
+               $.content)),
       $.end_tag
     ),
 
-    // single line comment
-    comment: $ => prec.right(
-      repeat1(
-        seq(
-          alias($.comment_token, "comment"),
-          repeat( alias($.tag_parameter, "raw_word") )
-        )
-      )
+    end_tag: $ => seq(
+      alias($.tag_token, "token"),
+      alias($.end_tag_name, "tag_name")
     ),
 
     hashtag: $ => seq(
@@ -244,37 +259,30 @@ const skald_grammar = {
       repeat($.tag_parameter)
     ),
 
-    escaped_sequence: $=> seq(
+    // single line comment
+    comment: $ => prec.right(
+      repeat1( seq(
+          alias($.comment_token, "comment"),
+          repeat(alias($.tag_parameter, "raw_word"))))
+    ),
+
+    escaped_sequence: $ => seq(
       alias($.escape_char, $.token),
       $.raw_word
     ),
 
-    link_label: $ => seq(
-      repeat1( choice(
-        $._word,
-        $.escaped_sequence,
-        $.bold, $.italic, $.strikethrough, $.underline, $.verbatim, $.inline_math,
-      )),
-    ),
-
-    link_location: $ => seq(
-      field("open_location", alias($.link_location_open, $.token),),
-      alias(
-        repeat( choice(
-          alias($.raw_word, "raw_word")
-        )),
-        $.location
-      ),
-      field("close_location", alias($.link_location_close, $.token))
-    ),
-
-    short_link_reference: $ => prec('short_link_reference',
+    link: $ => prec('link',
       seq(
-        field("open_reference", alias($.link_label_open, $.token)),
-        alias($.link_label, $.reference),
-        field("close_reference", alias($.link_label_close, $.token))
-      )
-    ),
+        field("open_label", alias($.link_label_open, $.token)),
+        optional(alias($.link_label, $.label)),
+        field("close_label", alias($.link_label_close, $.token)),
+
+        field("open_location", alias($.link_location_open, $.token),),
+        alias(repeat(
+                 alias($.raw_word, "raw_word")),
+              $.location),
+        field("close_location", alias($.link_location_close, $.token))
+    )),
 
     link_reference: $ => prec('long_link_reference',
       seq(
@@ -284,20 +292,23 @@ const skald_grammar = {
 
         field("open_reference", alias($.link_label2_open, $.token)),
         optional(
-          alias($.link_label, $.reference),
-        ),
+           alias($.link_label, $.reference)),
         field("close_reference", alias($.link_label2_close, $.token))
-      )
-    ),
+    )),
 
-    link: $ => prec('link',
+    short_link_reference: $ => prec('short_link_reference',
       seq(
-        field("open_label", alias($.link_label_open, $.token)),
-        optional(alias($.link_label, $.label)),
-        field("close_label", alias($.link_label_close, $.token)),
-        $.link_location
-      )
-    ),
+        field("open_reference", alias($.link_label_open, $.token)),
+        alias($.link_label, $.reference),
+        field("close_reference", alias($.link_label_close, $.token))
+    )),
+
+    link_label: $ => repeat1(
+      choice(
+        $._word,
+        $.escaped_sequence,
+        $.bold, $.italic, $.strikethrough, $.underline, $.verbatim, $.inline_math,
+    )),
 
     // _word: _ => choice(/\p{L}+/, /\p{N}+/),
   }
@@ -329,8 +340,7 @@ const lists = {
         alias($.checkbox_pending,   $.pending),
         alias($.checkbox_urgent,    $.urgent),
         alias($.checkbox_uncertain, $.uncertain)
-      )
-    ),
+      )),
     field("close", alias($.checkbox_close, $.token))
   ),
 
@@ -343,7 +353,7 @@ const lists = {
   item_7: $ => gen_list_item($, 7),
   item_8: $ => gen_list_item($, 8),
   item_9: $ => gen_list_item($, 9),
-  item_10:$ => gen_list_item($,10),
+  item_10: $ => gen_list_item($, 10),
 
   ordered_item_1: $ => gen_list_item($, 1, true),
   ordered_item_2: $ => gen_list_item($, 2, true),
@@ -354,29 +364,27 @@ const lists = {
   ordered_item_7: $ => gen_list_item($, 7, true),
   ordered_item_8: $ => gen_list_item($, 8, true),
   ordered_item_9: $ => gen_list_item($, 9, true),
-  ordered_item_10:$ => gen_list_item($,10, true),
+  ordered_item_10: $ => gen_list_item($, 10, true),
 }
 
 const markup = {
   bold: $ => gen_markup($, "bold",
-          [$.italic, $.underline, $.strikethrough, $.verbatim, $.inline_math]),
+    [$.italic, $.underline, $.strikethrough, $.verbatim, $.inline_math]),
 
   italic: $ => gen_markup($, "italic",
-          [$.bold, $.underline, $.strikethrough, $.verbatim, $.inline_math]),
+    [$.bold, $.underline, $.strikethrough, $.verbatim, $.inline_math]),
 
   underline: $ => gen_markup($, "underline",
-          [$.bold, $.italic, $.strikethrough, $.verbatim, $.inline_math]),
+    [$.bold, $.italic, $.strikethrough, $.verbatim, $.inline_math]),
 
   strikethrough: $ => gen_markup($, "strikethrough",
-          [$.bold, $.italic, $.underline, $.verbatim, $.inline_math]),
+    [$.bold, $.italic, $.underline, $.verbatim, $.inline_math]),
 
   verbatim: $ => prec.right(
     seq(
       field("open", alias($.verbatim_open, $.token)),
       alias(
-        repeat1($._word),
-        $.content
-      ),
+        repeat1($._word), $.content),
       field("close", alias($.verbatim_close, $.token)),
     ),
   ),
@@ -385,9 +393,7 @@ const markup = {
     seq(
       field("open", alias($.inline_math_open, $.token)),
       alias(
-        repeat1($._word),
-        $.content
-      ),
+        repeat1($._word), $.content),
       field("close", alias($.inline_math_close, $.token)),
     ),
   ),
@@ -396,55 +402,50 @@ const markup = {
 function gen_markup($, kind, other_kinds) {
   return prec.right(
     seq(
-      field("open",
-        alias($[kind + "_open"], $.token)
-      ),
+      field("open", alias($[kind + "_open"],
+                          $.token)),
       alias(
-        repeat1( choice(
-          $._word,
-          $.escaped_sequence,
-          ...other_kinds
-        )),
-        $.content
-      ),
-      field("close",
-        alias($[kind + "_close"], $.token)
-      )
-    )
-  );
+        repeat1(choice(
+            $._word,
+            $.escaped_sequence,
+            ...other_kinds)),
+        $.content),
+
+      field("close", alias($[kind + "_close"],
+                           $.token))
+    ));
 }
 
 function gen_section($, level) {
 
   let lower_level_sections = []
   for (let i = 0; i + 1 + level <= MAX_HEADING; ++i) {
-      lower_level_sections[i] = $["section" + (i + 1 + level)]
+    lower_level_sections[i] = $["section" + (i + 1 + level)]
   }
 
   return prec.right(
     seq(
       alias($["heading" + level], $.heading),
-      repeat( choice(
-        alias(choice(...lower_level_sections), $.section),
-        $.list,
-        $.definition,
-        // $.markdown_code_block,
-        alias($.verbatim_tag, $.tag),
-        $.tag,
-        $.hashtag,
-        $.paragraph,
-        $.blank_line,
-      )),
+      repeat(
+        choice(
+          alias(choice(...lower_level_sections),
+                $.section),
+          $.list,
+          $.definition,
+          // $.markdown_code_block,
+          alias($.verbatim_tag, $.tag),
+          $.tag,
+          $.hashtag,
+          $.paragraph,
+          $.blank_line)),
       optional($.soft_break)
-    )
-  );
+    ));
 }
 
 function gen_heading($, level) {
   return seq(
-    field("level",
-      alias($["heading_" + level + "_token"], $["token" + level]),
-    ),
+    field("level", alias($["heading_" + level + "_token"],
+                         $["token" + level])),
     field("title", $.paragraph)
   );
 }
@@ -452,25 +453,24 @@ function gen_heading($, level) {
 function gen_list_item($, level, ordered = false) {
   let token = []
   token[0] = field("level",
-    alias($["list_" + level + "_token"], $["token" + level])
-  )
+    alias(
+      $["list_" + level + "_token"],
+      $["token" + level]))
+
   if (ordered)
-    token[1] = alias($.ordered_list_label, $.label )
+    token[1] = alias($.ordered_list_label, $.label)
 
   let next_level_list = []
   if (level < MAX_LIST_LEVEL) {
     next_level_list[0] = optional(
       alias(
         choice(
-          repeat1(
-            alias($["item_" + (level + 1)], $.item)
-          ),
-          repeat1(
-            alias($["ordered_item_" + (level + 1)], $.item)
-          )
+          repeat1( alias($["item_" + (level + 1)],
+                         $.item)),
+          repeat1( alias($["ordered_item_" + (level + 1)],
+                         $.item))
         ),
-        $.list
-      )
+        $.list)
     )
   }
 
@@ -479,16 +479,14 @@ function gen_list_item($, level, ordered = false) {
       ...token,
       optional($.checkbox),
       repeat1( choice(
-        // $.markdown_code_block,
-        alias($.verbatim_tag, $.tag),
-        $.tag,
-        $.hashtag,
-        $.paragraph,
-        $.blank_line,
-      )),
-      ...next_level_list
-    )
-  );
+          // $.markdown_code_block,
+          alias($.verbatim_tag, $.tag),
+          $.tag,
+          $.hashtag,
+          $.paragraph,
+          $.blank_line)
+      ),
+      ...next_level_list));
 }
 
 Object.assign(skald_grammar.rules, sections, lists, markup)

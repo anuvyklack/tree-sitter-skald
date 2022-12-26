@@ -238,6 +238,10 @@
           "named": true
         },
         {
+          "type": "inline_tag",
+          "named": true
+        },
+        {
           "type": "italic",
           "named": true
         },
@@ -447,6 +451,110 @@
       "types": [
         {
           "type": "content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "inline_tag",
+    "named": true,
+    "fields": {
+      "close_content": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "close_label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "close_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "tag_name",
+            "named": true
+          }
+        ]
+      },
+      "open_content": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "open_label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "open_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      },
+      "token": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "token",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "content",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "parameters",
           "named": true
         }
       ]
@@ -782,6 +890,10 @@
           "named": true
         },
         {
+          "type": "inline_tag",
+          "named": true
+        },
+        {
           "type": "italic",
           "named": true
         },
@@ -811,6 +923,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "parameters",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "reference",
@@ -1327,6 +1444,10 @@
           "named": true
         },
         {
+          "type": "inline_tag",
+          "named": true
+        },
+        {
           "type": "italic",
           "named": true
         },
@@ -1431,11 +1552,11 @@
   },
   {
     "type": "blank_line",
-    "named": false
+    "named": true
   },
   {
     "type": "blank_line",
-    "named": true
+    "named": false
   },
   {
     "type": "comment",
