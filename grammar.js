@@ -258,44 +258,43 @@ const skald_grammar = {
     ),
 
     link_location: $ => seq(
-      field("location_open", alias($.link_location_open, $.token),),
+      field("open_location", alias($.link_location_open, $.token),),
       alias(
         repeat( choice(
           alias($.raw_word, "raw_word")
         )),
         $.location
       ),
-      field("location_close", alias($.link_location_close, $.token))
+      field("close_location", alias($.link_location_close, $.token))
     ),
 
     short_link_reference: $ => prec('short_link_reference',
       seq(
-        field("reference_open", alias($.link_label_open, $.token)),
+        field("open_reference", alias($.link_label_open, $.token)),
         alias($.link_label, $.reference),
-        field("reference_close", alias($.link_label_close, $.token))
+        field("close_reference", alias($.link_label_close, $.token))
       )
     ),
 
     link_reference: $ => prec('long_link_reference',
       seq(
-        field("label_open", alias($.link_label_open, $.token)),
+        field("open_label", alias($.link_label_open, $.token)),
         alias($.link_label, $.label),
-        field("label_close", alias($.link_label_close, $.token)),
+        field("close_label", alias($.link_label_close, $.token)),
 
-        field("reference_open", alias($.link_label2_open, $.token)),
+        field("open_reference", alias($.link_label2_open, $.token)),
         optional(
           alias($.link_label, $.reference),
         ),
-        field("reference_close", alias($.link_label2_close, $.token))
+        field("close_reference", alias($.link_label2_close, $.token))
       )
     ),
 
     link: $ => prec('link',
       seq(
-        field("label_open", alias($.link_label_open, $.token)),
+        field("open_label", alias($.link_label_open, $.token)),
         optional(alias($.link_label, $.label)),
-        // alias($.link_label, $.label),
-        field("label_close", alias($.link_label_close, $.token)),
+        field("close_label", alias($.link_label_close, $.token)),
         $.link_location
       )
     ),

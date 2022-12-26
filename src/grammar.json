@@ -679,7 +679,7 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "location_open",
+          "name": "open_location",
           "content": {
             "type": "ALIAS",
             "content": {
@@ -714,7 +714,7 @@
         },
         {
           "type": "FIELD",
-          "name": "location_close",
+          "name": "close_location",
           "content": {
             "type": "ALIAS",
             "content": {
@@ -735,7 +735,7 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "reference_open",
+            "name": "open_reference",
             "content": {
               "type": "ALIAS",
               "content": {
@@ -757,7 +757,7 @@
           },
           {
             "type": "FIELD",
-            "name": "reference_close",
+            "name": "close_reference",
             "content": {
               "type": "ALIAS",
               "content": {
@@ -779,7 +779,7 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "label_open",
+            "name": "open_label",
             "content": {
               "type": "ALIAS",
               "content": {
@@ -801,7 +801,7 @@
           },
           {
             "type": "FIELD",
-            "name": "label_close",
+            "name": "close_label",
             "content": {
               "type": "ALIAS",
               "content": {
@@ -814,7 +814,7 @@
           },
           {
             "type": "FIELD",
-            "name": "reference_open",
+            "name": "open_reference",
             "content": {
               "type": "ALIAS",
               "content": {
@@ -844,7 +844,7 @@
           },
           {
             "type": "FIELD",
-            "name": "reference_close",
+            "name": "close_reference",
             "content": {
               "type": "ALIAS",
               "content": {
@@ -866,7 +866,7 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "label_open",
+            "name": "open_label",
             "content": {
               "type": "ALIAS",
               "content": {
@@ -896,7 +896,7 @@
           },
           {
             "type": "FIELD",
-            "name": "label_close",
+            "name": "close_label",
             "content": {
               "type": "ALIAS",
               "content": {
