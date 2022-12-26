@@ -520,8 +520,7 @@ struct Scanner
     inline bool parse_ordered_list() {
         if (parsed_chars == 0
             && valid_tokens[ORDERED_LIST_LABEL]
-            && iswdigit(lexer->lookahead)
-            && !is_space_or_newline(lexer->lookahead))
+            && iswdigit(lexer->lookahead))
         {
             /*
              *    ┌─ level
