@@ -258,15 +258,14 @@ struct Scanner
         if (parse_comment()) return true;
         if (parse_escape_char()) return true;
 
+        if (parse_checkbox()) return true;
         if (prase_link()) return true;
 
-        if (parse_raw_word()) return true;
-
-        if (parse_checkbox()) return true;
         if (parse_definition()) return true;
         if (parse_open_markup()) return true;
         if (parse_close_markup()) return true;
 
+        if (parse_raw_word()) return true;
         if (parse_word()) return true;
 
 #ifdef DEBUG
