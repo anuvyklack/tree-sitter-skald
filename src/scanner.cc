@@ -398,9 +398,8 @@ struct Scanner
                 ++n;
             }
 
-            if (1 + n == 3 && (!lexer->lookahead || is_newline(lexer->lookahead))) {
+            if (1 + n == 3 && (is_newline_or_eof(lexer->lookahead)))
                 return found(SOFT_BREAK);
-            }
 
             if (iswdigit(lexer->lookahead)) {
                 lexer->mark_end(lexer);
@@ -420,7 +419,7 @@ struct Scanner
                 advance();
                 ++n;
             }
-            if (1 + n == 3 && (!lexer->lookahead || is_newline(lexer->lookahead)))
+            if (1 + n == 3 && (is_newline_or_eof(lexer->lookahead)))
                 return found(HARD_BREAK);
             break;
         }
@@ -467,7 +466,7 @@ struct Scanner
         if (total_parsed_chars != 0) return false;
 
         if (valid_tokens[END_TAG] && token("end")
-            && is_space_or_newline(lexer->lookahead))
+            && is_space_or_newline_or_eof(lexer->lookahead))
         {
             return found(END_TAG);
         }
@@ -503,7 +502,7 @@ struct Scanner
 
         if (valid_tokens[DEFINITION_TERM_END]
             && current == ':'
-            && is_space_or_newline(lexer->lookahead))
+            && is_space_or_newline_or_eof(lexer->lookahead))
         {
             return found(DEFINITION_TERM_END);
         }
@@ -540,7 +539,7 @@ struct Scanner
     }
 
     bool parse_comment() {
-        if (current == '#' && is_space_or_newline(lexer->lookahead))
+        if (current == '#' && is_space_or_newline_or_eof(lexer->lookahead))
             return found(COMMENT);
         return false;
     }
@@ -590,9 +589,9 @@ struct Scanner
 
         if (mt != markup_tokens.end()
             && is_markup_allowed(mt->first)
-            && (is_space_or_newline(previous) || is_markup_token(previous)))
+            && (is_space_or_newline_or_eof(previous) || is_markup_token(previous)))
         {
-            if (is_space_or_newline(lexer->lookahead))
+            if (is_space_or_newline_or_eof(lexer->lookahead))
                 return false;
 
             // Empty markup. I.e: **, or //, or ``, ...
@@ -616,7 +615,7 @@ struct Scanner
             || current != markup_stack.back() || iswspace(previous))
             return false;
 
-        if (is_space_or_newline(lexer->lookahead)
+        if (is_space_or_newline_or_eof(lexer->lookahead)
             || is_punkt(lexer->lookahead)
             || (markup_stack.size() > 1 && lexer->lookahead == markup_stack.end()[-2]))
         {
@@ -659,7 +658,7 @@ struct Scanner
             }
         }
         else if (valid_tokens[CHECKBOX_CLOSE]
-            && current == ']' && is_space_or_newline(lexer->lookahead))
+            && current == ']' && is_space_or_newline_or_eof(lexer->lookahead))
         {
             return found(CHECKBOX_CLOSE);
         }
@@ -678,7 +677,7 @@ struct Scanner
             {
                 lexer->mark_end(lexer);
                 advance();
-                if (is_space_or_newline(lexer->lookahead)
+                if (is_space_or_newline_or_eof(lexer->lookahead)
                     || is_punkt(lexer->lookahead)
                     || (markup_stack.size() > 1 && lexer->lookahead == markup_stack.end()[-2]))
                     break;
@@ -723,7 +722,6 @@ struct Scanner
 
     inline bool is_newline(const int32_t c) {
         switch (c) {
-        // case 0:
         case 10: // \n
         case 13: // \r
             return true;
@@ -732,7 +730,9 @@ struct Scanner
         }
     }
 
-    inline bool is_space_or_newline(const int32_t c) { return !c || iswspace(c); }
+    inline bool is_newline_or_eof(const int32_t c) { return !c || is_newline(c); }
+
+    inline bool is_space_or_newline_or_eof(const int32_t c) { return !c || iswspace(c); }
 
     inline bool not_space_or_newline(const int32_t c) { return c && !iswspace(c); }
 
