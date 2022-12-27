@@ -1860,6 +1860,15 @@
                 },
                 "named": true,
                 "value": "uncertain"
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "checkbox_discarded"
+                },
+                "named": true,
+                "value": "discarded"
               }
             ]
           }
@@ -4643,6 +4652,10 @@
     {
       "type": "SYMBOL",
       "name": "checkbox_uncertain"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "checkbox_discarded"
     },
     {
       "type": "SYMBOL",

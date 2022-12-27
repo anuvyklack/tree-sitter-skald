@@ -51,6 +51,7 @@ const skald_grammar = {
     $.checkbox_pending,   // [-]
     $.checkbox_urgent,    // [!]
     $.checkbox_uncertain, // [?]
+    $.checkbox_discarded, // [_]
 
     $.markdown_code_block_token,
     $.tag_token,
@@ -339,7 +340,8 @@ const lists = {
         alias($.checkbox_done,      $.done),
         alias($.checkbox_pending,   $.pending),
         alias($.checkbox_urgent,    $.urgent),
-        alias($.checkbox_uncertain, $.uncertain)
+        alias($.checkbox_uncertain, $.uncertain),
+        alias($.checkbox_discarded, $.discarded)
       )),
     field("close", alias($.checkbox_close, $.token))
   ),

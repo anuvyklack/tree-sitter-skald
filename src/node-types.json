@@ -64,6 +64,10 @@
         "required": true,
         "types": [
           {
+            "type": "discarded",
+            "named": true
+          },
+          {
             "type": "done",
             "named": true
           },
@@ -1563,6 +1567,10 @@
     "named": false
   },
   {
+    "type": "discarded",
+    "named": true
+  },
+  {
     "type": "done",
     "named": true
   },
@@ -1581,6 +1589,10 @@
   {
     "type": "pending",
     "named": true
+  },
+  {
+    "type": "raw_word",
+    "named": false
   },
   {
     "type": "raw_word",

@@ -65,6 +65,7 @@ enum TokenType : unsigned char {
     CHECKBOX_PENDING,
     CHECKBOX_URGENT,
     CHECKBOX_UNCERTAIN,
+    CHECKBOX_DISCARDED,
 
     MARKDOWN_CODE_BLOCK,
     TAG_TOKEN,
@@ -151,6 +152,7 @@ vector<string> tokens_names = {
     "checkbox_pending",
     "checkbox_urgent",
     "checkbox_uncertain",
+    "checkbox_discarded",
 
     "markdown_code_block",
     "tag_token",
@@ -675,6 +677,8 @@ struct Scanner
                 return found(CHECKBOX_URGENT);
             case '?':
                 return found(CHECKBOX_UNCERTAIN);
+            case '_':
+                return found(CHECKBOX_DISCARDED);
             }
         }
         else if (valid_tokens[CHECKBOX_CLOSE]
@@ -795,6 +799,7 @@ struct Scanner
         case '-': // pending
         case '!': // urgent
         case '?': // uncertain
+        case '_': // discarded
             return true;
         default:
             return false;
